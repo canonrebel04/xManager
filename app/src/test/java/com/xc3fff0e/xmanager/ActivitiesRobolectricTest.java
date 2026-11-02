@@ -84,6 +84,16 @@ public class ActivitiesRobolectricTest {
 	}
 
 	@Test
+	public void main_notificationChannel_hasReadableName() {
+		MainActivity a = launchMain();
+		android.app.NotificationManager nm = a.getSystemService(android.app.NotificationManager.class);
+		android.app.NotificationChannel ch = nm.getNotificationChannel("id 1");
+		assertNotNull("channel not created", ch);
+		assertEquals(a.getString(R.string.notification_channel_general), ch.getName().toString());
+		assertEquals(a.getString(R.string.notification_channel_general_desc), ch.getDescription());
+	}
+
+	@Test
 	public void main_emptyApiUrl_stopsLoaderInsteadOfSpinning() {
 		MainActivity a = launchMain();
 		// Let the startup timers (_API_Token runs after the gate keeper) fire.
