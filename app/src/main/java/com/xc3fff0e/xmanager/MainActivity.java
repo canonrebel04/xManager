@@ -1032,7 +1032,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (!_isChecked) {
-					SWITCH_VERSION.edit().putString("SWITCH", "A").commit();
+					SWITCH_VERSION.edit().putString("SWITCH", "A").apply();
 					title_1.setText("STOCK PATCHED");
 					title_2.setText("AMOLED PATCHED");
 					patched_1.setText("Ad-free, unlimited skips, and play on-demand");
@@ -1064,7 +1064,7 @@ public class MainActivity extends AppCompatActivity {
 				}
 				else {
 					if (_isChecked) {
-						SWITCH_VERSION.edit().putString("SWITCH", "B").commit();
+						SWITCH_VERSION.edit().putString("SWITCH", "B").apply();
 						title_1.setText("STOCK CLONED PATCHED");
 						title_2.setText("AMOLED CLONED PATCHED");
 						patched_1.setText("A cloned version of the stock patched");
@@ -1133,10 +1133,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					LIST_REFRESH.edit().putString("UPDATE", "ON").commit();
+					LIST_REFRESH.edit().putString("UPDATE", "ON").apply();
 				}
 				else {
-					LIST_REFRESH.edit().putString("UPDATE", "OFF").commit();
+					LIST_REFRESH.edit().putString("UPDATE", "OFF").apply();
 				}
 				COUNTER = 1;
 			}
@@ -1176,10 +1176,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					DISABLE_NOTIFICATION.edit().putString("DISABLE", "ON").commit();
+					DISABLE_NOTIFICATION.edit().putString("DISABLE", "ON").apply();
 				}
 				else {
-					DISABLE_NOTIFICATION.edit().putString("DISABLE", "OFF").commit();
+					DISABLE_NOTIFICATION.edit().putString("DISABLE", "OFF").apply();
 				}
 				COUNTER = 1;
 			}
@@ -1219,10 +1219,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					HIDE_PATCHED.edit().putString("SWITCH_A", "ON").commit();
+					HIDE_PATCHED.edit().putString("SWITCH_A", "ON").apply();
 				}
 				else {
-					HIDE_PATCHED.edit().putString("SWITCH_A", "OFF").commit();
+					HIDE_PATCHED.edit().putString("SWITCH_A", "OFF").apply();
 				}
 				COUNTER = 1;
 			}
@@ -1262,10 +1262,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					HIDE_PATCHED.edit().putString("SWITCH_B", "ON").commit();
+					HIDE_PATCHED.edit().putString("SWITCH_B", "ON").apply();
 				}
 				else {
-					HIDE_PATCHED.edit().putString("SWITCH_B", "OFF").commit();
+					HIDE_PATCHED.edit().putString("SWITCH_B", "OFF").apply();
 				}
 				COUNTER = 1;
 			}
@@ -1276,127 +1276,127 @@ public class MainActivity extends AppCompatActivity {
 			public void onItemSelected(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
 				if (_position == 0) {
-					THEME.edit().putString("THEME", "0").commit();
+					THEME.edit().putString("THEME", "0").apply();
 					COUNTER = 1;
 					_Theme_UI();
 				}
 				else {
 					if (_position == 1) {
-						THEME.edit().putString("THEME", "1").commit();
+						THEME.edit().putString("THEME", "1").apply();
 						COUNTER = 1;
 						_Theme_UI();
 					}
 					else {
 						if (_position == 2) {
-							THEME.edit().putString("THEME", "2").commit();
+							THEME.edit().putString("THEME", "2").apply();
 							COUNTER = 1;
 							_Theme_UI();
 						}
 						else {
 							if (_position == 3) {
-								THEME.edit().putString("THEME", "3").commit();
+								THEME.edit().putString("THEME", "3").apply();
 								COUNTER = 1;
 								_Theme_UI();
 							}
 							else {
 								if (_position == 4) {
-									THEME.edit().putString("THEME", "4").commit();
+									THEME.edit().putString("THEME", "4").apply();
 									COUNTER = 1;
 									_Theme_UI();
 								}
 								else {
 									if (_position == 5) {
-										THEME.edit().putString("THEME", "5").commit();
+										THEME.edit().putString("THEME", "5").apply();
 										COUNTER = 1;
 										_Theme_UI();
 									}
 									else {
 										if (_position == 6) {
-											THEME.edit().putString("THEME", "6").commit();
+											THEME.edit().putString("THEME", "6").apply();
 											COUNTER = 1;
 											_Theme_UI();
 										}
 										else {
 											if (_position == 7) {
-												THEME.edit().putString("THEME", "7").commit();
+												THEME.edit().putString("THEME", "7").apply();
 												COUNTER = 1;
 												_Theme_UI();
 											}
 											else {
 												if (_position == 8) {
-													THEME.edit().putString("THEME", "8").commit();
+													THEME.edit().putString("THEME", "8").apply();
 													COUNTER = 1;
 													_Theme_UI();
 												}
 												else {
 													if (_position == 9) {
-														THEME.edit().putString("THEME", "9").commit();
+														THEME.edit().putString("THEME", "9").apply();
 														COUNTER = 1;
 														_Theme_UI();
 													}
 													else {
 														if (_position == 10) {
-															THEME.edit().putString("THEME", "10").commit();
+															THEME.edit().putString("THEME", "10").apply();
 															COUNTER = 1;
 															_Theme_UI();
 														}
 														else {
 															if (_position == 11) {
-																THEME.edit().putString("THEME", "11").commit();
+																THEME.edit().putString("THEME", "11").apply();
 																COUNTER = 1;
 																_Theme_UI();
 															}
 															else {
 																if (_position == 12) {
-																	THEME.edit().putString("THEME", "12").commit();
+																	THEME.edit().putString("THEME", "12").apply();
 																	COUNTER = 1;
 																	_Theme_UI();
 																}
 																else {
 																	if (_position == 13) {
-																		THEME.edit().putString("THEME", "13").commit();
+																		THEME.edit().putString("THEME", "13").apply();
 																		COUNTER = 1;
 																		_Theme_UI();
 																	}
 																	else {
 																		if (_position == 14) {
-																			THEME.edit().putString("THEME", "14").commit();
+																			THEME.edit().putString("THEME", "14").apply();
 																			COUNTER = 1;
 																			_Theme_UI();
 																		}
 																		else {
 																			if (_position == 15) {
-																				THEME.edit().putString("THEME", "15").commit();
+																				THEME.edit().putString("THEME", "15").apply();
 																				COUNTER = 1;
 																				_Theme_UI();
 																			}
 																			else {
 																				if (_position == 16) {
-																					THEME.edit().putString("THEME", "16").commit();
+																					THEME.edit().putString("THEME", "16").apply();
 																					COUNTER = 1;
 																					_Theme_UI();
 																				}
 																				else {
 																					if (_position == 17) {
-																						THEME.edit().putString("THEME", "17").commit();
+																						THEME.edit().putString("THEME", "17").apply();
 																						COUNTER = 1;
 																						_Theme_UI();
 																					}
 																					else {
 																						if (_position == 18) {
-																							THEME.edit().putString("THEME", "18").commit();
+																							THEME.edit().putString("THEME", "18").apply();
 																							COUNTER = 1;
 																							_Theme_UI();
 																						}
 																						else {
 																							if (_position == 19) {
-																								THEME.edit().putString("THEME", "19").commit();
+																								THEME.edit().putString("THEME", "19").apply();
 																								COUNTER = 1;
 																								_Theme_UI();
 																							}
 																							else {
 																								if (_position == 20) {
-																									THEME.edit().putString("THEME", "20").commit();
+																									THEME.edit().putString("THEME", "20").apply();
 																									COUNTER = 1;
 																									_Theme_UI();
 																								}
@@ -1433,277 +1433,277 @@ public class MainActivity extends AppCompatActivity {
 			public void onItemSelected(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
 				if (_position == 0) {
-					LANGUAGE.edit().putString("LANGUAGE", "0").commit();
+					LANGUAGE.edit().putString("LANGUAGE", "0").apply();
 					COUNTER = 1;
 					_Language_UI();
 				}
 				else {
 					if (_position == 1) {
-						LANGUAGE.edit().putString("LANGUAGE", "1").commit();
+						LANGUAGE.edit().putString("LANGUAGE", "1").apply();
 						COUNTER = 1;
 						_Language_UI();
 					}
 					else {
 						if (_position == 2) {
-							LANGUAGE.edit().putString("LANGUAGE", "2").commit();
+							LANGUAGE.edit().putString("LANGUAGE", "2").apply();
 							COUNTER = 1;
 							_Language_UI();
 						}
 						else {
 							if (_position == 3) {
-								LANGUAGE.edit().putString("LANGUAGE", "3").commit();
+								LANGUAGE.edit().putString("LANGUAGE", "3").apply();
 								COUNTER = 1;
 								_Language_UI();
 							}
 							else {
 								if (_position == 4) {
-									LANGUAGE.edit().putString("LANGUAGE", "4").commit();
+									LANGUAGE.edit().putString("LANGUAGE", "4").apply();
 									COUNTER = 1;
 									_Language_UI();
 								}
 								else {
 									if (_position == 5) {
-										LANGUAGE.edit().putString("LANGUAGE", "5").commit();
+										LANGUAGE.edit().putString("LANGUAGE", "5").apply();
 										COUNTER = 1;
 										_Language_UI();
 									}
 									else {
 										if (_position == 6) {
-											LANGUAGE.edit().putString("LANGUAGE", "6").commit();
+											LANGUAGE.edit().putString("LANGUAGE", "6").apply();
 											COUNTER = 1;
 											_Language_UI();
 										}
 										else {
 											if (_position == 7) {
-												LANGUAGE.edit().putString("LANGUAGE", "7").commit();
+												LANGUAGE.edit().putString("LANGUAGE", "7").apply();
 												COUNTER = 1;
 												_Language_UI();
 											}
 											else {
 												if (_position == 8) {
-													LANGUAGE.edit().putString("LANGUAGE", "8").commit();
+													LANGUAGE.edit().putString("LANGUAGE", "8").apply();
 													COUNTER = 1;
 													_Language_UI();
 												}
 												else {
 													if (_position == 9) {
-														LANGUAGE.edit().putString("LANGUAGE", "9").commit();
+														LANGUAGE.edit().putString("LANGUAGE", "9").apply();
 														COUNTER = 1;
 														_Language_UI();
 													}
 													else {
 														if (_position == 10) {
-															LANGUAGE.edit().putString("LANGUAGE", "10").commit();
+															LANGUAGE.edit().putString("LANGUAGE", "10").apply();
 															COUNTER = 1;
 															_Language_UI();
 														}
 														else {
 															if (_position == 11) {
-																LANGUAGE.edit().putString("LANGUAGE", "11").commit();
+																LANGUAGE.edit().putString("LANGUAGE", "11").apply();
 																COUNTER = 1;
 																_Language_UI();
 															}
 															else {
 																if (_position == 12) {
-																	LANGUAGE.edit().putString("LANGUAGE", "12").commit();
+																	LANGUAGE.edit().putString("LANGUAGE", "12").apply();
 																	COUNTER = 1;
 																	_Language_UI();
 																}
 																else {
 																	if (_position == 13) {
-																		LANGUAGE.edit().putString("LANGUAGE", "13").commit();
+																		LANGUAGE.edit().putString("LANGUAGE", "13").apply();
 																		COUNTER = 1;
 																		_Language_UI();
 																	}
 																	else {
 																		if (_position == 14) {
-																			LANGUAGE.edit().putString("LANGUAGE", "14").commit();
+																			LANGUAGE.edit().putString("LANGUAGE", "14").apply();
 																			COUNTER = 1;
 																			_Language_UI();
 																		}
 																		else {
 																			if (_position == 15) {
-																				LANGUAGE.edit().putString("LANGUAGE", "15").commit();
+																				LANGUAGE.edit().putString("LANGUAGE", "15").apply();
 																				COUNTER = 1;
 																				_Language_UI();
 																			}
 																			else {
 																				if (_position == 16) {
-																					LANGUAGE.edit().putString("LANGUAGE", "16").commit();
+																					LANGUAGE.edit().putString("LANGUAGE", "16").apply();
 																					COUNTER = 1;
 																					_Language_UI();
 																				}
 																				else {
 																					if (_position == 17) {
-																						LANGUAGE.edit().putString("LANGUAGE", "17").commit();
+																						LANGUAGE.edit().putString("LANGUAGE", "17").apply();
 																						COUNTER = 1;
 																						_Language_UI();
 																					}
 																					else {
 																						if (_position == 18) {
-																							LANGUAGE.edit().putString("LANGUAGE", "18").commit();
+																							LANGUAGE.edit().putString("LANGUAGE", "18").apply();
 																							COUNTER = 1;
 																							_Language_UI();
 																						}
 																						else {
 																							if (_position == 19) {
-																								LANGUAGE.edit().putString("LANGUAGE", "19").commit();
+																								LANGUAGE.edit().putString("LANGUAGE", "19").apply();
 																								COUNTER = 1;
 																								_Language_UI();
 																							}
 																							else {
 																								if (_position == 20) {
-																									LANGUAGE.edit().putString("LANGUAGE", "20").commit();
+																									LANGUAGE.edit().putString("LANGUAGE", "20").apply();
 																									COUNTER = 1;
 																									_Language_UI();
 																								}
 																								else {
 																									if (_position == 21) {
-																										LANGUAGE.edit().putString("LANGUAGE", "21").commit();
+																										LANGUAGE.edit().putString("LANGUAGE", "21").apply();
 																										COUNTER = 1;
 																										_Language_UI();
 																									}
 																									else {
 																										if (_position == 22) {
-																											LANGUAGE.edit().putString("LANGUAGE", "22").commit();
+																											LANGUAGE.edit().putString("LANGUAGE", "22").apply();
 																											COUNTER = 1;
 																											_Language_UI();
 																										}
 																										else {
 																											if (_position == 23) {
-																												LANGUAGE.edit().putString("LANGUAGE", "23").commit();
+																												LANGUAGE.edit().putString("LANGUAGE", "23").apply();
 																												COUNTER = 1;
 																												_Language_UI();
 																											}
 																											else {
 																												if (_position == 24) {
-																													LANGUAGE.edit().putString("LANGUAGE", "24").commit();
+																													LANGUAGE.edit().putString("LANGUAGE", "24").apply();
 																													COUNTER = 1;
 																													_Language_UI();
 																												}
 																												else {
 																													if (_position == 25) {
-																														LANGUAGE.edit().putString("LANGUAGE", "25").commit();
+																														LANGUAGE.edit().putString("LANGUAGE", "25").apply();
 																														COUNTER = 1;
 																														_Language_UI();
 																													}
 																													else {
 																														if (_position == 26) {
-																															LANGUAGE.edit().putString("LANGUAGE", "26").commit();
+																															LANGUAGE.edit().putString("LANGUAGE", "26").apply();
 																															COUNTER = 1;
 																															_Language_UI();
 																														}
 																														else {
 																															if (_position == 27) {
-																																LANGUAGE.edit().putString("LANGUAGE", "27").commit();
+																																LANGUAGE.edit().putString("LANGUAGE", "27").apply();
 																																COUNTER = 1;
 																																_Language_UI();
 																															}
 																															else {
 																																if (_position == 28) {
-																																	LANGUAGE.edit().putString("LANGUAGE", "28").commit();
+																																	LANGUAGE.edit().putString("LANGUAGE", "28").apply();
 																																	COUNTER = 1;
 																																	_Language_UI();
 																																}
 																																else {
 																																	if (_position == 29) {
-																																		LANGUAGE.edit().putString("LANGUAGE", "29").commit();
+																																		LANGUAGE.edit().putString("LANGUAGE", "29").apply();
 																																		COUNTER = 1;
 																																		_Language_UI();
 																																	}
 																																	else {
 																																		if (_position == 30) {
-																																			LANGUAGE.edit().putString("LANGUAGE", "30").commit();
+																																			LANGUAGE.edit().putString("LANGUAGE", "30").apply();
 																																			COUNTER = 1;
 																																			_Language_UI();
 																																		}
 																																		else {
 																																			if (_position == 31) {
-																																				LANGUAGE.edit().putString("LANGUAGE", "31").commit();
+																																				LANGUAGE.edit().putString("LANGUAGE", "31").apply();
 																																				COUNTER = 1;
 																																				_Language_UI();
 																																			}
 																																			else {
 																																				if (_position == 32) {
-																																					LANGUAGE.edit().putString("LANGUAGE", "32").commit();
+																																					LANGUAGE.edit().putString("LANGUAGE", "32").apply();
 																																					COUNTER = 1;
 																																					_Language_UI();
 																																				}
 																																				else {
 																																					if (_position == 33) {
-																																						LANGUAGE.edit().putString("LANGUAGE", "33").commit();
+																																						LANGUAGE.edit().putString("LANGUAGE", "33").apply();
 																																						COUNTER = 1;
 																																						_Language_UI();
 																																					}
 																																					else {
 																																						if (_position == 34) {
-																																							LANGUAGE.edit().putString("LANGUAGE", "34").commit();
+																																							LANGUAGE.edit().putString("LANGUAGE", "34").apply();
 																																							COUNTER = 1;
 																																							_Language_UI();
 																																						}
 																																						else {
 																																							if (_position == 35) {
-																																								LANGUAGE.edit().putString("LANGUAGE", "35").commit();
+																																								LANGUAGE.edit().putString("LANGUAGE", "35").apply();
 																																								COUNTER = 1;
 																																								_Language_UI();
 																																							}
 																																							else {
 																																								if (_position == 36) {
-																																									LANGUAGE.edit().putString("LANGUAGE", "36").commit();
+																																									LANGUAGE.edit().putString("LANGUAGE", "36").apply();
 																																									COUNTER = 1;
 																																									_Language_UI();
 																																								}
 																																								else {
 																																									if (_position == 37) {
-																																										LANGUAGE.edit().putString("LANGUAGE", "37").commit();
+																																										LANGUAGE.edit().putString("LANGUAGE", "37").apply();
 																																										COUNTER = 1;
 																																										_Language_UI();
 																																									}
 																																									else {
 																																										if (_position == 38) {
-																																											LANGUAGE.edit().putString("LANGUAGE", "38").commit();
+																																											LANGUAGE.edit().putString("LANGUAGE", "38").apply();
 																																											COUNTER = 1;
 																																											_Language_UI();
 																																										}
 																																										else {
 																																											if (_position == 39) {
-																																												LANGUAGE.edit().putString("LANGUAGE", "39").commit();
+																																												LANGUAGE.edit().putString("LANGUAGE", "39").apply();
 																																												COUNTER = 1;
 																																												_Language_UI();
 																																											}
 																																											else {
 																																												if (_position == 40) {
-																																													LANGUAGE.edit().putString("LANGUAGE", "40").commit();
+																																													LANGUAGE.edit().putString("LANGUAGE", "40").apply();
 																																													COUNTER = 1;
 																																													_Language_UI();
 																																												}
 																																												else {
 																																													if (_position == 41) {
-																																														LANGUAGE.edit().putString("LANGUAGE", "41").commit();
+																																														LANGUAGE.edit().putString("LANGUAGE", "41").apply();
 																																														COUNTER = 1;
 																																														_Language_UI();
 																																													}
 																																													else {
 																																														if (_position == 42) {
-																																															LANGUAGE.edit().putString("LANGUAGE", "42").commit();
+																																															LANGUAGE.edit().putString("LANGUAGE", "42").apply();
 																																															COUNTER = 1;
 																																															_Language_UI();
 																																														}
 																																														else {
 																																															if (_position == 43) {
-																																																LANGUAGE.edit().putString("LANGUAGE", "43").commit();
+																																																LANGUAGE.edit().putString("LANGUAGE", "43").apply();
 																																																COUNTER = 1;
 																																																_Language_UI();
 																																															}
 																																															else {
 																																																if (_position == 44) {
-																																																	LANGUAGE.edit().putString("LANGUAGE", "44").commit();
+																																																	LANGUAGE.edit().putString("LANGUAGE", "44").apply();
 																																																	COUNTER = 1;
 																																																	_Language_UI();
 																																																}
 																																																else {
 																																																	if (_position == 45) {
-																																																		LANGUAGE.edit().putString("LANGUAGE", "45").commit();
+																																																		LANGUAGE.edit().putString("LANGUAGE", "45").apply();
 																																																		COUNTER = 1;
 																																																		_Language_UI();
 																																																	}
@@ -8570,7 +8570,7 @@ public class MainActivity extends AppCompatActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								INITIALIZATION.edit().putString("INITIALIZATION", "X").commit();
+								INITIALIZATION.edit().putString("INITIALIZATION", "X").apply();
 								try {
 									Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName() ); 
 									
@@ -9126,7 +9126,7 @@ public class MainActivity extends AppCompatActivity {
 								@Override
 								public void run() {
 										try {
-												REFETCH.edit().putString("REFETCH", "X").commit();
+												REFETCH.edit().putString("REFETCH", "X").apply();
 												box_reboot.performClick();
 												prog.dismiss();
 										}
