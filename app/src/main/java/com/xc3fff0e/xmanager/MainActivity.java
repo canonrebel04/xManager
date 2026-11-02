@@ -2763,6 +2763,7 @@ public class MainActivity extends AppCompatActivity {
 												}
 												Datas = parsed;
 												apiAvailable = true;
+												_dismissApiMessage();
 												_Backbone();
 												
 										}
@@ -8456,12 +8457,22 @@ public class MainActivity extends AppCompatActivity {
 	private void _showApiMessage(String message) {
 		if (apiSnackbar != null && apiSnackbar.isShownOrQueued()) {
 			apiSnackbar.setText(message);
-			// show() on the current snackbar restarts its timeout for the new text.
-			apiSnackbar.show();
 			return;
 		}
-		apiSnackbar = com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, message, com.google.android.material.snackbar.Snackbar.LENGTH_LONG);
+		// Stays until the user retries or dismisses it, or a newer message replaces it, so an
+		// error isn't missed while the list animations run.
+		apiSnackbar = com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, message, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE);
+		apiSnackbar.setAction(R.string.api_retry, v -> _API());
 		apiSnackbar.show();
+	}
+	
+	
+	/** Clears an update-server message once data has loaded. */
+	private void _dismissApiMessage() {
+		if (apiSnackbar != null) {
+			apiSnackbar.dismiss();
+			apiSnackbar = null;
+		}
 	}
 	
 	
