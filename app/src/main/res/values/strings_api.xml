@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Update-server status messages (see ApiConfig / the xmanagerApiUrl Gradle property) -->
+    <string name="api_not_configured">No update server is configured in this build, so the version list can\'t be loaded.</string>
+    <string name="api_invalid_url">The update server address in this build isn\'t a valid http(s) URL.</string>
+    <string name="api_unreachable">Couldn\'t reach the update server (%1$s). Pull down to retry.</string>
+    <string name="api_bad_response">The update server sent a response xManager couldn\'t read. Pull down to retry.</string>
+</resources>

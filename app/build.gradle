@@ -2,6 +2,12 @@ plugins {
 	id 'com.android.application'
 }
 
+// Update-server endpoint, read at build time. Not committed on purpose; set it with
+//   ./gradlew assembleDebug -PxmanagerApiUrl=https://example.org/api.json
+// or xmanagerApiUrl=... in ~/.gradle/gradle.properties (or ORG_GRADLE_PROJECT_xmanagerApiUrl).
+// Empty means "no server configured": the app shows a message instead of loading.
+def xmanagerApiUrl = (project.findProperty('xmanagerApiUrl') ?: '').toString().trim()
+
 android {
 	namespace 'com.xc3fff0e.xmanager'
 	compileSdk 35
@@ -15,6 +21,11 @@ android {
 		versionCode 230224
 		versionName "5.9"
 		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+		buildConfigField 'String', 'API_URL', '"' + xmanagerApiUrl.replace('\\', '\\\\').replace('"', '\\"') + '"'
+	}
+
+	buildFeatures {
+		buildConfig true
 	}
 
 	testOptions {

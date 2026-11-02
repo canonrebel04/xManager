@@ -149,7 +149,8 @@ public class RequestNetworkControllerTest {
 
 	@Test
 	public void emptyUrl_reportsErrorSynchronously() {
-		// R.string.api_url is currently "" in the fork; this is the path _API() takes on startup.
+		// BuildConfig.API_URL is empty unless -PxmanagerApiUrl is set; _API() now checks that before
+		// calling the controller, which still reports an empty URL as an error rather than crashing.
 		RequestNetwork rn = new RequestNetwork(activity);
 		Capture c = new Capture();
 		rn.startRequestNetwork(RequestNetworkController.GET, "", "null", c);

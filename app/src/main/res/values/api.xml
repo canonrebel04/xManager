@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!--
-        Endpoint MainActivity._API() fetches on startup. The original value was never
-        committed to the repository. Left empty on purpose: with no endpoint the request
-        fails gracefully via the request listener's onErrorResponse.
-    -->
-    <string name="api_url" translatable="false"></string>
-</resources>

@@ -84,6 +84,17 @@ public class ActivitiesRobolectricTest {
 	}
 
 	@Test
+	public void main_emptyApiUrl_stopsLoaderInsteadOfSpinning() {
+		MainActivity a = launchMain();
+		// Let the startup timers (_API_Token runs after the gate keeper) fire.
+		org.robolectric.shadows.ShadowLooper.idleMainLooper(5, java.util.concurrent.TimeUnit.SECONDS);
+		idle();
+		androidx.swiperefreshlayout.widget.SwipeRefreshLayout refresh = a.findViewById(R.id.main_refresh_layout);
+		assertFalse("loader left spinning with no API URL", refresh.isRefreshing());
+		assertFalse(a.isFinishing());
+	}
+
+	@Test
 	public void main_openAndCloseSettings() {
 		MainActivity a = launchMain();
 		a.findViewById(R.id.box_switch).performClick();

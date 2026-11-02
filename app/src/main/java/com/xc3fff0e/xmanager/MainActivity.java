@@ -89,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
 	private boolean themeUiSyncing = false;
 	/** True while _Language_UI() runs, so select_language.setSelection() can't re-enter it. */
 	private boolean languageUiSyncing = false;
+	/** True once the update server returned a readable response (Datas is populated). */
+	private boolean apiAvailable = false;
+	/** True while an update-server request is outstanding, so retries don't stack up. */
+	private boolean apiRequestInFlight = false;
 	private double CLICKER_1 = 0;
 	private double CLICKER_2 = 0;
 	private double CLICKER_3 = 0;
@@ -2727,18 +2731,26 @@ public class MainActivity extends AppCompatActivity {
 				final String _tag = _param1;
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
+				apiRequestInFlight = false;
 				Timer = new TimerTask() {
 						@Override
 						public void run() {
 								runOnUiThread(new Runnable() {
 										@Override
 										public void run() {
+												HashMap<String, Object> parsed = null;
 												try {
-														Datas = new Gson().fromJson(_response, new TypeToken<HashMap<String, Object>>(){}.getType());
-														_Backbone();
+														parsed = new Gson().fromJson(_response, new TypeToken<HashMap<String, Object>>(){}.getType());
 												} catch (Exception e) {
-														_Backbone();
+														parsed = null;
 												}
+												if (parsed == null) {
+														_showApiUnavailable(getString(R.string.api_bad_response));
+														return;
+												}
+												Datas = parsed;
+												apiAvailable = true;
+												_Backbone();
 												
 										}
 								});
@@ -2752,7 +2764,8 @@ public class MainActivity extends AppCompatActivity {
 			public void onErrorResponse(String _param1, String _param2) {
 				final String _tag = _param1;
 				final String _message = _param2;
-				
+				apiRequestInFlight = false;
+				_showApiUnavailable(getString(R.string.api_unreachable, _message == null ? "unknown error" : _message));
 			}
 		};
 	}
@@ -8390,12 +8403,36 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _API() {
+		final String url = ApiConfig.url();
+		if (url.isEmpty()) {
+			_showApiUnavailable(getString(R.string.api_not_configured));
+			return;
+		}
+		if (!ApiConfig.isUsable(url)) {
+			_showApiUnavailable(getString(R.string.api_invalid_url));
+			return;
+		}
+		if (apiRequestInFlight) {
+			return;
+		}
+		apiRequestInFlight = true;
 		try {
-				Connection.startRequestNetwork(RequestNetworkController.GET, this.getString(R.string.api_url), "null", _Connection_request_listener);
+				Connection.startRequestNetwork(RequestNetworkController.GET, url, "null", _Connection_request_listener);
 		} catch (Exception e) {
-				com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Invalid API Response", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
+				apiRequestInFlight = false;
+				_showApiUnavailable(getString(R.string.api_unreachable, String.valueOf(e.getMessage())));
 		}
 		
+	}
+	
+	
+	/** Stops any loading indicator and tells the user why there is no version list. */
+	private void _showApiUnavailable(String message) {
+		if (main_refresh_layout == null) {
+			return;
+		}
+		main_refresh_layout.setRefreshing(false);
+		com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, message, com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 	}
 	
 	
@@ -8702,6 +8739,13 @@ public class MainActivity extends AppCompatActivity {
 		main_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
+				if (!apiAvailable) {
+					// No data yet: retry the request (or explain why it can't run) instead of
+					// refreshing lists that were never loaded.
+					main_refresh_layout.setRefreshing(false);
+					_API();
+					return;
+				}
 				try {
 					main_refresh_layout.setRefreshing(true);
 					Timer = new TimerTask() {
@@ -8889,6 +8933,12 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _API_Token() {
+		if (!apiAvailable) {
+			// Nothing loaded from the update server; don't leave the loader spinning.
+			main_body.setAlpha((float)(1.0d));
+			_API();
+			return;
+		}
 		main_refresh_layout.setRefreshing(true);
 		if (SketchwareUtil.isConnected(getApplicationContext())) {
 			try {
