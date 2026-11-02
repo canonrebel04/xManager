@@ -120,6 +120,14 @@ public class MainActivity extends AppCompatActivity {
 	private ScrollView main_scroll_about;
 	private SwipeRefreshLayout main_refresh_layout;
 	private com.google.android.material.snackbar.Snackbar apiSnackbar;
+	/** PERF-09: a pull-to-refresh this soon after a successful fetch is ignored. */
+	static final long REFRESH_DEBOUNCE_MS = 15_000L;
+	/** SystemClock.elapsedRealtime() of the last successful fetch, or -1. */
+	private long lastSuccessfulFetchAt = -1L;
+	/** True while a fetch started by pull-to-refresh is running (UI-15). */
+	private boolean userRefreshPending = false;
+	private LinearLayout api_error_view;
+	private Button api_error_retry;
 	private TextView title_header;
 	private TextView title_header_separator;
 	private TextView title_header_beta;
@@ -740,6 +748,9 @@ public class MainActivity extends AppCompatActivity {
 		sub_text_1 = findViewById(R.id.sub_text_1);
 		box_switch_1 = findViewById(R.id.box_switch_1);
 		sub_1 = findViewById(R.id.sub_1);
+		api_error_view = findViewById(R.id.api_error_view);
+		api_error_retry = findViewById(R.id.api_error_retry);
+		api_error_retry.setOnClickListener(v -> _API());
 		sub_3 = findViewById(R.id.sub_3);
 		versions_1 = findViewById(R.id.versions_1);
 		box_sub_5 = findViewById(R.id.box_sub_5);
@@ -2759,14 +2770,30 @@ public class MainActivity extends AppCompatActivity {
 												} catch (Exception e) {
 														parsed = null;
 												}
+												final boolean fromRefresh = userRefreshPending;
+												userRefreshPending = false;
 												if (!ApiResponse.hasRequiredKeys(parsed)) {
 														_showApiUnavailable(getString(R.string.api_bad_response));
 														return;
 												}
+												lastSuccessfulFetchAt = SystemClock.elapsedRealtime();
+												_dismissApiMessage();
+												api_error_view.setVisibility(View.GONE);
+												if (fromRefresh) {
+														main_refresh_layout.setRefreshing(false);
+														if (apiAvailable && parsed.equals(Datas)) {
+																// UI-15: same document as before; nothing to redraw.
+																_showRefreshResult(getString(R.string.refresh_no_changes));
+																return;
+														}
+												}
 												Datas = parsed;
 												apiAvailable = true;
-												_dismissApiMessage();
 												_Backbone();
+												if (fromRefresh) {
+														String updatedAt = java.text.DateFormat.getDateTimeInstance().format(new Date());
+														_showRefreshResult("Data List Updated | " + updatedAt);
+												}
 												
 										}
 								});
@@ -2781,6 +2808,7 @@ public class MainActivity extends AppCompatActivity {
 				final String _tag = _param1;
 				final String _message = _param2;
 				apiRequestInFlight = false;
+				userRefreshPending = false;
 				_showApiUnavailable(getString(R.string.api_unreachable, _message == null ? "unknown error" : _message));
 			}
 		};
@@ -8453,6 +8481,16 @@ public class MainActivity extends AppCompatActivity {
 			return;
 		}
 		main_refresh_layout.setRefreshing(false);
+		userRefreshPending = false;
+		if (!apiAvailable) {
+			// UI-16 / UI-24: nothing loaded yet, so say so where the versions would be.
+			api_error_view.setVisibility(View.VISIBLE);
+			String unavailable = getString(R.string.latest_unavailable);
+			sub_1.setText(unavailable);
+			sub_2.setText(unavailable);
+			sub_3.setText(unavailable);
+			sub_4.setText(unavailable);
+		}
 		_showApiMessage(message);
 	}
 	
@@ -8464,12 +8502,29 @@ public class MainActivity extends AppCompatActivity {
 	private void _showApiMessage(String message) {
 		if (apiSnackbar != null && apiSnackbar.isShownOrQueued()) {
 			apiSnackbar.setText(message);
+			apiSnackbar.setAction(R.string.api_retry, v -> _API());
 			return;
 		}
 		// Stays until the user retries or dismisses it, or a newer message replaces it, so an
 		// error isn't missed while the list animations run.
 		apiSnackbar = com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, message, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE);
 		apiSnackbar.setAction(R.string.api_retry, v -> _API());
+		apiSnackbar.show();
+	}
+	
+	
+	/**
+	 * Shows the outcome of a pull-to-refresh in the same status slot as update-server errors.
+	 * It stays until the user taps OK, refreshes again or a newer status replaces it, so the
+	 * result isn't lost behind the header animations (UI-15).
+	 */
+	private void _showRefreshResult(String message) {
+		if (apiSnackbar != null && apiSnackbar.isShownOrQueued()) {
+			apiSnackbar.setText(message);
+		} else {
+			apiSnackbar = com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, message, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE);
+		}
+		apiSnackbar.setAction(R.string.refresh_result_ok, v -> _dismissApiMessage());
 		apiSnackbar.show();
 	}
 	
@@ -8807,163 +8862,16 @@ public class MainActivity extends AppCompatActivity {
 					_API();
 					return;
 				}
-				try {
-					main_refresh_layout.setRefreshing(true);
-					Timer = new TimerTask() {
-						@Override
-						public void run() {
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
-										list_items_1.setVisibility(View.VISIBLE);
-										list_items_2.setVisibility(View.GONE);
-										list_items_3.setVisibility(View.GONE);
-										list_items_5.setVisibility(View.GONE);
-										list_items_1.setAdapter(new List_items_1Adapter(stock_patched));
-										((BaseAdapter)list_items_1.getAdapter()).notifyDataSetChanged();
-									}
-									else {
-										if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
-											list_items_1.setVisibility(View.VISIBLE);
-											list_items_2.setVisibility(View.GONE);
-											list_items_3.setVisibility(View.GONE);
-											list_items_5.setVisibility(View.GONE);
-											list_items_1.setAdapter(new List_items_1Adapter(stock_cloned_patched));
-											((BaseAdapter)list_items_1.getAdapter()).notifyDataSetChanged();
-										}
-									}
-									Animation animation;
-									animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-									animation.setDuration(500); version_oc_01.startAnimation(animation);
-									animation = null;
-									version_oc_01.setImageResource(R.drawable.open);
-									version_oc_02.setImageResource(R.drawable.close);
-									version_oc_03.setImageResource(R.drawable.close);
-									changelogs_oc.setImageResource(R.drawable.close);
-									Timer = new TimerTask() {
-										@Override
-										public void run() {
-											runOnUiThread(new Runnable() {
-												@Override
-												public void run() {
-													if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
-														list_items_1.setVisibility(View.GONE);
-														list_items_2.setVisibility(View.VISIBLE);
-														list_items_3.setVisibility(View.GONE);
-														list_items_5.setVisibility(View.GONE);
-														list_items_2.setAdapter(new List_items_2Adapter(amoled_patched));
-														((BaseAdapter)list_items_2.getAdapter()).notifyDataSetChanged();
-													}
-													else {
-														if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
-															list_items_1.setVisibility(View.GONE);
-															list_items_2.setVisibility(View.VISIBLE);
-															list_items_3.setVisibility(View.GONE);
-															list_items_5.setVisibility(View.GONE);
-															list_items_2.setAdapter(new List_items_2Adapter(amoled_cloned_patched));
-															((BaseAdapter)list_items_2.getAdapter()).notifyDataSetChanged();
-														}
-													}
-													Animation animation;
-													animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-													animation.setDuration(500); version_oc_02.startAnimation(animation);
-													animation = null;
-													version_oc_01.setImageResource(R.drawable.close);
-													version_oc_02.setImageResource(R.drawable.open);
-													version_oc_03.setImageResource(R.drawable.close);
-													changelogs_oc.setImageResource(R.drawable.close);
-													Timer = new TimerTask() {
-														@Override
-														public void run() {
-															runOnUiThread(new Runnable() {
-																@Override
-																public void run() {
-																	Animation animation;
-																	animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-																	animation.setDuration(500); version_oc_03.startAnimation(animation);
-																	animation = null;
-																	list_items_1.setVisibility(View.GONE);
-																	list_items_2.setVisibility(View.GONE);
-																	list_items_3.setVisibility(View.VISIBLE);
-																	list_items_5.setVisibility(View.GONE);
-																	version_oc_01.setImageResource(R.drawable.close);
-																	version_oc_02.setImageResource(R.drawable.close);
-																	version_oc_03.setImageResource(R.drawable.open);
-																	changelogs_oc.setImageResource(R.drawable.close);
-																	list_items_3.setAdapter(new List_items_3Adapter(other_patched));
-																	((BaseAdapter)list_items_3.getAdapter()).notifyDataSetChanged();
-																	Timer = new TimerTask() {
-																		@Override
-																		public void run() {
-																			runOnUiThread(new Runnable() {
-																				@Override
-																				public void run() {
-																					Animation animation;
-																					animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-																					animation.setDuration(500); changelogs_oc.startAnimation(animation);
-																					animation = null;
-																					list_items_1.setVisibility(View.GONE);
-																					list_items_2.setVisibility(View.GONE);
-																					list_items_3.setVisibility(View.GONE);
-																					list_items_5.setVisibility(View.VISIBLE);
-																					version_oc_01.setImageResource(R.drawable.close);
-																					version_oc_02.setImageResource(R.drawable.close);
-																					version_oc_03.setImageResource(R.drawable.close);
-																					changelogs_oc.setImageResource(R.drawable.open);
-																					list_items_5.setAdapter(new List_items_5Adapter(patched_changelogs));
-																					((BaseAdapter)list_items_5.getAdapter()).notifyDataSetChanged();
-																					Timer = new TimerTask() {
-																						@Override
-																						public void run() {
-																							runOnUiThread(new Runnable() {
-																								@Override
-																								public void run() {
-																									main_refresh_layout.setRefreshing(false);
-																									list_items_1.setVisibility(View.GONE);
-																									list_items_2.setVisibility(View.GONE);
-																									list_items_3.setVisibility(View.GONE);
-																									list_items_5.setVisibility(View.GONE);
-																									version_oc_01.setImageResource(R.drawable.close);
-																									version_oc_02.setImageResource(R.drawable.close);
-																									version_oc_03.setImageResource(R.drawable.close);
-																									changelogs_oc.setImageResource(R.drawable.close);
-																									main_body.setAlpha((float)(1.0d));
-																									String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
-																									
-																									com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Data List Updated | " + (currentDateTimeString), com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
-																								}
-																							});
-																						}
-																					};
-																					_timer.schedule(Timer, (int)(700));
-																				}
-																			});
-																		}
-																	};
-																	_timer.schedule(Timer, (int)(600));
-																}
-															});
-														}
-													};
-													_timer.schedule(Timer, (int)(500));
-												}
-											});
-										}
-									};
-									_timer.schedule(Timer, (int)(500));
-								}
-							});
-						}
-					};
-					_timer.schedule(Timer, (int)(400));
-					com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Refreshing Data List...", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
-					main_body.setAlpha((float)(0.50d));
-					_Animation_3();
-					_Clickers();
+				if (lastSuccessfulFetchAt >= 0
+						&& SystemClock.elapsedRealtime() - lastSuccessfulFetchAt < REFRESH_DEBOUNCE_MS) {
+					// PERF-09: the list was fetched moments ago; don't hit the server again.
+					main_refresh_layout.setRefreshing(false);
+					return;
 				}
-				catch(Exception e) {
-				}
+				// UI-15: fetch again and report the real outcome (updated, no changes, or the error).
+				userRefreshPending = true;
+				main_refresh_layout.setRefreshing(true);
+				_API();
 			}
 		});
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

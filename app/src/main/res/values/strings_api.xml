@@ -7,4 +7,8 @@
     <string name="api_bad_response">The update server sent a response xManager couldn\'t read. Pull down to retry.</string>
     <string name="api_link_unavailable">This link isn\'t available from the update server right now.</string>
     <string name="api_retry">Retry</string>
+    <string name="api_error_view_text">The version list couldn\'t be loaded.</string>
+    <string name="latest_unavailable">Couldn\'t load versions</string>
+    <string name="refresh_no_changes">The version list is already up to date.</string>
+    <string name="refresh_result_ok">OK</string>
 </resources>

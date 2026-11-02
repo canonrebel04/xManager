@@ -2320,6 +2320,34 @@
 				android:background="@android:color/transparent"
 				android:orientation="vertical">
 				<LinearLayout
+					android:id="@+id/api_error_view"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="10dp"
+					android:layout_marginTop="15dp"
+					android:layout_marginEnd="10dp"
+					android:padding="10dp"
+					android:gravity="center_horizontal"
+					android:orientation="vertical"
+					android:visibility="gone">
+					<TextView
+						android:id="@+id/api_error_text"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:text="@string/api_error_view_text"
+						android:textSize="13sp"
+						android:textColor="#FFFFFF" />
+					<Button
+						android:id="@+id/api_error_retry"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="8dp"
+						android:minWidth="88dp"
+						android:minHeight="48dp"
+						android:text="@string/api_retry" />
+				</LinearLayout>
+				<LinearLayout
 					android:id="@+id/main_box_1"
 					android:contentDescription="@string/cd_main_box_1"
 					android:layout_width="match_parent"

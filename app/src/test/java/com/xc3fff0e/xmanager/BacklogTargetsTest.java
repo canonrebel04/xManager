@@ -248,7 +248,6 @@ public class BacklogTargetsTest {
 	 * stops at once instead of replaying the ~2.7 s list animation.
 	 */
 	@Test
-	@Ignore("Pending: PERF-09 lands in a follow-up PR")
 	public void PERF09_refreshRightAfterSuccessfulFetch_isIgnored() {
 		MainActivity a = launchMain();
 		FakeConnection fake = installFakeConnection(a);
@@ -280,7 +279,6 @@ public class BacklogTargetsTest {
 	 * "Data List Updated".
 	 */
 	@Test
-	@Ignore("Pending: UI-15 lands in a follow-up PR")
 	public void UI15_refreshFailure_reportsErrorInsteadOfUpdated() {
 		MainActivity a = launchMain();
 		FakeConnection fake = loadedAndOutsideDebounce(a);
@@ -302,7 +300,6 @@ public class BacklogTargetsTest {
 	 * R.string.refresh_no_changes instead of claiming the list was updated.
 	 */
 	@Test
-	@Ignore("Pending: UI-15 lands in a follow-up PR")
 	public void UI15_refreshWithSameData_reportsNoChanges() {
 		MainActivity a = launchMain();
 		FakeConnection fake = loadedAndOutsideDebounce(a);
@@ -324,7 +321,6 @@ public class BacklogTargetsTest {
 	 * and has a text or content description.
 	 */
 	@Test
-	@Ignore("Pending: UI-16 lands in a follow-up PR")
 	public void UI16_apiUnavailable_showsErrorViewWithRetry() {
 		MainActivity a = launchMain();
 		ShadowLooper.idleMainLooper(5, TimeUnit.SECONDS);
@@ -346,7 +342,6 @@ public class BacklogTargetsTest {
 	 * UI-16: tapping Retry sends a new request and hides the error view once data arrives.
 	 */
 	@Test
-	@Ignore("Pending: UI-16 lands in a follow-up PR")
 	public void UI16_retry_requestsAgainAndHidesErrorView() {
 		MainActivity a = launchMain();
 		ShadowLooper.idleMainLooper(5, TimeUnit.SECONDS);
@@ -371,7 +366,6 @@ public class BacklogTargetsTest {
 	 * the problem (e.g. "Couldn't load versions – tap to retry").
 	 */
 	@Test
-	@Ignore("Pending: UI-24 lands in a follow-up PR")
 	public void UI24_noData_latestLabelExplainsInsteadOfNA() {
 		MainActivity a = launchMain();
 		ShadowLooper.idleMainLooper(5, TimeUnit.SECONDS);
