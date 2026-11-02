@@ -9381,7 +9381,7 @@ public class MainActivity extends AppCompatActivity {
 			LayoutInflater _inflater = getLayoutInflater();
 			View _view = _v;
 			if (_view == null) {
-				_view = _inflater.inflate(R.layout.list_versions, null);
+				_view = _inflater.inflate(R.layout.list_versions, _container, false);
 			}
 			
 			final LinearLayout box = _view.findViewById(R.id.box);
@@ -9458,7 +9458,7 @@ public class MainActivity extends AppCompatActivity {
 			LayoutInflater _inflater = getLayoutInflater();
 			View _view = _v;
 			if (_view == null) {
-				_view = _inflater.inflate(R.layout.list_versions, null);
+				_view = _inflater.inflate(R.layout.list_versions, _container, false);
 			}
 			
 			final LinearLayout box = _view.findViewById(R.id.box);
@@ -9535,7 +9535,7 @@ public class MainActivity extends AppCompatActivity {
 			LayoutInflater _inflater = getLayoutInflater();
 			View _view = _v;
 			if (_view == null) {
-				_view = _inflater.inflate(R.layout.list_versions, null);
+				_view = _inflater.inflate(R.layout.list_versions, _container, false);
 			}
 			
 			final LinearLayout box = _view.findViewById(R.id.box);
@@ -9607,7 +9607,7 @@ public class MainActivity extends AppCompatActivity {
 			LayoutInflater _inflater = getLayoutInflater();
 			View _view = _v;
 			if (_view == null) {
-				_view = _inflater.inflate(R.layout.list_changelogs, null);
+				_view = _inflater.inflate(R.layout.list_changelogs, _container, false);
 			}
 			
 			final LinearLayout box = _view.findViewById(R.id.box);
