@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 	private ScrollView main_scroll_settings;
 	private ScrollView main_scroll_about;
 	private SwipeRefreshLayout main_refresh_layout;
+	private com.google.android.material.snackbar.Snackbar apiSnackbar;
 	private TextView title_header;
 	private TextView title_header_separator;
 	private TextView title_header_beta;
@@ -2605,7 +2606,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				try {
-					_Browser(Datas.get("Telegram").toString());
+					_openApiLink("Telegram");
 					_Tap_Animation(box_support);
 				}
 				catch(Exception e) {
@@ -2617,7 +2618,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				try {
-					_Browser(Datas.get("Reddit").toString());
+					_openApiLink("Reddit");
 					_Tap_Animation(box_reddit);
 				}
 				catch(Exception e) {
@@ -2645,7 +2646,7 @@ public class MainActivity extends AppCompatActivity {
 						                public void onClick(DialogInterface Donation, int p) {
 							AlertDialog.setCancelable(true);
 							try {
-								_Browser(Datas.get("Donate").toString());
+								_openApiLink("Donate");
 							}
 							catch(Exception e) {
 							}
@@ -2693,7 +2694,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				try {
-					_Browser(Datas.get("Discord").toString());
+					_openApiLink("Discord");
 					_Tap_Animation(box_discord);
 				}
 				catch(Exception e) {
@@ -2705,7 +2706,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				try {
-					_Browser(Datas.get("Source").toString());
+					_openApiLink("Source");
 					_Tap_Animation(box_source);
 				}
 				catch(Exception e) {
@@ -2717,7 +2718,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				try {
-					_Browser(Datas.get("Website").toString());
+					_openApiLink("Website");
 					_Tap_Animation(box_website);
 				}
 				catch(Exception e) {
@@ -2729,7 +2730,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				try {
-					_Browser(Datas.get("FAQ").toString());
+					_openApiLink("FAQ");
 					_Tap_Animation(box_faq);
 				}
 				catch(Exception e) {
@@ -2756,7 +2757,7 @@ public class MainActivity extends AppCompatActivity {
 												} catch (Exception e) {
 														parsed = null;
 												}
-												if (parsed == null) {
+												if (!ApiResponse.hasRequiredKeys(parsed)) {
 														_showApiUnavailable(getString(R.string.api_bad_response));
 														return;
 												}
@@ -3980,7 +3981,7 @@ public class MainActivity extends AppCompatActivity {
 								AlertDialog.show();
 								_Maintenance();
 								try {
-									_Browser(Datas.get("Telegram").toString());
+									_openApiLink("Telegram");
 								}
 								catch(Exception e) {
 								}
@@ -8398,7 +8399,7 @@ public class MainActivity extends AppCompatActivity {
 					AlertDialog.show();
 					_Maintenance();
 					try {
-						_Browser(Datas.get("Telegram").toString());
+						_openApiLink("Telegram");
 					}
 					catch(Exception e) {
 					}
@@ -8444,7 +8445,34 @@ public class MainActivity extends AppCompatActivity {
 			return;
 		}
 		main_refresh_layout.setRefreshing(false);
-		com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, message, com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
+		_showApiMessage(message);
+	}
+	
+	
+	/**
+	 * Shows an update-server message. A message that is still on screen is updated in place, so
+	 * a newer status replaces an older one instead of queueing behind it.
+	 */
+	private void _showApiMessage(String message) {
+		if (apiSnackbar != null && apiSnackbar.isShownOrQueued()) {
+			apiSnackbar.setText(message);
+			// show() on the current snackbar restarts its timeout for the new text.
+			apiSnackbar.show();
+			return;
+		}
+		apiSnackbar = com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, message, com.google.android.material.snackbar.Snackbar.LENGTH_LONG);
+		apiSnackbar.show();
+	}
+	
+	
+	/** Opens a link from the server document, or explains that it isn't available (REL-05). */
+	private void _openApiLink(String key) {
+		String link = ApiResponse.optString(Datas, key, "").trim();
+		if (link.isEmpty()) {
+			_showApiMessage(getString(R.string.api_link_unavailable));
+			return;
+		}
+		_Browser(link);
 	}
 	
 	
@@ -8468,16 +8496,16 @@ public class MainActivity extends AppCompatActivity {
 							amoled_cloned_patched = new Gson().fromJson(Amoled_Cloned_Patched, new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
 							other_patched = new Gson().fromJson(Other_Patched, new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
 							patched_changelogs = new Gson().fromJson(Patched_Changelogs, new TypeToken<ArrayList<HashMap<String, Object>>>(){}.getType());
-							sub_1.setText(Datas.get("Stock_Patched_Latest").toString());
-							sub_2.setText(Datas.get("Amoled_Patched_Latest").toString());
-							sub_3.setText(Datas.get("SCP_Latest").toString());
-							sub_4.setText(Datas.get("ACP_Latest").toString());
-							donors_1.setText(Datas.get("Supporters").toString());
-							hidden_update.setText(Datas.get("Update").toString());
-							app_changelogs.setText(Datas.get("App_Changelogs").toString());
+							sub_1.setText(ApiResponse.optString(Datas, "Stock_Patched_Latest", ""));
+							sub_2.setText(ApiResponse.optString(Datas, "Amoled_Patched_Latest", ""));
+							sub_3.setText(ApiResponse.optString(Datas, "SCP_Latest", ""));
+							sub_4.setText(ApiResponse.optString(Datas, "ACP_Latest", ""));
+							donors_1.setText(ApiResponse.optString(Datas, "Supporters", ""));
+							hidden_update.setText(ApiResponse.optString(Datas, "Update", ""));
+							app_changelogs.setText(ApiResponse.optString(Datas, "App_Changelogs", ""));
 							// Validate both before storing, so a bad value never reaches VersionUtil.compare() later.
 							String currentVersion = local_version.getText().toString();
-							String latestVersion = Datas.get("Server").toString();
+							String latestVersion = ApiResponse.optString(Datas, "Server", "");
 							VersionUtil.parse(currentVersion);
 							VersionUtil.parse(latestVersion);
 							Current_Version = currentVersion;
@@ -8961,7 +8989,7 @@ public class MainActivity extends AppCompatActivity {
 			try {
 				// Validate both before storing, so a bad value never reaches VersionUtil.compare() later.
 				String currentVersion = local_version.getText().toString();
-				String latestVersion = Datas.get("Server").toString();
+				String latestVersion = ApiResponse.optString(Datas, "Server", "");
 				VersionUtil.parse(currentVersion);
 				VersionUtil.parse(latestVersion);
 				Current_Version = currentVersion;
