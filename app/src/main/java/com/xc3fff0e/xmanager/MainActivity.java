@@ -8921,8 +8921,10 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-				CharSequence name = "Null";
-				String description = "Null";
+				// Keep the existing channel id so current installs keep their settings; only the
+				// user-visible name and description change (they used to read "Null").
+				CharSequence name = getString(R.string.notification_channel_general);
+				String description = getString(R.string.notification_channel_general_desc);
 				int importance = NotificationManager.IMPORTANCE_HIGH;
 				NotificationChannel channel = new NotificationChannel("id 1", name, importance);
 				channel.setDescription(description);

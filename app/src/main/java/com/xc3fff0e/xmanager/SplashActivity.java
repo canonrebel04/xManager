@@ -40,6 +40,14 @@ import java.util.regex.*;
 import org.json.*;
 
 public class SplashActivity extends AppCompatActivity {
+
+	static final int[] TAGLINES = {
+		R.string.app_name,
+		R.string.splash_tagline_1,
+		R.string.splash_tagline_2,
+		R.string.splash_tagline_3,
+		R.string.splash_tagline_4
+	};
 	
 	private Timer _timer = new Timer();
 	
@@ -80,32 +88,11 @@ public class SplashActivity extends AppCompatActivity {
 		w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
 		Glide.with(getApplicationContext()).load(Uri.parse("file:///android_asset/splash.gif")).into(icon_splash);
 		title_splash.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_glitch.ttf"), Typeface.BOLD);
-		if (0 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
-			title_splash.setText(R.string.app_name);
-			title_splash.setTextSize((int)25);
-		}
-		else {
-			if (1 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
-				title_splash.setText(R.string.splash_tagline_1);
-				title_splash.setTextSize((int)25);
-			}
-			else {
-				if (2 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
-					title_splash.setText(R.string.splash_tagline_2);
-					title_splash.setTextSize((int)25);
-				}
-				else {
-					if (3 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
-						title_splash.setText(R.string.splash_tagline_3);
-						title_splash.setTextSize((int)25);
-					}
-					else {
-						title_splash.setText(R.string.splash_tagline_4);
-						title_splash.setTextSize((int)20);
-					}
-				}
-			}
-		}
+		// One draw, so each of the five titles is equally likely (the old if/else chain
+		// re-rolled at every step and mostly showed the first entries).
+		int pick = SketchwareUtil.getRandom(0, TAGLINES.length - 1);
+		title_splash.setText(TAGLINES[pick]);
+		title_splash.setTextSize(pick == TAGLINES.length - 1 ? 20 : 25);
 		Animation animation_icon;
 		animation_icon = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
 		animation_icon.setDuration(800); icon_splash.startAnimation(animation_icon);
