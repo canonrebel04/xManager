@@ -75,7 +75,7 @@ public class SplashActivity extends AppCompatActivity {
 			w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
 		}
 		Glide.with(getApplicationContext()).load(Uri.parse("file:///android_asset/splash.gif")).into(icon_splash);
-		title_splash.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_glitch.ttf"), 1);
+		title_splash.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_glitch.ttf"), Typeface.BOLD);
 		if (0 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
 			title_splash.setText("xManager");
 			title_splash.setTextSize((int)25);
