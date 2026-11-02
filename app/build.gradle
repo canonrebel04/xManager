@@ -14,6 +14,18 @@ android {
 		targetSdk 35
 		versionCode 230224
 		versionName "5.9"
+		testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+	}
+
+	testOptions {
+		unitTests {
+			includeAndroidResources = true
+			all {
+				// Robolectric needs extra heap for the large main.xml layout.
+				maxHeapSize = "2g"
+			}
+		}
+		animationsDisabled = true
 	}
 
 	buildTypes {
@@ -37,4 +49,19 @@ dependencies {
 	implementation 'com.github.bumptech.glide:glide:4.16.0'
 	implementation 'com.google.code.gson:gson:2.14.0'
 	implementation 'com.squareup.okhttp3:okhttp:4.12.1'
+
+	// JVM unit tests (src/test)
+	testImplementation 'junit:junit:4.13.2'
+	testImplementation 'org.robolectric:robolectric:4.14.1'
+	testImplementation 'androidx.test:core:1.6.1'
+	testImplementation 'androidx.test.ext:junit:1.2.1'
+	testImplementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
+
+	// Instrumented / emulator tests (src/androidTest)
+	androidTestImplementation 'androidx.test:runner:1.6.2'
+	androidTestImplementation 'androidx.test:rules:1.6.1'
+	androidTestImplementation 'androidx.test:core:1.6.1'
+	androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+	androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+	androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0'
 }
