@@ -17,7 +17,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.media.ExifInterface;
+import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
@@ -34,6 +34,7 @@ import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class FileUtil {
 
@@ -588,7 +589,7 @@ public class FileUtil {
     }
 
     public static File createNewPictureFile(Context context) {
-        SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
         String fileName = date.format(new Date()) + ".jpg";
         return new File(context.getExternalFilesDir(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + fileName);
     }

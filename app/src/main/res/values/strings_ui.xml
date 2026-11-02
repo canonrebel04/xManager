@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default (English) layout texts; runtime translations are still applied by MainActivity -->
+    <string name="ui_title_header_separator" translatable="false">|</string>
+    <string name="ui_experiment_title" translatable="false">TextView</string>
+    <string name="ui_hidden_update" translatable="false">N/A</string>
+    <string name="ui_app_changelogs" translatable="false">" "</string>
+    <string name="ui_maintenance_desc">xManager is currently unavailable. Kindly check the application later.</string>
+    <string name="ui_continue_1">CONTINUE</string>
+    <string name="ui_title_about" translatable="false">xManager v</string>
+    <string name="ui_local_version" translatable="false">N/A</string>
+    <string name="ui_developer_1" translatable="false">xC3FFF0E</string>
+    <string name="ui_manager_lang_13">Arabic Translation</string>
+    <string name="ui_translator_13" translatable="false">Yazan Kasem | Infinitesimal</string>
+    <string name="ui_manager_lang_1">Bengali Translation</string>
+    <string name="ui_translator_1" translatable="false">0V3R5!9H7 | ssabit</string>
+    <string name="ui_manager_lang_2">Chinese (Simplified) Translation</string>
+    <string name="ui_translator_2" translatable="false">Gent G | Softland99 | zelixdxin</string>
+    <string name="ui_manager_lang_3">French Translation</string>
+    <string name="ui_translator_3" translatable="false">The Punisher | Luxchar | xerta555 | GlThibault</string>
+    <string name="ui_manager_lang_4">Greek Translation</string>
+    <string name="ui_translator_4" translatable="false">Walter\'s Cousin #CAF</string>
+    <string name="ui_manager_lang_5">Indonesian Translation</string>
+    <string name="ui_translator_5" translatable="false">Mc. J | Deraidos | RelvinArsenio</string>
+    <string name="ui_manager_lang_6">Italian Translation</string>
+    <string name="ui_translator_6" translatable="false">Marco | gdonisi | albertopasqualetto</string>
+    <string name="ui_manager_lang_7">Portuguese (Brazil) Translation</string>
+    <string name="ui_translator_7" translatable="false">Loui\'s™ | Zilberto Junior</string>
+    <string name="ui_manager_lang_8">Portuguese (Portugal) Translation</string>
+    <string name="ui_translator_8" translatable="false">Androide323</string>
+    <string name="ui_manager_lang_15">Romanian Translation</string>
+    <string name="ui_translator_15" translatable="false">NACH | f9branza | StephenTheMoldovan</string>
+    <string name="ui_manager_lang_9">Russian Translation</string>
+    <string name="ui_translator_9" translatable="false">Pegioner | vanja-san</string>
+    <string name="ui_manager_lang_14">Slovenian Translation</string>
+    <string name="ui_translator_14" translatable="false">MysticX</string>
+    <string name="ui_manager_lang_10">Spanish (Spain) Translation</string>
+    <string name="ui_translator_10" translatable="false">PetFix | Snapdragon845GMS | Zkyclad | c-franco</string>
+    <string name="ui_manager_lang_12">Turkish Translation</string>
+    <string name="ui_translator_12" translatable="false">Berkay | mikropsoft</string>
+    <string name="ui_manager_lang_11">Ukrainian Translation</string>
+    <string name="ui_translator_11" translatable="false">NIKITA🇺🇦[beryllium] #PocoForEver | Veydzher</string>
+    <string name="ui_manager_lang_16">Korean Translation</string>
+    <string name="ui_translator_16" translatable="false">Apious | Annyeong-One</string>
+    <string name="ui_manager_lang_17">Dutch Translation</string>
+    <string name="ui_translator_17" translatable="false">Kevin</string>
+    <string name="ui_manager_lang_18">Vietnamese Translation</string>
+    <string name="ui_translator_18" translatable="false">minhtamvn | tungnnnt17</string>
+    <string name="ui_manager_lang_19">German Translation</string>
+    <string name="ui_translator_19" translatable="false">smokedzn</string>
+    <string name="ui_manager_lang_20">Persian Translation</string>
+    <string name="ui_translator_20" translatable="false">ohshahab</string>
+    <string name="ui_manager_lang_21">Hebrew Translation</string>
+    <string name="ui_translator_21" translatable="false">GreenArmy18</string>
+    <string name="ui_manager_lang_22">Polish Translation</string>
+    <string name="ui_translator_22" translatable="false">dearminder</string>
+    <string name="ui_manager_lang_23">English Translation</string>
+    <string name="ui_translator_23" translatable="false">Dyras | TheChilledBuffalo</string>
+    <string name="ui_manager_lang_24">Slovak Translation</string>
+    <string name="ui_translator_24" translatable="false">KaldonM</string>
+    <string name="ui_manager_lang_25">Swedish Translation</string>
+    <string name="ui_translator_25" translatable="false">rexobo</string>
+    <string name="ui_manager_lang_26">Finnish Translation</string>
+    <string name="ui_translator_26" translatable="false">AfraidOfTheBigBlack | lilko1ra | KasperiP</string>
+    <string name="ui_manager_lang_27">Czech Translation</string>
+    <string name="ui_translator_27" translatable="false">rex2630</string>
+    <string name="ui_manager_lang_28">Chinese (Traditional) Translation</string>
+    <string name="ui_translator_28" translatable="false">cracky5322 | TragicLifeHu</string>
+    <string name="ui_manager_lang_29">Bulgarian Translation</string>
+    <string name="ui_translator_29" translatable="false">meorro | martinov83</string>
+    <string name="ui_manager_lang_30">Serbian (Cyrillic) Translation</string>
+    <string name="ui_translator_30" translatable="false">nexiRS | crnobog69 | momcilovicluka</string>
+    <string name="ui_manager_lang_31">Serbian (Latin) Translation</string>
+    <string name="ui_translator_31" translatable="false">nexiRS | crnobog69 | momcilovicluka</string>
+    <string name="ui_manager_lang_32">Catalan Translation</string>
+    <string name="ui_translator_32" translatable="false">tomaquet18</string>
+    <string name="ui_manager_lang_33">Latvian Translation</string>
+    <string name="ui_translator_33" translatable="false">ClientSiderz | gatesbydude</string>
+    <string name="ui_manager_lang_34">German Translation</string>
+    <string name="ui_translator_34" translatable="false">4NDROM3DA</string>
+    <string name="ui_manager_lang_35">Sinhala Translation</string>
+    <string name="ui_translator_35" translatable="false">Psycho649</string>
+    <string name="ui_manager_lang_36">Hungarian Translation</string>
+    <string name="ui_translator_36" translatable="false">gurtnyi</string>
+    <string name="ui_manager_lang_37">Japanese Translation</string>
+    <string name="ui_translator_37" translatable="false">reindex-ot</string>
+    <string name="ui_manager_lang_38">Nepali Translation</string>
+    <string name="ui_translator_38" translatable="false">iamkishansharma</string>
+    <string name="ui_manager_lang_39">Tamil Translation</string>
+    <string name="ui_translator_39" translatable="false">jothi-prasath</string>
+    <string name="ui_manager_lang_40">Thai Translation</string>
+    <string name="ui_translator_40" translatable="false">MaxNjtk</string>
+    <string name="ui_manager_lang_41">Marathi Translation</string>
+    <string name="ui_translator_41" translatable="false">5eeTheaveragecoder</string>
+    <string name="ui_manager_lang_42">Malayalam Translation</string>
+    <string name="ui_translator_42" translatable="false">TheChilledBuffalo | ShuhaibNC</string>
+    <string name="ui_manager_lang_43">Croatian Translation</string>
+    <string name="ui_translator_43" translatable="false">mrki1111 | momcilovicluka</string>
+    <string name="ui_manager_lang_44">Hindi Translation</string>
+    <string name="ui_translator_44" translatable="false">askadityapandey</string>
+    <string name="ui_manager_lang_45">Mongolian Translation</string>
+    <string name="ui_translator_45" translatable="false">Madvellony</string>
+    <string name="ui_manager_lang_46">Armenian Translation</string>
+    <string name="ui_translator_46" translatable="false">AAVVIronAlex</string>
+    <string name="ui_manager_donors">Supporters and Donors</string>
+    <string name="ui_donors_1" translatable="false">&lt; list of donors &gt;</string>
+    <string name="ui_title_6">MISCELLANEOUS</string>
+    <string name="ui_sub_installed" translatable="false">N/A</string>
+    <string name="ui_sub_separator_1" translatable="false">|</string>
+    <string name="ui_sub_installed_c" translatable="false">N/A</string>
+    <!-- Splash taglines -->
+    <string name="splash_tagline_1">Still Kickin\'</string>
+    <string name="splash_tagline_2">It\'s A Movement</string>
+    <string name="splash_tagline_3">We Are Resistance</string>
+    <string name="splash_tagline_4">Freedom For Everyone</string>
+    <!-- Crash screen (DebugActivity) -->
+    <string name="debug_no_error_details">No error details were provided.</string>
+    <string name="debug_unexpected_error">An unexpected error occurred:\n\n%1$s</string>
+</resources>

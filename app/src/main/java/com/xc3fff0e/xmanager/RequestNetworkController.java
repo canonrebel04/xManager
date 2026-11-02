@@ -3,18 +3,8 @@ package com.xc3fff0e.xmanager;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -26,6 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class RequestNetworkController {
 	public static final String GET = "GET";
@@ -38,6 +29,8 @@ public class RequestNetworkController {
 	
 	private static final int SOCKET_TIMEOUT = 15000;
 	private static final int READ_TIMEOUT = 25000;
+	
+	private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 	
 	protected OkHttpClient client;
 	
@@ -54,41 +47,11 @@ public class RequestNetworkController {
 		if (client == null) {
 			OkHttpClient.Builder builder = new OkHttpClient.Builder();
 			
-			try {
-				final TrustManager[] trustAllCerts = new TrustManager[]{
-					new X509TrustManager() {
-						@Override
-						public void checkClientTrusted(X509Certificate[] chain, String authType)
-						throws CertificateException {
-						}
-						
-						@Override
-						public void checkServerTrusted(X509Certificate[] chain, String authType)
-						throws CertificateException {
-						}
-						
-						@Override
-						public X509Certificate[] getAcceptedIssuers() {
-							return new X509Certificate[]{};
-						}
-					}
-				};
-				
-				final SSLContext sslContext = SSLContext.getInstance("TLS");
-				sslContext.init(null, trustAllCerts, new SecureRandom());
-				final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-				builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
-				builder.connectTimeout(SOCKET_TIMEOUT, TimeUnit.MILLISECONDS);
-				builder.readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS);
-				builder.writeTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS);
-				builder.hostnameVerifier(new HostnameVerifier() {
-					@Override
-					public boolean verify(String hostname, SSLSession session) {
-						return true;
-					}
-				});
-			} catch (Exception e) {
-			}
+			// Use OkHttp's defaults: platform trust store + standard hostname verification.
+			// (minSdk 21 devices support TLS 1.2 out of the box, so no custom socket factory is needed.)
+			builder.connectTimeout(SOCKET_TIMEOUT, TimeUnit.MILLISECONDS);
+			builder.readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS);
+			builder.writeTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS);
 			
 			client = builder.build();
 		}
@@ -143,7 +106,7 @@ public class RequestNetworkController {
 					reqBuilder.url(url).headers(headerBuilder.build()).method(method, reqBody);
 				}
 			} else {
-				RequestBody reqBody = RequestBody.create(MediaType.parse("application/json"), new Gson().toJson(requestNetwork.getParams()));
+				RequestBody reqBody = RequestBody.create(new Gson().toJson(requestNetwork.getParams()), JSON);
 				
 				if (method.equals(GET)) {
 					reqBuilder.url(url).headers(headerBuilder.build()).get();
@@ -167,11 +130,15 @@ public class RequestNetworkController {
 				
 				@Override
 				public void onResponse(Call call, final Response response) throws IOException {
-					final String responseBody = response.body().string().trim();
+					final String responseBody;
+					// OkHttp 4: close the body when done; body is null-safe for odd responses.
+					try (ResponseBody body = response.body()) {
+						responseBody = body != null ? body.string().trim() : "";
+					}
+					final Headers b = response.headers();
 					requestNetwork.getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							Headers b = response.headers();
 							HashMap<String, Object> map = new HashMap<>();
 							for (String s : b.names()) {
 								map.put(s, b.get(s) != null ? b.get(s) : "null");

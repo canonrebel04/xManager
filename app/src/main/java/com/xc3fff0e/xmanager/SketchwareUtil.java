@@ -103,24 +103,6 @@ public class SketchwareUtil {
         });
     }
 
-    public static void CropImage(Activity _activity, String _path, int _requestCode) {
-        try {
-            Intent _intent = new Intent("com.android.camera.action.CROP");
-            File _file = new File(_path);
-            Uri _contentUri = Uri.fromFile(_file);
-            _intent.setDataAndType(_contentUri, "image/*");
-            _intent.putExtra("crop", "true");
-            _intent.putExtra("aspectX", 1);
-            _intent.putExtra("aspectY", 1);
-            _intent.putExtra("outputX", 280);
-            _intent.putExtra("outputY", 280);
-            _intent.putExtra("return-data", false);
-            _activity.startActivityForResult(_intent, _requestCode);
-        } catch (ActivityNotFoundException _e) {
-            Toast.makeText(_activity, "Your device doesn't support the crop action!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public static boolean isConnected(Context _context) {
         ConnectivityManager _connectivityManager = (ConnectivityManager) _context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo _activeNetworkInfo = _connectivityManager.getActiveNetworkInfo();
@@ -145,7 +127,13 @@ public class SketchwareUtil {
 
     public static void hideKeyboard(Context _context) {
         InputMethodManager _inputMethodManager = (InputMethodManager) _context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        _inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        // toggleSoftInput(HIDE_IMPLICIT_ONLY, 0) passed a hide flag as a show flag and toggled
+        // (could even open) the keyboard; hide it from the focused window instead.
+        if (_context instanceof Activity) {
+            View _focus = ((Activity) _context).getCurrentFocus();
+            if (_focus == null) _focus = ((Activity) _context).getWindow().getDecorView();
+            _inputMethodManager.hideSoftInputFromWindow(_focus.getWindowToken(), 0);
+        }
     }
     
     public static void showKeyboard(Context _context) {

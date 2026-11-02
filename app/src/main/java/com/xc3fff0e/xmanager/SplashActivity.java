@@ -31,9 +31,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.Glide;
-import com.google.android.ads.consent.*;
-import com.google.android.gms.ads.MobileAds;
-import com.wuyr.rippleanimation.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
@@ -58,9 +55,14 @@ public class SplashActivity extends AppCompatActivity {
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.splash);
+		getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+			@Override
+			public void handleOnBackPressed() {
+				_onBackPressed();
+			}
+		});
 		initialize(_savedInstanceState);
 		
-		MobileAds.initialize(this);
 		
 		initializeLogic();
 	}
@@ -73,34 +75,32 @@ public class SplashActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-			Window w =SplashActivity.this.getWindow();
-			w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-			w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
-		}
+		Window w =SplashActivity.this.getWindow();
+		w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
 		Glide.with(getApplicationContext()).load(Uri.parse("file:///android_asset/splash.gif")).into(icon_splash);
-		title_splash.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_glitch.ttf"), 1);
+		title_splash.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_glitch.ttf"), Typeface.BOLD);
 		if (0 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
-			title_splash.setText("xManager");
+			title_splash.setText(R.string.app_name);
 			title_splash.setTextSize((int)25);
 		}
 		else {
 			if (1 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
-				title_splash.setText("Still Kickin'");
+				title_splash.setText(R.string.splash_tagline_1);
 				title_splash.setTextSize((int)25);
 			}
 			else {
 				if (2 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
-					title_splash.setText("It's A Movement");
+					title_splash.setText(R.string.splash_tagline_2);
 					title_splash.setTextSize((int)25);
 				}
 				else {
 					if (3 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
-						title_splash.setText("We Are Resistance");
+						title_splash.setText(R.string.splash_tagline_3);
 						title_splash.setTextSize((int)25);
 					}
 					else {
-						title_splash.setText("Freedom For Everyone");
+						title_splash.setText(R.string.splash_tagline_4);
 						title_splash.setTextSize((int)20);
 					}
 				}
@@ -135,14 +135,11 @@ public class SplashActivity extends AppCompatActivity {
 		_Theme_UI();
 	}
 	
-	@Override
-	public void onBackPressed() {
+	private void _onBackPressed() {
 		com.google.android.material.snackbar.Snackbar.make(main_body, "Can't Go Back", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 	}
 	public void _Dark_Navigation() {
-		if (Build.VERSION.SDK_INT >= 21) {
-				getWindow().setNavigationBarColor(Color.parseColor("#171717"));
-		}
+			getWindow().setNavigationBarColor(Color.parseColor("#171717"));
 		
 	}
 	
@@ -217,8 +214,9 @@ public class SplashActivity extends AppCompatActivity {
 		ArrayList<Double> _result = new ArrayList<Double>();
 		SparseBooleanArray _arr = _list.getCheckedItemPositions();
 		for (int _iIdx = 0; _iIdx < _arr.size(); _iIdx++) {
-			if (_arr.valueAt(_iIdx))
-			_result.add((double)_arr.keyAt(_iIdx));
+			if (_arr.valueAt(_iIdx)) {
+				_result.add((double)_arr.keyAt(_iIdx));
+			}
 		}
 		return _result;
 	}

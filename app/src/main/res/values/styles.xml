@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><resources>
+<?xml version="1.0" encoding="UTF-8"?><resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme_Origins" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -13,19 +13,8 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">13sp</item>
         <item name="snackbarStyle">@style/Snackbar_MUI</item>
-    </style>
-    <style name="Theme_Origins.Splash" parent="Theme_Origins"/>
-    <style name="Progress_Dialog" parent="Theme.Material3.Light.Dialog">
-        <item name="android:windowAnimationStyle">@style/Animations</item>
-        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonProgress</item>
-        <item name="android:buttonBarNeutralButtonStyle">@style/NeutralButtonProgress</item>
-        <item name="android:windowTitleStyle">@style/Title_Origins</item>
-        <item name="android:fontFamily">@font/base_font</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">13sp</item>
-        <item name="colorPrimary">#252525</item>
+        <!-- targetSdk 35: layouts are not inset-aware yet, keep pre-15 (non edge-to-edge) window behavior -->
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
     </style>
     <style name="Intro_Dialog" parent="Theme.Material3.Light.Dialog">
         <item name="android:windowAnimationStyle">@style/Animations</item>
@@ -142,35 +131,6 @@
         <item name="android:textColor">#FFFFFF</item>
         <item name="rippleColor">#616161</item>
         <item name="strokeColor">#303030</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:paddingTop">5dip</item>
-        <item name="android:paddingBottom">5dip</item>
-        <item name="android:paddingLeft">5dip</item>
-        <item name="android:paddingRight">5dip</item>
-    </style>
-    <style name="NegativeButtonProgress" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:fontFamily">@font/base_font</item>
-        <item name="android:textColor">#1DB954</item>
-        <item name="rippleColor">#616161</item>
-        <item name="strokeColor">#303030</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:paddingTop">5dip</item>
-        <item name="android:paddingBottom">5dip</item>
-        <item name="android:paddingLeft">5dip</item>
-        <item name="android:paddingRight">5dip</item>
-    </style>
-    <style name="NeutralButtonProgress" parent="Widget.Material3.Button.UnelevatedButton">
-        <item name="android:fontFamily">@font/base_font</item>
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="rippleColor">#616161</item>
-        <item name="android:fillColor">#252525</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">12sp</item>
         <item name="android:layout_height">wrap_content</item>
