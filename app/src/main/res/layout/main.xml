@@ -569,7 +569,7 @@
 		<LinearLayout
 			android:id="@+id/main_body_settings"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_height="wrap_content"
 			android:background="@android:color/transparent"
 			android:orientation="vertical">
 			<LinearLayout
@@ -1063,7 +1063,7 @@
 		<LinearLayout
 			android:id="@+id/main_body_about"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_height="wrap_content"
 			android:padding="8dp"
 			android:background="@android:color/transparent"
 			android:gravity="center_horizontal|center_vertical"
@@ -2266,7 +2266,7 @@
 			<LinearLayout
 				android:id="@+id/main_body"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				android:layout_height="wrap_content"
 				android:background="@android:color/transparent"
 				android:orientation="vertical">
 				<LinearLayout
