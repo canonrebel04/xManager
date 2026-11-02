@@ -17,4 +17,7 @@
     <string name="cd_source">Source code</string>
     <string name="cd_website">Website</string>
     <string name="cd_faq">FAQ</string>
+    <!-- Expandable stock versions card; updated with the latest version once the list loads -->
+    <string name="cd_main_box_1">Stock versions. Show or hide the list</string>
+    <string name="cd_main_box_1_loaded">%1$s, %2$s %3$s. Show or hide the list</string>
 </resources>

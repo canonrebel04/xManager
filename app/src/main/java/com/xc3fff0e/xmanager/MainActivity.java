@@ -1911,6 +1911,18 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
+		main_box_1.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+			@Override
+			public void onInitializeAccessibilityNodeInfo(View host, android.view.accessibility.AccessibilityNodeInfo info) {
+				super.onInitializeAccessibilityNodeInfo(host, info);
+				// The title can be scrolled off while the expanded list is on screen, so the card
+				// needs its own label; include the (translated) title and the visible latest version.
+				TextView latest = sub_1.getVisibility() == View.VISIBLE ? sub_1 : sub_3;
+				if (latest.getText().length() > 0) {
+					info.setContentDescription(getString(R.string.cd_main_box_1_loaded, title_1.getText(), sub_text_1.getText(), latest.getText()));
+				}
+			}
+		});
 		main_box_1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
