@@ -46,8 +46,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
-import com.google.android.ads.consent.*;
-import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wuyr.rippleanimation.*;
@@ -68,31 +66,11 @@ import androidx.core.content.ContextCompat;
 import androidx.core.app.ActivityCompat;
 import android.provider.Settings;
 import androidx.annotation.NonNull;
-import com.google.android.gms.ads.*;
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.LoadAdError;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.browser.customtabs.CustomTabsIntent;
-import com.google.android.gms.ads.rewarded.RewardItem;
-import com.google.android.gms.ads.rewarded.RewardedAd;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.OnUserEarnedRewardListener;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.ump.ConsentForm;
-import com.google.android.ump.ConsentInformation;
-import com.google.android.ump.ConsentRequestParameters;
-import com.google.android.ump.FormError;
-import com.google.android.ump.UserMessagingPlatform;
 
 public class MainActivity extends AppCompatActivity {
 	
-     private RewardedAd mRewardedAd;
 	private Timer _timer = new Timer();
 	
 	private double CHECK = 0;
@@ -118,8 +96,6 @@ public class MainActivity extends AppCompatActivity {
 	private String Stock_Cloned_Patched = "";
 	private String Amoled_Cloned_Patched = "";
 	private String Patched_Changelogs = "";
-	ConsentInformation consentInformation;
-	ConsentForm consentForm;
 	private String Other_Patched = "";
 	
 	private ArrayList<String> Language = new ArrayList<>();
@@ -200,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
 	private LinearLayout box_settings_close;
 	private LinearLayout main_box_16;
 	private LinearLayout main_box_8;
-	private LinearLayout main_box_17;
 	private LinearLayout main_box_21;
 	private LinearLayout main_box_20;
 	private LinearLayout main_box_5;
@@ -222,13 +197,6 @@ public class MainActivity extends AppCompatActivity {
 	private TextView list_auto_refresh;
 	private Switch list_auto_refresh_switch;
 	private TextView list_auto_refresh_info;
-	private LinearLayout box_17_sub_1;
-	private LinearLayout box_17_sub_2;
-	private LinearLayout title_box_6;
-	private LinearLayout box_disable_reward_ad;
-	private TextView disable_reward_ad;
-	private Switch disable_reward_ad_switch;
-	private TextView disable_reward_ad_info;
 	private LinearLayout box_21_sub_1;
 	private LinearLayout box_21_sub_2;
 	private LinearLayout title_box_12;
@@ -476,8 +444,6 @@ public class MainActivity extends AppCompatActivity {
 	private RequestNetwork.RequestListener _Connection_request_listener;
 	private SharedPreferences LIST_REFRESH;
 	private SharedPreferences LANGUAGE;
-	private SharedPreferences DISABLE_REWARD_AD;
-	private SharedPreferences AD_UNIT;
 	private SharedPreferences SWITCH_VERSION;
 	private SharedPreferences REFETCH;
 	private SharedPreferences INITIALIZATION;
@@ -490,7 +456,6 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.main);
 		initialize(_savedInstanceState);
 		
-		MobileAds.initialize(this);
 		
 		
 		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
@@ -579,7 +544,6 @@ public class MainActivity extends AppCompatActivity {
 		box_settings_close = findViewById(R.id.box_settings_close);
 		main_box_16 = findViewById(R.id.main_box_16);
 		main_box_8 = findViewById(R.id.main_box_8);
-		main_box_17 = findViewById(R.id.main_box_17);
 		main_box_21 = findViewById(R.id.main_box_21);
 		main_box_20 = findViewById(R.id.main_box_20);
 		main_box_5 = findViewById(R.id.main_box_5);
@@ -601,13 +565,6 @@ public class MainActivity extends AppCompatActivity {
 		list_auto_refresh = findViewById(R.id.list_auto_refresh);
 		list_auto_refresh_switch = findViewById(R.id.list_auto_refresh_switch);
 		list_auto_refresh_info = findViewById(R.id.list_auto_refresh_info);
-		box_17_sub_1 = findViewById(R.id.box_17_sub_1);
-		box_17_sub_2 = findViewById(R.id.box_17_sub_2);
-		title_box_6 = findViewById(R.id.title_box_6);
-		box_disable_reward_ad = findViewById(R.id.box_disable_reward_ad);
-		disable_reward_ad = findViewById(R.id.disable_reward_ad);
-		disable_reward_ad_switch = findViewById(R.id.disable_reward_ad_switch);
-		disable_reward_ad_info = findViewById(R.id.disable_reward_ad_info);
 		box_21_sub_1 = findViewById(R.id.box_21_sub_1);
 		box_21_sub_2 = findViewById(R.id.box_21_sub_2);
 		title_box_12 = findViewById(R.id.title_box_12);
@@ -852,8 +809,6 @@ public class MainActivity extends AppCompatActivity {
 		Connection = new RequestNetwork(this);
 		LIST_REFRESH = getSharedPreferences("LIST_REFRESH", Activity.MODE_PRIVATE);
 		LANGUAGE = getSharedPreferences("LANGUAGE", Activity.MODE_PRIVATE);
-		DISABLE_REWARD_AD = getSharedPreferences("DISABLE_REWARD_AD", Activity.MODE_PRIVATE);
-		AD_UNIT = getSharedPreferences("AD_UNIT", Activity.MODE_PRIVATE);
 		SWITCH_VERSION = getSharedPreferences("SWITCH_VERSION", Activity.MODE_PRIVATE);
 		REFETCH = getSharedPreferences("REFETCH", Activity.MODE_PRIVATE);
 		INITIALIZATION = getSharedPreferences("INITIALIZATION", Activity.MODE_PRIVATE);
@@ -879,7 +834,6 @@ public class MainActivity extends AppCompatActivity {
 				main_box_13.setVisibility(View.GONE);
 				main_box_14.setVisibility(View.GONE);
 				main_box_16.setVisibility(View.VISIBLE);
-				main_box_17.setVisibility(View.GONE);
 				
 				main_box_20.setVisibility(View.GONE);
 				main_box_21.setVisibility(View.GONE);
@@ -913,7 +867,6 @@ public class MainActivity extends AppCompatActivity {
 				main_box_13.setVisibility(View.VISIBLE);
 				main_box_14.setVisibility(View.VISIBLE);
 				main_box_16.setVisibility(View.GONE);
-				main_box_17.setVisibility(View.VISIBLE);
 				main_box_20.setVisibility(View.VISIBLE);
 				main_box_21.setVisibility(View.VISIBLE);
 				title_header.setText(settings_title.getText().toString());
@@ -1177,49 +1130,6 @@ public class MainActivity extends AppCompatActivity {
 				}
 				else {
 					LIST_REFRESH.edit().putString("UPDATE", "OFF").commit();
-				}
-				COUNTER = 1;
-			}
-		});
-		
-		disable_reward_ad_switch.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				try {
-						if (CHECK == 0) {
-								CHECK = 1;
-								Timer = new TimerTask() {
-										@Override
-										public void run() {
-												runOnUiThread(new Runnable() {
-														@Override
-														public void run() {
-																CHECK = 0;
-														}
-												});
-										}
-								};
-								_timer.schedule(Timer, (int)(3000));
-								_Hide_Reminder();
-						}
-						else {
-						}
-				}
-				catch(Exception e) {
-				}
-				
-			}
-		});
-		
-		disable_reward_ad_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
-				final boolean _isChecked = _param2;
-				if (_isChecked) {
-					DISABLE_REWARD_AD.edit().putString("REWARD_AD", "ON").commit();
-				}
-				else {
-					DISABLE_REWARD_AD.edit().putString("REWARD_AD", "OFF").commit();
 				}
 				COUNTER = 1;
 			}
@@ -1939,7 +1849,6 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View _view) {
 				cloned_version_switch.setChecked(false);
 				list_auto_refresh_switch.setChecked(false);
-				disable_reward_ad_switch.setChecked(false);
 				disable_notification_switch.setChecked(false);
 				hide_stock_patched_switch.setChecked(false);
 				hide_amoled_patched_switch.setChecked(false);
@@ -2182,80 +2091,22 @@ public class MainActivity extends AppCompatActivity {
 						                public void onClick(DialogInterface Selected_Patched, int p) {
 							try {
 								if (SWITCH_VERSION.getString("SWITCH", "").contains("A")) {
-									if (DISABLE_REWARD_AD.getString("REWARD_AD", "").equals("ON")) {
+									AlertDialog.setCancelable(true);
+									if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
+										_Browser(hidden_download_1.getText().toString());
+									}
+									else {
+										_Browser(hidden_download_2.getText().toString());
+									}
+								}
+								else {
+									if (SWITCH_VERSION.getString("SWITCH", "").contains("B")) {
 										AlertDialog.setCancelable(true);
 										if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
 											_Browser(hidden_download_1.getText().toString());
 										}
 										else {
 											_Browser(hidden_download_2.getText().toString());
-										}
-									}
-									else {
-										if (mRewardedAd != null) {
-											  Activity activityContext = MainActivity.this;
-											  mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-												    @Override
-												    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-													       AlertDialog.setCancelable(true);
-													if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-														_Browser(hidden_download_1.getText().toString());
-													}
-													else {
-														_Browser(hidden_download_2.getText().toString());
-													}
-													      int rewardAmount = rewardItem.getAmount();
-													      String rewardType = rewardItem.getType();
-													    }
-												  });
-										} else {
-											AlertDialog.setCancelable(true);
-											if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-												_Browser(hidden_download_1.getText().toString());
-											}
-											else {
-												_Browser(hidden_download_2.getText().toString());
-											}
-										}
-									}
-								}
-								else {
-									if (SWITCH_VERSION.getString("SWITCH", "").contains("B")) {
-										if (DISABLE_REWARD_AD.getString("REWARD_AD", "").equals("ON")) {
-											AlertDialog.setCancelable(true);
-											if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-												_Browser(hidden_download_1.getText().toString());
-											}
-											else {
-												_Browser(hidden_download_2.getText().toString());
-											}
-										}
-										else {
-											if (mRewardedAd != null) {
-												  Activity activityContext = MainActivity.this;
-												  mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-													    @Override
-													    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-														       AlertDialog.setCancelable(true);
-														if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-															_Browser(hidden_download_1.getText().toString());
-														}
-														else {
-															_Browser(hidden_download_2.getText().toString());
-														}
-														      int rewardAmount = rewardItem.getAmount();
-														      String rewardType = rewardItem.getType();
-														    }
-													  });
-											} else {
-												AlertDialog.setCancelable(true);
-												if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-													_Browser(hidden_download_1.getText().toString());
-												}
-												else {
-													_Browser(hidden_download_2.getText().toString());
-												}
-											}
 										}
 									}
 								}
@@ -2346,80 +2197,22 @@ public class MainActivity extends AppCompatActivity {
 						                public void onClick(DialogInterface Selected_Patched, int p) {
 							try {
 								if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
-									if (DISABLE_REWARD_AD.getString("REWARD_AD", "").equals("ON")) {
+									AlertDialog.setCancelable(true);
+									if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
+										_Browser(hidden_download_1.getText().toString());
+									}
+									else {
+										_Browser(hidden_download_2.getText().toString());
+									}
+								}
+								else {
+									if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
 										AlertDialog.setCancelable(true);
 										if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
 											_Browser(hidden_download_1.getText().toString());
 										}
 										else {
 											_Browser(hidden_download_2.getText().toString());
-										}
-									}
-									else {
-										if (mRewardedAd != null) {
-											  Activity activityContext = MainActivity.this;
-											  mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-												    @Override
-												    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-													       AlertDialog.setCancelable(true);
-													if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-														_Browser(hidden_download_1.getText().toString());
-													}
-													else {
-														_Browser(hidden_download_2.getText().toString());
-													}
-													      int rewardAmount = rewardItem.getAmount();
-													      String rewardType = rewardItem.getType();
-													    }
-												  });
-										} else {
-											AlertDialog.setCancelable(true);
-											if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-												_Browser(hidden_download_1.getText().toString());
-											}
-											else {
-												_Browser(hidden_download_2.getText().toString());
-											}
-										}
-									}
-								}
-								else {
-									if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
-										if (DISABLE_REWARD_AD.getString("REWARD_AD", "").equals("ON")) {
-											AlertDialog.setCancelable(true);
-											if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-												_Browser(hidden_download_1.getText().toString());
-											}
-											else {
-												_Browser(hidden_download_2.getText().toString());
-											}
-										}
-										else {
-											if (mRewardedAd != null) {
-												  Activity activityContext = MainActivity.this;
-												  mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-													    @Override
-													    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-														       AlertDialog.setCancelable(true);
-														if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-															_Browser(hidden_download_1.getText().toString());
-														}
-														else {
-															_Browser(hidden_download_2.getText().toString());
-														}
-														      int rewardAmount = rewardItem.getAmount();
-														      String rewardType = rewardItem.getType();
-														    }
-													  });
-											} else {
-												AlertDialog.setCancelable(true);
-												if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-													_Browser(hidden_download_1.getText().toString());
-												}
-												else {
-													_Browser(hidden_download_2.getText().toString());
-												}
-											}
 										}
 									}
 								}
@@ -2489,41 +2282,12 @@ public class MainActivity extends AppCompatActivity {
 						                @Override
 						                public void onClick(DialogInterface Selected_Patched, int p) {
 							try {
-								if (DISABLE_REWARD_AD.getString("REWARD_AD", "").equals("ON")) {
-									AlertDialog.setCancelable(true);
-									if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-										_Browser(hidden_download_1.getText().toString());
-									}
-									else {
-										_Browser(hidden_download_2.getText().toString());
-									}
+								AlertDialog.setCancelable(true);
+								if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
+									_Browser(hidden_download_1.getText().toString());
 								}
 								else {
-									if (mRewardedAd != null) {
-										  Activity activityContext = MainActivity.this;
-										  mRewardedAd.show(activityContext, new OnUserEarnedRewardListener() {
-											    @Override
-											    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
-												       AlertDialog.setCancelable(true);
-												if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-													_Browser(hidden_download_1.getText().toString());
-												}
-												else {
-													_Browser(hidden_download_2.getText().toString());
-												}
-												      int rewardAmount = rewardItem.getAmount();
-												      String rewardType = rewardItem.getType();
-												    }
-											  });
-									} else {
-										AlertDialog.setCancelable(true);
-										if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
-											_Browser(hidden_download_1.getText().toString());
-										}
-										else {
-											_Browser(hidden_download_2.getText().toString());
-										}
-									}
+									_Browser(hidden_download_2.getText().toString());
 								}
 							}
 							catch(Exception e) {
@@ -3262,7 +3026,6 @@ public class MainActivity extends AppCompatActivity {
 																	main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF1B5E20));
 																	main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF1B5E20));
 																	main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF1B5E20));
-																	main_box_17.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF1B5E20));
 																	main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF1B5E20));
 																	main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF1B5E20));
 																	box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF1B5E20));
@@ -3290,7 +3053,6 @@ public class MainActivity extends AppCompatActivity {
 																	title_header.setTextColor(0xFFF2F3F4);
 																	cloned_version.setTextColor(0xFFF2F3F4);
 																	list_auto_refresh.setTextColor(0xFFF2F3F4);
-																	disable_reward_ad.setTextColor(0xFFF2F3F4);
 																	disable_notification.setTextColor(0xFFF2F3F4);
 																	hide_stock_patched.setTextColor(0xFFF2F3F4);
 																	hide_amoled_patched.setTextColor(0xFFF2F3F4);
@@ -3379,7 +3141,6 @@ public class MainActivity extends AppCompatActivity {
 																		main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF00008B));
 																		main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF00008B));
 																		main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF00008B));
-																		main_box_17.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF00008B));
 																		main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF00008B));
 																		main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF00008B));
 																		box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF00008B));
@@ -3407,7 +3168,6 @@ public class MainActivity extends AppCompatActivity {
 																		title_header.setTextColor(0xFFF2F3F4);
 																		cloned_version.setTextColor(0xFFF2F3F4);
 																		list_auto_refresh.setTextColor(0xFFF2F3F4);
-																		disable_reward_ad.setTextColor(0xFFF2F3F4);
 																		disable_notification.setTextColor(0xFFF2F3F4);
 																		hide_stock_patched.setTextColor(0xFFF2F3F4);
 																		hide_amoled_patched.setTextColor(0xFFF2F3F4);
@@ -3496,7 +3256,6 @@ public class MainActivity extends AppCompatActivity {
 																			main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF8B0000));
 																			main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF8B0000));
 																			main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF8B0000));
-																			main_box_17.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF8B0000));
 																			main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF8B0000));
 																			main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF8B0000));
 																			box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF8B0000));
@@ -3524,7 +3283,6 @@ public class MainActivity extends AppCompatActivity {
 																			title_header.setTextColor(0xFFF2F3F4);
 																			cloned_version.setTextColor(0xFFF2F3F4);
 																			list_auto_refresh.setTextColor(0xFFF2F3F4);
-																			disable_reward_ad.setTextColor(0xFFF2F3F4);
 																			disable_notification.setTextColor(0xFFF2F3F4);
 																			hide_stock_patched.setTextColor(0xFFF2F3F4);
 																			hide_amoled_patched.setTextColor(0xFFF2F3F4);
@@ -3613,7 +3371,6 @@ public class MainActivity extends AppCompatActivity {
 																				main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFFF8C00));
 																				main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFFF8C00));
 																				main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFFF8C00));
-																				main_box_17.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFFF8C00));
 																				main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFFF8C00));
 																				main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFFF8C00));
 																				box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFFF8C00));
@@ -3641,7 +3398,6 @@ public class MainActivity extends AppCompatActivity {
 																				title_header.setTextColor(0xFFF2F3F4);
 																				cloned_version.setTextColor(0xFFF2F3F4);
 																				list_auto_refresh.setTextColor(0xFFF2F3F4);
-																				disable_reward_ad.setTextColor(0xFFF2F3F4);
 																				disable_notification.setTextColor(0xFFF2F3F4);
 																				hide_stock_patched.setTextColor(0xFFF2F3F4);
 																				hide_amoled_patched.setTextColor(0xFFF2F3F4);
@@ -3730,7 +3486,6 @@ public class MainActivity extends AppCompatActivity {
 																					main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFAA336A));
 																					main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFAA336A));
 																					main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFAA336A));
-																					main_box_17.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFAA336A));
 																					main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFAA336A));
 																					main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFAA336A));
 																					box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFFAA336A));
@@ -3758,7 +3513,6 @@ public class MainActivity extends AppCompatActivity {
 																					title_header.setTextColor(0xFFF2F3F4);
 																					cloned_version.setTextColor(0xFFF2F3F4);
 																					list_auto_refresh.setTextColor(0xFFF2F3F4);
-																					disable_reward_ad.setTextColor(0xFFF2F3F4);
 																					disable_notification.setTextColor(0xFFF2F3F4);
 																					hide_stock_patched.setTextColor(0xFFF2F3F4);
 																					hide_amoled_patched.setTextColor(0xFFF2F3F4);
@@ -3847,7 +3601,6 @@ public class MainActivity extends AppCompatActivity {
 																						main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF301934));
 																						main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF301934));
 																						main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF301934));
-																						main_box_17.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF301934));
 																						main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF301934));
 																						main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF301934));
 																						box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF301934));
@@ -3875,7 +3628,6 @@ public class MainActivity extends AppCompatActivity {
 																						title_header.setTextColor(0xFFF2F3F4);
 																						cloned_version.setTextColor(0xFFF2F3F4);
 																						list_auto_refresh.setTextColor(0xFFF2F3F4);
-																						disable_reward_ad.setTextColor(0xFFF2F3F4);
 																						disable_notification.setTextColor(0xFFF2F3F4);
 																						hide_stock_patched.setTextColor(0xFFF2F3F4);
 																						hide_amoled_patched.setTextColor(0xFFF2F3F4);
@@ -3964,7 +3716,6 @@ public class MainActivity extends AppCompatActivity {
 																							main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF008B8B));
 																							main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF008B8B));
 																							main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF008B8B));
-																							main_box_17.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF008B8B));
 																							main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF008B8B));
 																							main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF008B8B));
 																							box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF008B8B));
@@ -3992,7 +3743,6 @@ public class MainActivity extends AppCompatActivity {
 																							title_header.setTextColor(0xFFF2F3F4);
 																							cloned_version.setTextColor(0xFFF2F3F4);
 																							list_auto_refresh.setTextColor(0xFFF2F3F4);
-																							disable_reward_ad.setTextColor(0xFFF2F3F4);
 																							disable_notification.setTextColor(0xFFF2F3F4);
 																							hide_stock_patched.setTextColor(0xFFF2F3F4);
 																							hide_amoled_patched.setTextColor(0xFFF2F3F4);
@@ -4481,10 +4231,6 @@ public class MainActivity extends AppCompatActivity {
 		c = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left);
 		c.setDuration(400); main_box_8.startAnimation(c);
 		c = null;
-		Animation e;
-		e = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left);
-		e.setDuration(500); main_box_17.startAnimation(e);
-		e = null;
 		Animation f;
 		f = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left);
 		f.setDuration(600); main_box_21.startAnimation(f);
@@ -4713,18 +4459,6 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	
-	public void _Switch_Fixer() {
-		if (DISABLE_REWARD_AD.getString("REWARD_AD", "").equals("ON")) {
-			disable_reward_ad_switch.setChecked(true);
-		}
-		else {
-			if (DISABLE_REWARD_AD.getString("REWARD_AD", "").equals("OFF")) {
-				disable_reward_ad_switch.setChecked(false);
-			}
-		}
-	}
-	
-	
 	public void _Language_UI() {
 		if (LANGUAGE.getString("LANGUAGE", "").equals("0")) {
 			sub_text_installed.setText(R.string.installed);
@@ -4779,8 +4513,6 @@ public class MainActivity extends AppCompatActivity {
 			list_auto_refresh_info.setText(R.string.list_auto_refresh_desc);
 			cloned_version.setText(R.string.cloned_version);
 			cloned_version_info.setText(R.string.cloned_version_desc);
-			disable_reward_ad.setText(R.string.disable_rewarded_ads);
-			disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc);
 			disable_notification.setText(R.string.disable_notification);
 			disable_notification_info.setText(R.string.disable_notification_desc);
 			hide_stock_patched.setText(R.string.hide_stock_patched);
@@ -4857,8 +4589,6 @@ public class MainActivity extends AppCompatActivity {
 				list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_01);
 				cloned_version.setText(R.string.cloned_version_01);
 				cloned_version_info.setText(R.string.cloned_version_desc_01);
-				disable_reward_ad.setText(R.string.disable_rewarded_ads_01);
-				disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_01);
 				disable_notification.setText(R.string.disable_notification_01);
 				disable_notification_info.setText(R.string.disable_notification_desc_01);
 				hide_stock_patched.setText(R.string.hide_stock_patched_01);
@@ -4934,8 +4664,6 @@ public class MainActivity extends AppCompatActivity {
 					list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_02);
 					cloned_version.setText(R.string.cloned_version_02);
 					cloned_version_info.setText(R.string.cloned_version_desc_02);
-					disable_reward_ad.setText(R.string.disable_rewarded_ads_02);
-					disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_02);
 					disable_notification.setText(R.string.disable_notification_02);
 					disable_notification_info.setText(R.string.disable_notification_desc_02);
 					hide_stock_patched.setText(R.string.hide_stock_patched_02);
@@ -5011,8 +4739,6 @@ public class MainActivity extends AppCompatActivity {
 						list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_03);
 						cloned_version.setText(R.string.cloned_version_03);
 						cloned_version_info.setText(R.string.cloned_version_desc_03);
-						disable_reward_ad.setText(R.string.disable_rewarded_ads_03);
-						disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_03);
 						disable_notification.setText(R.string.disable_notification_03);
 						disable_notification_info.setText(R.string.disable_notification_desc_03);
 						hide_stock_patched.setText(R.string.hide_stock_patched_03);
@@ -5088,8 +4814,6 @@ public class MainActivity extends AppCompatActivity {
 							list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_04);
 							cloned_version.setText(R.string.cloned_version_04);
 							cloned_version_info.setText(R.string.cloned_version_desc_04);
-							disable_reward_ad.setText(R.string.disable_rewarded_ads_04);
-							disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_04);
 							disable_notification.setText(R.string.disable_notification_04);
 							disable_notification_info.setText(R.string.disable_notification_desc_04);
 							hide_stock_patched.setText(R.string.hide_stock_patched_04);
@@ -5165,8 +4889,6 @@ public class MainActivity extends AppCompatActivity {
 								list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_05);
 								cloned_version.setText(R.string.cloned_version_05);
 								cloned_version_info.setText(R.string.cloned_version_desc_05);
-								disable_reward_ad.setText(R.string.disable_rewarded_ads_05);
-								disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_05);
 								disable_notification.setText(R.string.disable_notification_05);
 								disable_notification_info.setText(R.string.disable_notification_desc_05);
 								hide_stock_patched.setText(R.string.hide_stock_patched_05);
@@ -5242,8 +4964,6 @@ public class MainActivity extends AppCompatActivity {
 									list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_06);
 									cloned_version.setText(R.string.cloned_version_06);
 									cloned_version_info.setText(R.string.cloned_version_desc_06);
-									disable_reward_ad.setText(R.string.disable_rewarded_ads_06);
-									disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_06);
 									disable_notification.setText(R.string.disable_notification_06);
 									disable_notification_info.setText(R.string.disable_notification_desc_06);
 									hide_stock_patched.setText(R.string.hide_stock_patched_06);
@@ -5319,8 +5039,6 @@ public class MainActivity extends AppCompatActivity {
 										list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_07);
 										cloned_version.setText(R.string.cloned_version_07);
 										cloned_version_info.setText(R.string.cloned_version_desc_07);
-										disable_reward_ad.setText(R.string.disable_rewarded_ads_07);
-										disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_07);
 										disable_notification.setText(R.string.disable_notification_07);
 										disable_notification_info.setText(R.string.disable_notification_desc_07);
 										hide_stock_patched.setText(R.string.hide_stock_patched_07);
@@ -5396,8 +5114,6 @@ public class MainActivity extends AppCompatActivity {
 											list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_08);
 											cloned_version.setText(R.string.cloned_version_08);
 											cloned_version_info.setText(R.string.cloned_version_desc_08);
-											disable_reward_ad.setText(R.string.disable_rewarded_ads_08);
-											disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_08);
 											disable_notification.setText(R.string.disable_notification_08);
 											disable_notification_info.setText(R.string.disable_notification_desc_08);
 											hide_stock_patched.setText(R.string.hide_stock_patched_08);
@@ -5473,8 +5189,6 @@ public class MainActivity extends AppCompatActivity {
 												list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_09);
 												cloned_version.setText(R.string.cloned_version_09);
 												cloned_version_info.setText(R.string.cloned_version_desc_09);
-												disable_reward_ad.setText(R.string.disable_rewarded_ads_09);
-												disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_09);
 												disable_notification.setText(R.string.disable_notification_09);
 												disable_notification_info.setText(R.string.disable_notification_desc_09);
 												hide_stock_patched.setText(R.string.hide_stock_patched_09);
@@ -5550,8 +5264,6 @@ public class MainActivity extends AppCompatActivity {
 													list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_10);
 													cloned_version.setText(R.string.cloned_version_10);
 													cloned_version_info.setText(R.string.cloned_version_desc_10);
-													disable_reward_ad.setText(R.string.disable_rewarded_ads_10);
-													disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_10);
 													disable_notification.setText(R.string.disable_notification_10);
 													disable_notification_info.setText(R.string.disable_notification_desc_10);
 													hide_stock_patched.setText(R.string.hide_stock_patched_10);
@@ -5627,8 +5339,6 @@ public class MainActivity extends AppCompatActivity {
 														list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_11);
 														cloned_version.setText(R.string.cloned_version_11);
 														cloned_version_info.setText(R.string.cloned_version_desc_11);
-														disable_reward_ad.setText(R.string.disable_rewarded_ads_11);
-														disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_11);
 														disable_notification.setText(R.string.disable_notification_11);
 														disable_notification_info.setText(R.string.disable_notification_desc_11);
 														hide_stock_patched.setText(R.string.hide_stock_patched_11);
@@ -5704,8 +5414,6 @@ public class MainActivity extends AppCompatActivity {
 															list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_12);
 															cloned_version.setText(R.string.cloned_version_12);
 															cloned_version_info.setText(R.string.cloned_version_desc_12);
-															disable_reward_ad.setText(R.string.disable_rewarded_ads_12);
-															disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_12);
 															disable_notification.setText(R.string.disable_notification_12);
 															disable_notification_info.setText(R.string.disable_notification_desc_12);
 															hide_stock_patched.setText(R.string.hide_stock_patched_12);
@@ -5781,8 +5489,6 @@ public class MainActivity extends AppCompatActivity {
 																list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_13);
 																cloned_version.setText(R.string.cloned_version_13);
 																cloned_version_info.setText(R.string.cloned_version_desc_13);
-																disable_reward_ad.setText(R.string.disable_rewarded_ads_13);
-																disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_13);
 																disable_notification.setText(R.string.disable_notification_13);
 																disable_notification_info.setText(R.string.disable_notification_desc_13);
 																hide_stock_patched.setText(R.string.hide_stock_patched_13);
@@ -5858,8 +5564,6 @@ public class MainActivity extends AppCompatActivity {
 																	list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_14);
 																	cloned_version.setText(R.string.cloned_version_14);
 																	cloned_version_info.setText(R.string.cloned_version_desc_14);
-																	disable_reward_ad.setText(R.string.disable_rewarded_ads_14);
-																	disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_14);
 																	disable_notification.setText(R.string.disable_notification_14);
 																	disable_notification_info.setText(R.string.disable_notification_desc_14);
 																	hide_stock_patched.setText(R.string.hide_stock_patched_14);
@@ -5935,8 +5639,6 @@ public class MainActivity extends AppCompatActivity {
 																		list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_15);
 																		cloned_version.setText(R.string.cloned_version_15);
 																		cloned_version_info.setText(R.string.cloned_version_desc_15);
-																		disable_reward_ad.setText(R.string.disable_rewarded_ads_15);
-																		disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_15);
 																		disable_notification.setText(R.string.disable_notification_15);
 																		disable_notification_info.setText(R.string.disable_notification_desc_15);
 																		hide_stock_patched.setText(R.string.hide_stock_patched_15);
@@ -6012,8 +5714,6 @@ public class MainActivity extends AppCompatActivity {
 																			list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_16);
 																			cloned_version.setText(R.string.cloned_version_16);
 																			cloned_version_info.setText(R.string.cloned_version_desc_16);
-																			disable_reward_ad.setText(R.string.disable_rewarded_ads_16);
-																			disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_16);
 																			disable_notification.setText(R.string.disable_notification_16);
 																			disable_notification_info.setText(R.string.disable_notification_desc_16);
 																			hide_stock_patched.setText(R.string.hide_stock_patched_16);
@@ -6089,8 +5789,6 @@ public class MainActivity extends AppCompatActivity {
 																				list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_17);
 																				cloned_version.setText(R.string.cloned_version_17);
 																				cloned_version_info.setText(R.string.cloned_version_desc_17);
-																				disable_reward_ad.setText(R.string.disable_rewarded_ads_17);
-																				disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_17);
 																				disable_notification.setText(R.string.disable_notification_17);
 																				disable_notification_info.setText(R.string.disable_notification_desc_17);
 																				hide_stock_patched.setText(R.string.hide_stock_patched_17);
@@ -6166,8 +5864,6 @@ public class MainActivity extends AppCompatActivity {
 																					list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_18);
 																					cloned_version.setText(R.string.cloned_version_18);
 																					cloned_version_info.setText(R.string.cloned_version_desc_18);
-																					disable_reward_ad.setText(R.string.disable_rewarded_ads_18);
-																					disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_18);
 																					disable_notification.setText(R.string.disable_notification_18);
 																					disable_notification_info.setText(R.string.disable_notification_desc_18);
 																					hide_stock_patched.setText(R.string.hide_stock_patched_18);
@@ -6243,8 +5939,6 @@ public class MainActivity extends AppCompatActivity {
 																						list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_19);
 																						cloned_version.setText(R.string.cloned_version_19);
 																						cloned_version_info.setText(R.string.cloned_version_desc_19);
-																						disable_reward_ad.setText(R.string.disable_rewarded_ads_19);
-																						disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_19);
 																						disable_notification.setText(R.string.disable_notification_19);
 																						disable_notification_info.setText(R.string.disable_notification_desc_19);
 																						hide_stock_patched.setText(R.string.hide_stock_patched_19);
@@ -6320,8 +6014,6 @@ public class MainActivity extends AppCompatActivity {
 																							list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_20);
 																							cloned_version.setText(R.string.cloned_version_20);
 																							cloned_version_info.setText(R.string.cloned_version_desc_20);
-																							disable_reward_ad.setText(R.string.disable_rewarded_ads_20);
-																							disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_20);
 																							disable_notification.setText(R.string.disable_notification_20);
 																							disable_notification_info.setText(R.string.disable_notification_desc_20);
 																							hide_stock_patched.setText(R.string.hide_stock_patched_20);
@@ -6397,8 +6089,6 @@ public class MainActivity extends AppCompatActivity {
 																								list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_21);
 																								cloned_version.setText(R.string.cloned_version_21);
 																								cloned_version_info.setText(R.string.cloned_version_desc_21);
-																								disable_reward_ad.setText(R.string.disable_rewarded_ads_21);
-																								disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_21);
 																								disable_notification.setText(R.string.disable_notification_21);
 																								disable_notification_info.setText(R.string.disable_notification_desc_21);
 																								hide_stock_patched.setText(R.string.hide_stock_patched_21);
@@ -6474,8 +6164,6 @@ public class MainActivity extends AppCompatActivity {
 																									list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_22);
 																									cloned_version.setText(R.string.cloned_version_22);
 																									cloned_version_info.setText(R.string.cloned_version_desc_22);
-																									disable_reward_ad.setText(R.string.disable_rewarded_ads_22);
-																									disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_22);
 																									disable_notification.setText(R.string.disable_notification_22);
 																									disable_notification_info.setText(R.string.disable_notification_desc_22);
 																									hide_stock_patched.setText(R.string.hide_stock_patched_22);
@@ -6551,8 +6239,6 @@ public class MainActivity extends AppCompatActivity {
 																										list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_23);
 																										cloned_version.setText(R.string.cloned_version_23);
 																										cloned_version_info.setText(R.string.cloned_version_desc_23);
-																										disable_reward_ad.setText(R.string.disable_rewarded_ads_23);
-																										disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_23);
 																										disable_notification.setText(R.string.disable_notification_23);
 																										disable_notification_info.setText(R.string.disable_notification_desc_23);
 																										hide_stock_patched.setText(R.string.hide_stock_patched_23);
@@ -6628,8 +6314,6 @@ public class MainActivity extends AppCompatActivity {
 																											list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_24);
 																											cloned_version.setText(R.string.cloned_version_24);
 																											cloned_version_info.setText(R.string.cloned_version_desc_24);
-																											disable_reward_ad.setText(R.string.disable_rewarded_ads_24);
-																											disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_24);
 																											disable_notification.setText(R.string.disable_notification_24);
 																											disable_notification_info.setText(R.string.disable_notification_desc_24);
 																											hide_stock_patched.setText(R.string.hide_stock_patched_24);
@@ -6705,8 +6389,6 @@ public class MainActivity extends AppCompatActivity {
 																												list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_25);
 																												cloned_version.setText(R.string.cloned_version_25);
 																												cloned_version_info.setText(R.string.cloned_version_desc_25);
-																												disable_reward_ad.setText(R.string.disable_rewarded_ads_25);
-																												disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_25);
 																												disable_notification.setText(R.string.disable_notification_25);
 																												disable_notification_info.setText(R.string.disable_notification_desc_25);
 																												hide_stock_patched.setText(R.string.hide_stock_patched_25);
@@ -6782,8 +6464,6 @@ public class MainActivity extends AppCompatActivity {
 																													list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_26);
 																													cloned_version.setText(R.string.cloned_version_26);
 																													cloned_version_info.setText(R.string.cloned_version_desc_26);
-																													disable_reward_ad.setText(R.string.disable_rewarded_ads_26);
-																													disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_26);
 																													disable_notification.setText(R.string.disable_notification_26);
 																													disable_notification_info.setText(R.string.disable_notification_desc_26);
 																													hide_stock_patched.setText(R.string.hide_stock_patched_26);
@@ -6859,8 +6539,6 @@ public class MainActivity extends AppCompatActivity {
 																														list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_27);
 																														cloned_version.setText(R.string.cloned_version_27);
 																														cloned_version_info.setText(R.string.cloned_version_desc_27);
-																														disable_reward_ad.setText(R.string.disable_rewarded_ads_27);
-																														disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_27);
 																														disable_notification.setText(R.string.disable_notification_27);
 																														disable_notification_info.setText(R.string.disable_notification_desc_27);
 																														hide_stock_patched.setText(R.string.hide_stock_patched_27);
@@ -6936,8 +6614,6 @@ public class MainActivity extends AppCompatActivity {
 																															list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_28);
 																															cloned_version.setText(R.string.cloned_version_28);
 																															cloned_version_info.setText(R.string.cloned_version_desc_28);
-																															disable_reward_ad.setText(R.string.disable_rewarded_ads_28);
-																															disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_28);
 																															disable_notification.setText(R.string.disable_notification_28);
 																															disable_notification_info.setText(R.string.disable_notification_desc_28);
 																															hide_stock_patched.setText(R.string.hide_stock_patched_28);
@@ -7013,8 +6689,6 @@ public class MainActivity extends AppCompatActivity {
 																																list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_29);
 																																cloned_version.setText(R.string.cloned_version_29);
 																																cloned_version_info.setText(R.string.cloned_version_desc_29);
-																																disable_reward_ad.setText(R.string.disable_rewarded_ads_29);
-																																disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_29);
 																																disable_notification.setText(R.string.disable_notification_29);
 																																disable_notification_info.setText(R.string.disable_notification_desc_29);
 																																hide_stock_patched.setText(R.string.hide_stock_patched_29);
@@ -7090,8 +6764,6 @@ public class MainActivity extends AppCompatActivity {
 																																	list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_30);
 																																	cloned_version.setText(R.string.cloned_version_30);
 																																	cloned_version_info.setText(R.string.cloned_version_desc_30);
-																																	disable_reward_ad.setText(R.string.disable_rewarded_ads_30);
-																																	disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_30);
 																																	disable_notification.setText(R.string.disable_notification_30);
 																																	disable_notification_info.setText(R.string.disable_notification_desc_30);
 																																	hide_stock_patched.setText(R.string.hide_stock_patched_30);
@@ -7167,8 +6839,6 @@ public class MainActivity extends AppCompatActivity {
 																																		list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_31);
 																																		cloned_version.setText(R.string.cloned_version_31);
 																																		cloned_version_info.setText(R.string.cloned_version_desc_31);
-																																		disable_reward_ad.setText(R.string.disable_rewarded_ads_31);
-																																		disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_31);
 																																		disable_notification.setText(R.string.disable_notification_31);
 																																		disable_notification_info.setText(R.string.disable_notification_desc_31);
 																																		hide_stock_patched.setText(R.string.hide_stock_patched_31);
@@ -7244,8 +6914,6 @@ public class MainActivity extends AppCompatActivity {
 																																			list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_32);
 																																			cloned_version.setText(R.string.cloned_version_32);
 																																			cloned_version_info.setText(R.string.cloned_version_desc_32);
-																																			disable_reward_ad.setText(R.string.disable_rewarded_ads_32);
-																																			disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_32);
 																																			disable_notification.setText(R.string.disable_notification_32);
 																																			disable_notification_info.setText(R.string.disable_notification_desc_32);
 																																			hide_stock_patched.setText(R.string.hide_stock_patched_32);
@@ -7321,8 +6989,6 @@ public class MainActivity extends AppCompatActivity {
 																																				list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_33);
 																																				cloned_version.setText(R.string.cloned_version_33);
 																																				cloned_version_info.setText(R.string.cloned_version_desc_33);
-																																				disable_reward_ad.setText(R.string.disable_rewarded_ads_33);
-																																				disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_33);
 																																				disable_notification.setText(R.string.disable_notification_33);
 																																				disable_notification_info.setText(R.string.disable_notification_desc_33);
 																																				hide_stock_patched.setText(R.string.hide_stock_patched_33);
@@ -7398,8 +7064,6 @@ public class MainActivity extends AppCompatActivity {
 																																					list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_34);
 																																					cloned_version.setText(R.string.cloned_version_34);
 																																					cloned_version_info.setText(R.string.cloned_version_desc_34);
-																																					disable_reward_ad.setText(R.string.disable_rewarded_ads_34);
-																																					disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_34);
 																																					disable_notification.setText(R.string.disable_notification_34);
 																																					disable_notification_info.setText(R.string.disable_notification_desc_34);
 																																					hide_stock_patched.setText(R.string.hide_stock_patched_34);
@@ -7475,8 +7139,6 @@ public class MainActivity extends AppCompatActivity {
 																																						list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_35);
 																																						cloned_version.setText(R.string.cloned_version_35);
 																																						cloned_version_info.setText(R.string.cloned_version_desc_35);
-																																						disable_reward_ad.setText(R.string.disable_rewarded_ads_35);
-																																						disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_35);
 																																						disable_notification.setText(R.string.disable_notification_35);
 																																						disable_notification_info.setText(R.string.disable_notification_desc_35);
 																																						hide_stock_patched.setText(R.string.hide_stock_patched_35);
@@ -7552,8 +7214,6 @@ public class MainActivity extends AppCompatActivity {
 																																							list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_36);
 																																							cloned_version.setText(R.string.cloned_version_36);
 																																							cloned_version_info.setText(R.string.cloned_version_desc_36);
-																																							disable_reward_ad.setText(R.string.disable_rewarded_ads_36);
-																																							disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_36);
 																																							disable_notification.setText(R.string.disable_notification_36);
 																																							disable_notification_info.setText(R.string.disable_notification_desc_36);
 																																							hide_stock_patched.setText(R.string.hide_stock_patched_36);
@@ -7629,8 +7289,6 @@ public class MainActivity extends AppCompatActivity {
 																																								list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_37);
 																																								cloned_version.setText(R.string.cloned_version_37);
 																																								cloned_version_info.setText(R.string.cloned_version_desc_37);
-																																								disable_reward_ad.setText(R.string.disable_rewarded_ads_37);
-																																								disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_37);
 																																								disable_notification.setText(R.string.disable_notification_37);
 																																								disable_notification_info.setText(R.string.disable_notification_desc_37);
 																																								hide_stock_patched.setText(R.string.hide_stock_patched_37);
@@ -7706,8 +7364,6 @@ public class MainActivity extends AppCompatActivity {
 																																									list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_38);
 																																									cloned_version.setText(R.string.cloned_version_38);
 																																									cloned_version_info.setText(R.string.cloned_version_desc_38);
-																																									disable_reward_ad.setText(R.string.disable_rewarded_ads_38);
-																																									disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_38);
 																																									disable_notification.setText(R.string.disable_notification_38);
 																																									disable_notification_info.setText(R.string.disable_notification_desc_38);
 																																									hide_stock_patched.setText(R.string.hide_stock_patched_38);
@@ -7783,8 +7439,6 @@ public class MainActivity extends AppCompatActivity {
 																																										list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_39);
 																																										cloned_version.setText(R.string.cloned_version_39);
 																																										cloned_version_info.setText(R.string.cloned_version_desc_39);
-																																										disable_reward_ad.setText(R.string.disable_rewarded_ads_39);
-																																										disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_39);
 																																										disable_notification.setText(R.string.disable_notification_39);
 																																										disable_notification_info.setText(R.string.disable_notification_desc_39);
 																																										hide_stock_patched.setText(R.string.hide_stock_patched_39);
@@ -7860,8 +7514,6 @@ public class MainActivity extends AppCompatActivity {
 																																											list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_40);
 																																											cloned_version.setText(R.string.cloned_version_40);
 																																											cloned_version_info.setText(R.string.cloned_version_desc_40);
-																																											disable_reward_ad.setText(R.string.disable_rewarded_ads_40);
-																																											disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_40);
 																																											disable_notification.setText(R.string.disable_notification_40);
 																																											disable_notification_info.setText(R.string.disable_notification_desc_40);
 																																											hide_stock_patched.setText(R.string.hide_stock_patched_40);
@@ -7937,8 +7589,6 @@ public class MainActivity extends AppCompatActivity {
 																																												list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_41);
 																																												cloned_version.setText(R.string.cloned_version_41);
 																																												cloned_version_info.setText(R.string.cloned_version_desc_41);
-																																												disable_reward_ad.setText(R.string.disable_rewarded_ads_41);
-																																												disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_41);
 																																												disable_notification.setText(R.string.disable_notification_41);
 																																												disable_notification_info.setText(R.string.disable_notification_desc_41);
 																																												hide_stock_patched.setText(R.string.hide_stock_patched_41);
@@ -8014,8 +7664,6 @@ public class MainActivity extends AppCompatActivity {
 																																													list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_42);
 																																													cloned_version.setText(R.string.cloned_version_42);
 																																													cloned_version_info.setText(R.string.cloned_version_desc_42);
-																																													disable_reward_ad.setText(R.string.disable_rewarded_ads_42);
-																																													disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_42);
 																																													disable_notification.setText(R.string.disable_notification_42);
 																																													disable_notification_info.setText(R.string.disable_notification_desc_42);
 																																													hide_stock_patched.setText(R.string.hide_stock_patched_42);
@@ -8091,8 +7739,6 @@ public class MainActivity extends AppCompatActivity {
 																																														list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_43);
 																																														cloned_version.setText(R.string.cloned_version_43);
 																																														cloned_version_info.setText(R.string.cloned_version_desc_43);
-																																														disable_reward_ad.setText(R.string.disable_rewarded_ads_43);
-																																														disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_43);
 																																														disable_notification.setText(R.string.disable_notification_43);
 																																														disable_notification_info.setText(R.string.disable_notification_desc_43);
 																																														hide_stock_patched.setText(R.string.hide_stock_patched_43);
@@ -8168,8 +7814,6 @@ public class MainActivity extends AppCompatActivity {
 																																															list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_44);
 																																															cloned_version.setText(R.string.cloned_version_44);
 																																															cloned_version_info.setText(R.string.cloned_version_desc_44);
-																																															disable_reward_ad.setText(R.string.disable_rewarded_ads_44);
-																																															disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_44);
 																																															disable_notification.setText(R.string.disable_notification_44);
 																																															disable_notification_info.setText(R.string.disable_notification_desc_44);
 																																															hide_stock_patched.setText(R.string.hide_stock_patched_44);
@@ -8245,8 +7889,6 @@ public class MainActivity extends AppCompatActivity {
 																																																list_auto_refresh_info.setText(R.string.list_auto_refresh_desc_45);
 																																																cloned_version.setText(R.string.cloned_version_45);
 																																																cloned_version_info.setText(R.string.cloned_version_desc_45);
-																																																disable_reward_ad.setText(R.string.disable_rewarded_ads_45);
-																																																disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc_45);
 																																																disable_notification.setText(R.string.disable_notification_45);
 																																																disable_notification_info.setText(R.string.disable_notification_desc_45);
 																																																hide_stock_patched.setText(R.string.hide_stock_patched_45);
@@ -8480,8 +8122,6 @@ public class MainActivity extends AppCompatActivity {
 		list_auto_refresh_info.setText(R.string.list_auto_refresh_desc);
 		cloned_version.setText(R.string.cloned_version);
 		cloned_version_info.setText(R.string.cloned_version_desc);
-		disable_reward_ad.setText(R.string.disable_rewarded_ads);
-		disable_reward_ad_info.setText(R.string.disable_rewarded_ads_desc);
 		disable_notification.setText(R.string.disable_notification);
 		disable_notification_info.setText(R.string.disable_notification_desc);
 		hide_stock_patched.setText(R.string.hide_stock_patched);
@@ -8731,62 +8371,6 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	
-	public void _Rewarded_AdMob() {
-		
-		    AdRequest adRequest = new AdRequest.Builder().build();
-		
-		    RewardedAd.load(MainActivity.this, AD_UNIT.getString("ADS", ""),
-		      adRequest, new RewardedAdLoadCallback() {
-			        @Override
-			        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-				             
-				          mRewardedAd = null;
-			}
-			        @Override
-			        public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-				          mRewardedAd = rewardedAd;
-				           
-				mRewardedAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-					  @Override
-					  public void onAdShowedFullScreenContent() {
-						       
-					}
-					  @Override
-					  public void onAdFailedToShowFullScreenContent(AdError adError) {
-						       
-					}
-					  @Override
-					  public void onAdDismissedFullScreenContent() {
-						      _Rewarded_AdMob();
-						    mRewardedAd = null;
-						      }
-					    });
-				  }
-		});
-	}
-	
-	
-	public void _Ads_AdMob() {
-		Timer = new TimerTask() {
-			@Override
-			public void run() {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						        MobileAds.initialize(MainActivity.this, new OnInitializationCompleteListener() {
-								            @Override
-								            public void onInitializationComplete(InitializationStatus initializationStatus) {
-										            }
-								        });
-						MobileAds.setAppMuted(true);
-					}
-				});
-			}
-		};
-		_timer.schedule(Timer, (int)(100));
-	}
-	
-	
 	public void _API() {
 		try {
 				Connection.startRequestNetwork(RequestNetworkController.GET, this.getString(R.string.api_url), "null", _Connection_request_listener);
@@ -8826,7 +8410,6 @@ public class MainActivity extends AppCompatActivity {
 							app_changelogs.setText(Datas.get("App_Changelogs").toString());
 							Current_Version = Double.parseDouble(local_version.getText().toString());
 							Latest_Version = Double.parseDouble(Datas.get("Server").toString());
-							AD_UNIT.edit().putString("ADS", Datas.get("Rewarded_Ads").toString()).commit();
 							if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
 								list_items_1.setAdapter(new List_items_1Adapter(stock_patched));
 								list_items_2.setAdapter(new List_items_2Adapter(amoled_patched));
@@ -8917,8 +8500,6 @@ public class MainActivity extends AppCompatActivity {
 		title_header_separator.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), 1);
 		cloned_version.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), 1);
 		cloned_version_info.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), 1);
-		disable_reward_ad.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), 1);
-		disable_reward_ad_info.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), 1);
 		disable_notification.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), 1);
 		disable_notification_info.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), 1);
 		hide_stock_patched.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), 1);
@@ -8932,7 +8513,6 @@ public class MainActivity extends AppCompatActivity {
 		main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_17.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
@@ -9095,7 +8675,6 @@ public class MainActivity extends AppCompatActivity {
 					icon_switch.setAlpha((float)(1.0d));
 					icon_update.setAlpha((float)(1.0d));
 					main_body.setAlpha((float)(0.50d));
-					_GDPR_Consent();
 					_API_Token();
 					_Updater();
 				}
@@ -9277,16 +8856,13 @@ public class MainActivity extends AppCompatActivity {
 		}
 		
 		CHECK = 0;
-		_Rewarded_AdMob();
 		_Layout_Transition();
 		_Language_Fixer();
 		_Hide_Patched();
-		_Switch_Fixer();
 		_Language_UI();
 		_List_Updater();
 		_Informations();
 		_Scroll_Fixed();
-		_Ads_AdMob();
 		_Theme_UI();
 		_Reminder();
 		_Clickers();
@@ -9550,30 +9126,6 @@ public class MainActivity extends AppCompatActivity {
 																	@Override
 																	public void run() {
 																		list_auto_refresh_switch.setChecked(false);
-																		Timer = new TimerTask() {
-																			@Override
-																			public void run() {
-																				runOnUiThread(new Runnable() {
-																					@Override
-																					public void run() {
-																						disable_reward_ad_switch.setChecked(true);
-																						Timer = new TimerTask() {
-																							@Override
-																							public void run() {
-																								runOnUiThread(new Runnable() {
-																									@Override
-																									public void run() {
-																										disable_reward_ad_switch.setChecked(false);
-																									}
-																								});
-																							}
-																						};
-																						_timer.schedule(Timer, (int)(800));
-																					}
-																				});
-																			}
-																		};
-																		_timer.schedule(Timer, (int)(600));
 																	}
 																});
 															}
@@ -9677,82 +9229,6 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	
-	public void _GDRP_Message() {
-		try {
-				UserMessagingPlatform.loadConsentForm(this, new UserMessagingPlatform.OnConsentFormLoadSuccessListener() {
-						@Override
-						public void onConsentFormLoadSuccess(ConsentForm consentForm) {
-								MainActivity.this.consentForm = consentForm;
-								if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
-										consentForm.show(MainActivity.this, new ConsentForm.OnConsentFormDismissedListener() {
-												@Override
-												public void onConsentFormDismissed(@Nullable FormError formError) {
-														if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
-																_Personalized_Ads();
-														} else {
-																_Non_Personalized_Ads();
-														}
-												}
-										}
-										);
-								} else if (consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
-										_Personalized_Ads();
-								} else {
-										_Personalized_Ads();
-								}
-						}
-				},
-				new UserMessagingPlatform.OnConsentFormLoadFailureListener() {
-						@Override
-						public void onConsentFormLoadFailure(FormError formError) {
-						}
-				}
-				);
-		}
-		catch (Exception e) {
-		}
-		
-	}
-	
-	
-	public void _GDPR_Consent() {
-		ConsentRequestParameters params = new ConsentRequestParameters
-		.Builder()
-		.setTagForUnderAgeOfConsent(false)
-		.build();
-		
-		try {
-				consentInformation = UserMessagingPlatform.getConsentInformation(this);
-				consentInformation.requestConsentInfoUpdate(this, params, new ConsentInformation.OnConsentInfoUpdateSuccessListener() {
-						@Override
-						public void onConsentInfoUpdateSuccess() {
-								if (consentInformation.isConsentFormAvailable()) {
-										_GDRP_Message();
-								}
-						}
-				},
-				new ConsentInformation.OnConsentInfoUpdateFailureListener() {
-						@Override
-						public void onConsentInfoUpdateFailure(FormError formError) {
-						}
-				});
-		}
-		catch (Exception e) {
-		}
-		
-	}
-	
-	
-	public void _Personalized_Ads() {
-		_Rewarded_AdMob();
-	}
-	
-	
-	public void _Non_Personalized_Ads() {
-		_Rewarded_AdMob();
-	}
-	
-	
 	public void _Original_Theme() {
 		box_settings_icon_close.setBackgroundColor(Color.TRANSPARENT);
 		box_icon_close.setBackgroundColor(Color.TRANSPARENT);
@@ -9766,7 +9242,6 @@ public class MainActivity extends AppCompatActivity {
 		main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_17.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
@@ -9793,7 +9268,6 @@ public class MainActivity extends AppCompatActivity {
 		title_header.setTextColor(0xFF1DB954);
 		cloned_version.setTextColor(0xFF1DB954);
 		list_auto_refresh.setTextColor(0xFF1DB954);
-		disable_reward_ad.setTextColor(0xFF1DB954);
 		disable_notification.setTextColor(0xFF1DB954);
 		hide_stock_patched.setTextColor(0xFF1DB954);
 		hide_amoled_patched.setTextColor(0xFF1DB954);

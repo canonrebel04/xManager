@@ -31,8 +31,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.Glide;
-import com.google.android.ads.consent.*;
-import com.google.android.gms.ads.MobileAds;
 import com.wuyr.rippleanimation.*;
 import java.io.*;
 import java.text.*;
@@ -60,7 +58,6 @@ public class SplashActivity extends AppCompatActivity {
 		setContentView(R.layout.splash);
 		initialize(_savedInstanceState);
 		
-		MobileAds.initialize(this);
 		
 		initializeLogic();
 	}
