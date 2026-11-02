@@ -72,7 +72,22 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           script: echo "Generated AVD snapshot for caching."
+      # A11Y-11: ATF runs as its own blocking step, so a new ERROR-level finding fails the job.
+      # Known issues (each with a reason and backlog ID) go in the ATF test's KNOWN_ISSUES list.
+      - name: Accessibility checks (ATF, blocking)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: x86_64
+          target: ${{ matrix.api-level == 34 && 'google_apis' || 'default' }}
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: |
+            ./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.xc3fff0e.xmanager.AccessibilityChecksTest --stacktrace; status=$?; mkdir -p a11y-reports; cp -r app/build/reports/androidTests/connected/. a11y-reports/ || true; exit $status
       - name: Instrumented smoke test
+        # Run even when the ATF step failed, so both results are reported.
+        if: ${{ !cancelled() }}
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ matrix.api-level }}
@@ -84,7 +99,7 @@ jobs:
           script: |
             adb logcat -c
             adb logcat -v time > logcat.txt &
-            ./gradlew :app:connectedDebugAndroidTest --stacktrace || (adb logcat -d -b crash > crash.txt; exit 1)
+            ./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.notClass=com.xc3fff0e.xmanager.AccessibilityChecksTest --stacktrace || (adb logcat -d -b crash > crash.txt; exit 1)
       - name: Upload instrumented reports + logcat
         if: always()
         uses: actions/upload-artifact@v4
@@ -93,5 +108,6 @@ jobs:
           path: |
             app/build/reports/androidTests/connected/
             app/build/outputs/androidTest-results/
+            a11y-reports/
             logcat.txt
             crash.txt

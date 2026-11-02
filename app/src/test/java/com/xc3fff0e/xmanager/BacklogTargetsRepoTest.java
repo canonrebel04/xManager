@@ -11,7 +11,6 @@ import java.nio.file.Path;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -38,7 +37,6 @@ public class BacklogTargetsRepoTest {
 	 * continue-on-error.
 	 */
 	@Test
-	@Ignore("Pending: A11Y-11 lands in a follow-up PR")
 	public void A11Y11_ciRunsAccessibilityChecksAsBlockingStep() {
 		String wf = readRepoFile(WORKFLOW);
 		assertTrue("workflow never names AccessibilityChecksTest", wf.contains("AccessibilityChecksTest"));
@@ -56,7 +54,6 @@ public class BacklogTargetsRepoTest {
 	 * shrinks as issues are fixed.
 	 */
 	@Test
-	@Ignore("Pending: A11Y-11 lands in a follow-up PR")
 	public void A11Y11_accessibilityChecks_haveSuppressionList() {
 		String src = code(readRepoFile(ANDROID_TEST + "AccessibilityChecksTest.java"));
 		assertTrue("AccessibilityChecksTest has no suppression list (setSuppressingResultMatcher)",
@@ -71,7 +68,6 @@ public class BacklogTargetsRepoTest {
 	 * emulator until it turns into an ANR or a flaky failure.
 	 */
 	@Test
-	@Ignore("Pending: CI-18 lands in a follow-up PR")
 	public void CI18_smokeTest_hasNoFixedSleeps() {
 		String src = code(readRepoFile(ANDROID_TEST + "SmokeTest.java"));
 		Matcher m = Pattern.compile("\\b(Thread\\.)?sleep\\s*\\(").matcher(src);
@@ -85,7 +81,6 @@ public class BacklogTargetsRepoTest {
 	 * software-rendered emulator (docs/emulator/PR2_RESULTS.md).
 	 */
 	@Test
-	@Ignore("Pending: CI-18 lands in a follow-up PR")
 	public void CI18_smokeTest_launchTimeoutAtLeast30s() {
 		String src = code(readRepoFile(ANDROID_TEST + "SmokeTest.java"));
 		Matcher m = Pattern.compile("TIMEOUT\\s*=\\s*([0-9_]+)L?\\s*;").matcher(src);

@@ -34,8 +34,14 @@ import org.junit.runner.RunWith;
 public class SmokeTest {
 
 	private static final String PKG = "com.xc3fff0e.xmanager";
-	private static final long TIMEOUT = 15_000;
+	// 30 s: the 15 s value timed out on a software-rendered emulator (PR2_RESULTS.md).
+	private static final long TIMEOUT = 30_000;
+	private static final long POLL_MS = 250;
 	private UiDevice device;
+
+	private interface Condition {
+		boolean holds();
+	}
 
 	@Before
 	public void setUp() {
@@ -48,8 +54,24 @@ public class SmokeTest {
 		return v.get();
 	}
 
-	private static void sleep(long ms) {
-		try { Thread.sleep(ms); } catch (InterruptedException ignored) { }
+	/**
+	 * Waits for app state instead of a fixed pause (CI-18): lets the main thread go idle, checks
+	 * the condition, and otherwise blocks until the next window update (at most POLL_MS).
+	 */
+	private boolean waitFor(Condition condition) {
+		long deadline = android.os.SystemClock.uptimeMillis() + TIMEOUT;
+		while (true) {
+			InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+			if (condition.holds()) return true;
+			if (android.os.SystemClock.uptimeMillis() >= deadline) return false;
+			device.waitForWindowUpdate(PKG, POLL_MS);
+		}
+	}
+
+	private void awaitVisibility(ActivityScenario<MainActivity> s, int id, int expected) {
+		assertTrue("view " + InstrumentationRegistry.getInstrumentation().getTargetContext()
+						.getResources().getResourceEntryName(id) + " never reached visibility " + expected,
+				waitFor(() -> visibility(s, id) == expected));
 	}
 
 	@Test
@@ -65,7 +87,12 @@ public class SmokeTest {
 		// on small screens (e.g. the 320x640 default CI AVD), so UiAutomator can't see it there.
 		assertTrue("MainActivity not reached",
 				device.wait(Until.hasObject(By.res(PKG, "box_switch")), TIMEOUT));
-		sleep(3000); // give the (failing) API call and timers time to run
+		// Wait until the update-server call has finished: with no api_url (CI) the inline error
+		// view or its snackbar shows; with one configured the LATEST label fills in.
+		assertTrue("update-server call never finished",
+				waitFor(() -> device.hasObject(By.res(PKG, "api_error_retry"))
+						|| device.hasObject(By.res(PKG, "snackbar_text"))));
+		device.waitForIdle();
 		assertEquals("app left foreground (crash?)", PKG, device.getCurrentPackageName());
 	}
 
@@ -80,33 +107,28 @@ public class SmokeTest {
 
 			// Settings
 			onView(withId(R.id.box_switch)).perform(click());
-			sleep(800);
-			assertEquals(View.VISIBLE, visibility(s, R.id.main_scroll_settings));
+			awaitVisibility(s, R.id.main_scroll_settings, View.VISIBLE);
 			onView(withId(R.id.box_settings_icon_close)).perform(click());
-			sleep(800);
-			assertEquals(View.VISIBLE, visibility(s, R.id.main_refresh_layout));
+			awaitVisibility(s, R.id.main_refresh_layout, View.VISIBLE);
 
 			// Experiments
 			onView(withId(R.id.box_experiment)).perform(click());
-			sleep(800);
-			assertEquals(View.VISIBLE, visibility(s, R.id.main_box_16));
+			awaitVisibility(s, R.id.main_box_16, View.VISIBLE);
 			pressBack();
-			sleep(800);
-			assertEquals(View.VISIBLE, visibility(s, R.id.main_refresh_layout));
+			awaitVisibility(s, R.id.main_refresh_layout, View.VISIBLE);
 
 			// About (scrolled into view by performClick on the UI thread; it sits low on the page)
 			s.onActivity(a -> a.findViewById(R.id.box_about).performClick());
-			sleep(800);
-			assertEquals(View.VISIBLE, visibility(s, R.id.main_scroll_about));
+			awaitVisibility(s, R.id.main_scroll_about, View.VISIBLE);
 			pressBack();
-			sleep(800);
-			assertEquals(View.GONE, visibility(s, R.id.main_scroll_about));
+			awaitVisibility(s, R.id.main_scroll_about, View.GONE);
 
 			// Settings dialog (opens app-info shortcuts for the managed apps)
 			s.onActivity(a -> a.findViewById(R.id.box_settings).performClick());
-			sleep(800);
+			device.waitForIdle();
 			pressBack();
-			sleep(500);
+			device.waitForIdle();
+			assertEquals("app left foreground (crash?)", PKG, device.getCurrentPackageName());
 		}
 	}
 
@@ -114,9 +136,12 @@ public class SmokeTest {
 	public void rotate_doesNotCrash() throws Exception {
 		FirstRun.markDone();
 		try (ActivityScenario<MainActivity> s = ActivityScenario.launch(MainActivity.class)) {
-			sleep(1000);
+			assertTrue("main header not shown before rotating",
+					device.wait(Until.hasObject(By.res(PKG, "box_switch")), TIMEOUT));
 			device.setOrientationLeft();
-			sleep(1500);
+			device.waitForIdle();
+			assertTrue("main header not shown in landscape",
+					device.wait(Until.hasObject(By.res(PKG, "box_switch")), TIMEOUT));
 			device.setOrientationNatural();
 			assertTrue("main header not shown",
 					device.wait(Until.hasObject(By.res(PKG, "box_switch")), TIMEOUT));
