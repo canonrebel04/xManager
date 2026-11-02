@@ -8853,7 +8853,7 @@ public class MainActivity extends AppCompatActivity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 				CharSequence name = "Null";
 				String description = "Null";
-				int importance = NotificationManager.IMPORTANCE_MAX;
+				int importance = NotificationManager.IMPORTANCE_HIGH;
 				NotificationChannel channel = new NotificationChannel("id 1", name, importance);
 				channel.setDescription(description);
 				

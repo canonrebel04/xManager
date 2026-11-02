@@ -127,7 +127,13 @@ public class SketchwareUtil {
 
     public static void hideKeyboard(Context _context) {
         InputMethodManager _inputMethodManager = (InputMethodManager) _context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        _inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        // toggleSoftInput(HIDE_IMPLICIT_ONLY, 0) passed a hide flag as a show flag and toggled
+        // (could even open) the keyboard; hide it from the focused window instead.
+        if (_context instanceof Activity) {
+            View _focus = ((Activity) _context).getCurrentFocus();
+            if (_focus == null) _focus = ((Activity) _context).getWindow().getDecorView();
+            _inputMethodManager.hideSoftInputFromWindow(_focus.getWindowToken(), 0);
+        }
     }
     
     public static void showKeyboard(Context _context) {
