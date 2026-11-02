@@ -135,6 +135,18 @@ public class RequestNetworkController {
 					try (ResponseBody body = response.body()) {
 						responseBody = body != null ? body.string().trim() : "";
 					}
+					if (!response.isSuccessful()) {
+						// 4xx/5xx is a failed request, not data: callers parse onResponse bodies as JSON.
+						final String error = "HTTP " + response.code()
+								+ (response.message().isEmpty() ? "" : " " + response.message());
+						requestNetwork.getActivity().runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								requestListener.onErrorResponse(tag, error);
+							}
+						});
+						return;
+					}
 					final Headers b = response.headers();
 					requestNetwork.getActivity().runOnUiThread(new Runnable() {
 						@Override

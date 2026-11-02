@@ -83,8 +83,16 @@ public class MainActivity extends AppCompatActivity {
 	private String Installed_Checker = "";
 	private String Installed_Checker_Cloned = "";
 	private HashMap<String, Object> Datas = new HashMap<>();
-	private double Current_Version = 0;
-	private double Latest_Version = 0;
+	private String Current_Version = "0";
+	private String Latest_Version = "0";
+	/** True while _Theme_UI() runs, so select_theme.setSelection() can't re-enter it. */
+	private boolean themeUiSyncing = false;
+	/** True while _Language_UI() runs, so select_language.setSelection() can't re-enter it. */
+	private boolean languageUiSyncing = false;
+	/** True once the update server returned a readable response (Datas is populated). */
+	private boolean apiAvailable = false;
+	/** True while an update-server request is outstanding, so retries don't stack up. */
+	private boolean apiRequestInFlight = false;
 	private double CLICKER_1 = 0;
 	private double CLICKER_2 = 0;
 	private double CLICKER_3 = 0;
@@ -909,7 +917,7 @@ public class MainActivity extends AppCompatActivity {
 							com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Slow or No Internet Connection. Try again later.", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 						}
 						else {
-							if (Latest_Version > Current_Version) {
+							if (VersionUtil.compare(Latest_Version, Current_Version) > 0) {
 								com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Checking Updates...", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 								Timer = new TimerTask() {
 									@Override
@@ -962,7 +970,7 @@ public class MainActivity extends AppCompatActivity {
 								_timer.schedule(Timer, (int)(2800));
 							}
 							else {
-								if (Latest_Version == Current_Version) {
+								if (VersionUtil.compare(Latest_Version, Current_Version) == 0) {
 									com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Checking Updates...", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 									Timer = new TimerTask() {
 										@Override
@@ -1275,6 +1283,10 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
+				if (themeUiSyncing) {
+					// _Theme_UI() is moving the spinner to the saved theme; don't re-apply it.
+					return;
+				}
 				if (_position == 0) {
 					THEME.edit().putString("THEME", "0").apply();
 					COUNTER = 1;
@@ -1432,6 +1444,10 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
+				if (languageUiSyncing) {
+					// _Language_UI() is moving the spinner to the saved language; don't re-apply it.
+					return;
+				}
 				if (_position == 0) {
 					LANGUAGE.edit().putString("LANGUAGE", "0").apply();
 					COUNTER = 1;
@@ -1895,6 +1911,18 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
+		main_box_1.setAccessibilityDelegate(new View.AccessibilityDelegate() {
+			@Override
+			public void onInitializeAccessibilityNodeInfo(View host, android.view.accessibility.AccessibilityNodeInfo info) {
+				super.onInitializeAccessibilityNodeInfo(host, info);
+				// The title can be scrolled off while the expanded list is on screen, so the card
+				// needs its own label; include the (translated) title and the visible latest version.
+				TextView latest = sub_1.getVisibility() == View.VISIBLE ? sub_1 : sub_3;
+				if (latest.getText().length() > 0) {
+					info.setContentDescription(getString(R.string.cd_main_box_1_loaded, title_1.getText(), sub_text_1.getText(), latest.getText()));
+				}
+			}
+		});
 		main_box_1.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
@@ -2715,18 +2743,26 @@ public class MainActivity extends AppCompatActivity {
 				final String _tag = _param1;
 				final String _response = _param2;
 				final HashMap<String, Object> _responseHeaders = _param3;
+				apiRequestInFlight = false;
 				Timer = new TimerTask() {
 						@Override
 						public void run() {
 								runOnUiThread(new Runnable() {
 										@Override
 										public void run() {
+												HashMap<String, Object> parsed = null;
 												try {
-														Datas = new Gson().fromJson(_response, new TypeToken<HashMap<String, Object>>(){}.getType());
-														_Backbone();
+														parsed = new Gson().fromJson(_response, new TypeToken<HashMap<String, Object>>(){}.getType());
 												} catch (Exception e) {
-														_Backbone();
+														parsed = null;
 												}
+												if (parsed == null) {
+														_showApiUnavailable(getString(R.string.api_bad_response));
+														return;
+												}
+												Datas = parsed;
+												apiAvailable = true;
+												_Backbone();
 												
 										}
 								});
@@ -2740,7 +2776,8 @@ public class MainActivity extends AppCompatActivity {
 			public void onErrorResponse(String _param1, String _param2) {
 				final String _tag = _param1;
 				final String _message = _param2;
-				
+				apiRequestInFlight = false;
+				_showApiUnavailable(getString(R.string.api_unreachable, _message == null ? "unknown error" : _message));
 			}
 		};
 	}
@@ -2914,6 +2951,19 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Theme_UI() {
+		if (themeUiSyncing) {
+			return;
+		}
+		themeUiSyncing = true;
+		try {
+			_applyThemeUi();
+		} finally {
+			themeUiSyncing = false;
+		}
+	}
+	
+	
+	private void _applyThemeUi() {
 		if (THEME.getString("THEME", "").equals("0")) {
 			main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF000000}));
 			main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF000000}));
@@ -3855,7 +3905,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	public void _Updater() {
 		try {
-			if (Latest_Version > Current_Version) {
+			if (VersionUtil.compare(Latest_Version, Current_Version) > 0) {
 				try {
 					final AlertDialog.Builder Update_Authorized = new AlertDialog.Builder(MainActivity.this, R.style.Alert_Dialog);
 					
@@ -3896,7 +3946,7 @@ public class MainActivity extends AppCompatActivity {
 				}
 			}
 			else {
-				if (Latest_Version < Current_Version) {
+				if (VersionUtil.compare(Latest_Version, Current_Version) < 0) {
 					try {
 						main_body_optimization.setVisibility(View.VISIBLE);
 						box_header.setVisibility(View.GONE);
@@ -4440,6 +4490,19 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Language_UI() {
+		if (languageUiSyncing) {
+			return;
+		}
+		languageUiSyncing = true;
+		try {
+			_applyLanguageUi();
+		} finally {
+			languageUiSyncing = false;
+		}
+	}
+	
+	
+	private void _applyLanguageUi() {
 		if (LANGUAGE.getString("LANGUAGE", "").equals("0")) {
 			sub_text_installed.setText(R.string.installed);
 			main_title.setText(R.string.main_title);
@@ -7959,7 +8022,7 @@ public class MainActivity extends AppCompatActivity {
 		Language.add("Korean");
 		Language.add("Dutch");
 		Language.add("Vietnamese");
-		Language.add("German");
+		Language.add("German (informal, du)");
 		Language.add("Persian");
 		Language.add("Hebrew");
 		Language.add("Slovak");
@@ -7972,7 +8035,7 @@ public class MainActivity extends AppCompatActivity {
 		Language.add("Serbian (Latin)");
 		Language.add("Catalan");
 		Language.add("Latvian");
-		Language.add("German");
+		Language.add("German (formal, Sie)");
 		Language.add("Sinhala");
 		Language.add("Hungarian");
 		Language.add("Japanese");
@@ -8352,12 +8415,36 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _API() {
+		final String url = ApiConfig.url();
+		if (url.isEmpty()) {
+			_showApiUnavailable(getString(R.string.api_not_configured));
+			return;
+		}
+		if (!ApiConfig.isUsable(url)) {
+			_showApiUnavailable(getString(R.string.api_invalid_url));
+			return;
+		}
+		if (apiRequestInFlight) {
+			return;
+		}
+		apiRequestInFlight = true;
 		try {
-				Connection.startRequestNetwork(RequestNetworkController.GET, this.getString(R.string.api_url), "null", _Connection_request_listener);
+				Connection.startRequestNetwork(RequestNetworkController.GET, url, "null", _Connection_request_listener);
 		} catch (Exception e) {
-				com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Invalid API Response", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
+				apiRequestInFlight = false;
+				_showApiUnavailable(getString(R.string.api_unreachable, String.valueOf(e.getMessage())));
 		}
 		
+	}
+	
+	
+	/** Stops any loading indicator and tells the user why there is no version list. */
+	private void _showApiUnavailable(String message) {
+		if (main_refresh_layout == null) {
+			return;
+		}
+		main_refresh_layout.setRefreshing(false);
+		com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, message, com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 	}
 	
 	
@@ -8388,8 +8475,13 @@ public class MainActivity extends AppCompatActivity {
 							donors_1.setText(Datas.get("Supporters").toString());
 							hidden_update.setText(Datas.get("Update").toString());
 							app_changelogs.setText(Datas.get("App_Changelogs").toString());
-							Current_Version = Double.parseDouble(local_version.getText().toString());
-							Latest_Version = Double.parseDouble(Datas.get("Server").toString());
+							// Validate both before storing, so a bad value never reaches VersionUtil.compare() later.
+							String currentVersion = local_version.getText().toString();
+							String latestVersion = Datas.get("Server").toString();
+							VersionUtil.parse(currentVersion);
+							VersionUtil.parse(latestVersion);
+							Current_Version = currentVersion;
+							Latest_Version = latestVersion;
 							if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
 								list_items_1.setAdapter(new List_items_1Adapter(stock_patched));
 								list_items_2.setAdapter(new List_items_2Adapter(amoled_patched));
@@ -8662,6 +8754,13 @@ public class MainActivity extends AppCompatActivity {
 		main_refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
+				if (!apiAvailable) {
+					// No data yet: retry the request (or explain why it can't run) instead of
+					// refreshing lists that were never loaded.
+					main_refresh_layout.setRefreshing(false);
+					_API();
+					return;
+				}
 				try {
 					main_refresh_layout.setRefreshing(true);
 					Timer = new TimerTask() {
@@ -8849,11 +8948,22 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _API_Token() {
+		if (!apiAvailable) {
+			// Nothing loaded from the update server; don't leave the loader spinning.
+			main_body.setAlpha((float)(1.0d));
+			_API();
+			return;
+		}
 		main_refresh_layout.setRefreshing(true);
 		if (SketchwareUtil.isConnected(getApplicationContext())) {
 			try {
-				Current_Version = Double.parseDouble(local_version.getText().toString());
-				Latest_Version = Double.parseDouble(Datas.get("Server").toString());
+				// Validate both before storing, so a bad value never reaches VersionUtil.compare() later.
+				String currentVersion = local_version.getText().toString();
+				String latestVersion = Datas.get("Server").toString();
+				VersionUtil.parse(currentVersion);
+				VersionUtil.parse(latestVersion);
+				Current_Version = currentVersion;
+				Latest_Version = latestVersion;
 			} catch (Exception e) {
 			}
 			Timer = new TimerTask() {
@@ -8862,13 +8972,13 @@ public class MainActivity extends AppCompatActivity {
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							if (Latest_Version < Current_Version) {
+							if (VersionUtil.compare(Latest_Version, Current_Version) < 0) {
 								com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "API Token Expired", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 								main_refresh_layout.setRefreshing(false);
 								main_body.setAlpha((float)(1.0d));
 							}
 							else {
-								if (Latest_Version > Current_Version) {
+								if (VersionUtil.compare(Latest_Version, Current_Version) > 0) {
 									com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "New Update Available", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 									main_refresh_layout.setRefreshing(false);
 									main_body.setAlpha((float)(1.0d));

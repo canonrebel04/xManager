@@ -7,6 +7,7 @@
 	android:orientation="vertical">
 	<LinearLayout
 		android:id="@+id/box_header"
+		android:baselineAligned="false"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:paddingStart="10dp"
@@ -16,47 +17,61 @@
 		android:background="#171717"
 		android:gravity="center_horizontal|center_vertical"
 		android:orientation="horizontal">
-		<TextView
-			android:id="@+id/title_header"
-			android:layout_width="wrap_content"
+		<LinearLayout
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:paddingStart="5dp"
-			android:paddingEnd="0dp"
-			android:paddingTop="8dp"
-			android:paddingBottom="8dp"
-			android:text="@string/app_name"
-			android:textSize="20sp"
-			android:textStyle="bold"
-			android:textColor="#171717" />
-		<TextView
-			android:id="@+id/title_header_separator"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:paddingStart="3dp"
-			android:paddingEnd="3dp"
-			android:text="@string/ui_title_header_separator"
-			android:textSize="16sp"
-			android:textStyle="bold"
-			android:textColor="#171717" />
-		<TextView
-			android:id="@+id/title_header_beta"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="AD-FREE"
-			android:textSize="10sp"
-			android:textStyle="bold"
-			android:textColor="#171717" />
+			android:layout_weight="1"
+			android:gravity="center_vertical"
+			android:orientation="horizontal">
+			<TextView
+				android:id="@+id/title_header"
+				android:maxLines="1"
+				android:ellipsize="end"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingStart="5dp"
+				android:paddingEnd="0dp"
+				android:paddingTop="8dp"
+				android:paddingBottom="8dp"
+				android:text="@string/app_name"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:textColor="#171717" />
+			<TextView
+				android:id="@+id/title_header_separator"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingStart="3dp"
+				android:paddingEnd="3dp"
+				android:text="@string/ui_title_header_separator"
+				android:textSize="16sp"
+				android:textStyle="bold"
+				android:textColor="#171717" />
+			<TextView
+				android:id="@+id/title_header_beta"
+				android:maxLines="1"
+				android:ellipsize="end"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="AD-FREE"
+				android:textSize="10sp"
+				android:textStyle="bold"
+				android:textColor="#171717" />
+		</LinearLayout>
 		<LinearLayout
 			android:id="@+id/box_header_tab"
-			android:layout_width="match_parent"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:gravity="end|center_vertical"
 			android:orientation="horizontal">
 			<LinearLayout
 				android:id="@+id/box_experiment"
+				android:minWidth="48dp"
+				android:minHeight="48dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:padding="8dp"
+				android:gravity="center_horizontal|center_vertical"
 				android:orientation="horizontal">
 				<ImageView
 					android:id="@+id/icon_experiment"
@@ -69,6 +84,8 @@
 			</LinearLayout>
 			<LinearLayout
 				android:id="@+id/box_switch"
+				android:minWidth="48dp"
+				android:minHeight="48dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="3dp"
@@ -86,6 +103,8 @@
 			</LinearLayout>
 			<LinearLayout
 				android:id="@+id/box_update"
+				android:minWidth="48dp"
+				android:minHeight="48dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="3dp"
@@ -587,6 +606,8 @@
 				android:orientation="horizontal">
 				<LinearLayout
 					android:id="@+id/box_settings_icon_close"
+					android:minWidth="48dp"
+					android:minHeight="48dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:padding="8dp"
@@ -626,6 +647,7 @@
 						android:layout_weight="1">
 						<TextView
 							android:id="@+id/cloned_version"
+							android:labelFor="@id/cloned_version_switch"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:padding="8dp"
@@ -642,6 +664,8 @@
 						android:orientation="horizontal">
 						<Switch
 							android:id="@+id/cloned_version_switch"
+							android:minWidth="48dp"
+							android:minHeight="48dp"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_marginEnd="8dp"
@@ -698,6 +722,7 @@
 						android:layout_weight="1">
 						<TextView
 							android:id="@+id/list_auto_refresh"
+							android:labelFor="@id/list_auto_refresh_switch"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:padding="8dp"
@@ -714,6 +739,8 @@
 						android:orientation="horizontal">
 						<Switch
 							android:id="@+id/list_auto_refresh_switch"
+							android:minWidth="48dp"
+							android:minHeight="48dp"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_marginEnd="8dp"
@@ -770,6 +797,7 @@
 						android:layout_weight="1">
 						<TextView
 							android:id="@+id/disable_notification"
+							android:labelFor="@id/disable_notification_switch"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:padding="8dp"
@@ -786,6 +814,8 @@
 						android:orientation="horizontal">
 						<Switch
 							android:id="@+id/disable_notification_switch"
+							android:minWidth="48dp"
+							android:minHeight="48dp"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_marginEnd="8dp"
@@ -842,6 +872,7 @@
 						android:layout_weight="1">
 						<TextView
 							android:id="@+id/hide_stock_patched"
+							android:labelFor="@id/hide_stock_patched_switch"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:padding="8dp"
@@ -858,6 +889,8 @@
 						android:orientation="horizontal">
 						<Switch
 							android:id="@+id/hide_stock_patched_switch"
+							android:minWidth="48dp"
+							android:minHeight="48dp"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_marginEnd="8dp"
@@ -885,6 +918,7 @@
 						android:layout_weight="1">
 						<TextView
 							android:id="@+id/hide_amoled_patched"
+							android:labelFor="@id/hide_amoled_patched_switch"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:padding="8dp"
@@ -901,6 +935,8 @@
 						android:orientation="horizontal">
 						<Switch
 							android:id="@+id/hide_amoled_patched_switch"
+							android:minWidth="48dp"
+							android:minHeight="48dp"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:layout_marginEnd="8dp"
@@ -1015,12 +1051,14 @@
 				android:orientation="horizontal">
 				<LinearLayout
 					android:id="@+id/box_reboot"
+					android:minHeight="48dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginEnd="10dp"
 					android:paddingTop="10dp"
 					android:paddingBottom="10dp"
 					android:background="#616161"
+					android:gravity="center_vertical"
 					android:orientation="horizontal">
 					<TextView
 						android:id="@+id/reboot"
@@ -1036,11 +1074,13 @@
 				</LinearLayout>
 				<LinearLayout
 					android:id="@+id/box_reset_preferences"
+					android:minHeight="48dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:paddingTop="10dp"
 					android:paddingBottom="10dp"
 					android:background="#616161"
+					android:gravity="center_vertical"
 					android:orientation="horizontal">
 					<TextView
 						android:id="@+id/reset_preferences"
@@ -1082,6 +1122,8 @@
 				android:orientation="horizontal">
 				<LinearLayout
 					android:id="@+id/box_icon_close"
+					android:minWidth="48dp"
+					android:minHeight="48dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:padding="8dp"
@@ -2279,6 +2321,7 @@
 				android:orientation="vertical">
 				<LinearLayout
 					android:id="@+id/main_box_1"
+					android:contentDescription="@string/cd_main_box_1"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="10dp"
@@ -2938,6 +2981,7 @@
 						android:orientation="horizontal">
 						<LinearLayout
 							android:id="@+id/box_uninstall"
+							android:minHeight="48dp"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
@@ -2955,6 +2999,7 @@
 						</LinearLayout>
 						<LinearLayout
 							android:id="@+id/box_settings"
+							android:minHeight="48dp"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
@@ -2972,6 +3017,7 @@
 						</LinearLayout>
 						<LinearLayout
 							android:id="@+id/box_cache"
+							android:minHeight="48dp"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
@@ -2989,6 +3035,7 @@
 						</LinearLayout>
 						<LinearLayout
 							android:id="@+id/box_open"
+							android:minHeight="48dp"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"

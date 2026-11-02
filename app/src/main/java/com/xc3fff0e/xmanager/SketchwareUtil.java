@@ -84,23 +84,45 @@ public class SketchwareUtil {
     public static void sortListMap(final ArrayList<HashMap<String, Object>> listMap, final String key, final boolean isNumber, final boolean ascending) {
         Collections.sort(listMap, new Comparator<HashMap<String, Object>>() {
             public int compare(HashMap<String, Object> _compareMap1, HashMap<String, Object> _compareMap2) {
-                if (isNumber) {
-                    int _count1 = Integer.valueOf(_compareMap1.get(key).toString());
-                    int _count2 = Integer.valueOf(_compareMap2.get(key).toString());
-                    if (ascending) {
-                        return _count1 < _count2 ? -1 : _count1 < _count2 ? 1 : 0;
-                    } else {
-                        return _count1 > _count2 ? -1 : _count1 > _count2 ? 1 : 0;
-                    }
-                } else {
-                    if (ascending) {
-                        return (_compareMap1.get(key).toString()).compareTo(_compareMap2.get(key).toString());
-                    } else {
-                        return (_compareMap2.get(key).toString()).compareTo(_compareMap1.get(key).toString());
-                    }
-                }
+                int result = compareValues(_compareMap1.get(key), _compareMap2.get(key), isNumber);
+                return ascending ? result : -result;
             }
         });
+    }
+
+    /**
+     * Numeric values may be Strings ("3") or, when they come from Gson, Doubles (3.0); both are
+     * compared as numbers. Values that are not numbers sort after numbers, as text. Nulls sort last.
+     */
+    static int compareValues(Object a, Object b, boolean isNumber) {
+        if (a == null || b == null) {
+            return a == null ? (b == null ? 0 : 1) : -1;
+        }
+        if (isNumber) {
+            Double x = toNumber(a);
+            Double y = toNumber(b);
+            if (x != null && y != null) {
+                return Double.compare(x, y);
+            }
+            if (x != null) {
+                return -1;
+            }
+            if (y != null) {
+                return 1;
+            }
+        }
+        return a.toString().compareTo(b.toString());
+    }
+
+    private static Double toNumber(Object o) {
+        if (o instanceof Number) {
+            return ((Number) o).doubleValue();
+        }
+        try {
+            return Double.valueOf(o.toString().trim());
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     public static boolean isConnected(Context _context) {
