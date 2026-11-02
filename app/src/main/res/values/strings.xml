@@ -15,7 +15,7 @@
     <string name="settings_title" translatable="true">Settings</string>
     <string name="about_title" translatable="true">About</string>
     <string name="list_auto_refresh" translatable="true">LIST AUTO-REFRESH</string>
-    <string name="list_auto_refresh_desc" translatable="true">Enabling this will automatically refresh the list everytime you launch the application.\n\nYou can manually refresh the list by dragging the main screen downward.</string>
+    <string name="list_auto_refresh_desc" translatable="true">Enabling this will automatically refresh the list every time you launch the application.\n\nYou can manually refresh the list by dragging the main screen downward.</string>
     <string name="force_auto_install" translatable="true">FORCE AUTO-INSTALL</string>
     <string name="force_auto_install_desc" translatable="true">Enabling this will automatically install the patched application and update once downloaded.</string>
     <string name="show_themes" translatable="true">THEMES</string>
