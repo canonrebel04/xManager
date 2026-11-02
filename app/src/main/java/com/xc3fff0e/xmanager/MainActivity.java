@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
 	private String Installed_Checker = "";
 	private String Installed_Checker_Cloned = "";
 	private HashMap<String, Object> Datas = new HashMap<>();
-	private double Current_Version = 0;
-	private double Latest_Version = 0;
+	private String Current_Version = "0";
+	private String Latest_Version = "0";
 	private double CLICKER_1 = 0;
 	private double CLICKER_2 = 0;
 	private double CLICKER_3 = 0;
@@ -909,7 +909,7 @@ public class MainActivity extends AppCompatActivity {
 							com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Slow or No Internet Connection. Try again later.", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 						}
 						else {
-							if (Latest_Version > Current_Version) {
+							if (VersionUtil.compare(Latest_Version, Current_Version) > 0) {
 								com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Checking Updates...", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 								Timer = new TimerTask() {
 									@Override
@@ -962,7 +962,7 @@ public class MainActivity extends AppCompatActivity {
 								_timer.schedule(Timer, (int)(2800));
 							}
 							else {
-								if (Latest_Version == Current_Version) {
+								if (VersionUtil.compare(Latest_Version, Current_Version) == 0) {
 									com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Checking Updates...", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 									Timer = new TimerTask() {
 										@Override
@@ -3855,7 +3855,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	public void _Updater() {
 		try {
-			if (Latest_Version > Current_Version) {
+			if (VersionUtil.compare(Latest_Version, Current_Version) > 0) {
 				try {
 					final AlertDialog.Builder Update_Authorized = new AlertDialog.Builder(MainActivity.this, R.style.Alert_Dialog);
 					
@@ -3896,7 +3896,7 @@ public class MainActivity extends AppCompatActivity {
 				}
 			}
 			else {
-				if (Latest_Version < Current_Version) {
+				if (VersionUtil.compare(Latest_Version, Current_Version) < 0) {
 					try {
 						main_body_optimization.setVisibility(View.VISIBLE);
 						box_header.setVisibility(View.GONE);
@@ -8388,8 +8388,10 @@ public class MainActivity extends AppCompatActivity {
 							donors_1.setText(Datas.get("Supporters").toString());
 							hidden_update.setText(Datas.get("Update").toString());
 							app_changelogs.setText(Datas.get("App_Changelogs").toString());
-							Current_Version = Double.parseDouble(local_version.getText().toString());
-							Latest_Version = Double.parseDouble(Datas.get("Server").toString());
+							Current_Version = local_version.getText().toString();
+							VersionUtil.parse(Current_Version);
+							Latest_Version = Datas.get("Server").toString();
+							VersionUtil.parse(Latest_Version);
 							if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
 								list_items_1.setAdapter(new List_items_1Adapter(stock_patched));
 								list_items_2.setAdapter(new List_items_2Adapter(amoled_patched));
@@ -8852,8 +8854,10 @@ public class MainActivity extends AppCompatActivity {
 		main_refresh_layout.setRefreshing(true);
 		if (SketchwareUtil.isConnected(getApplicationContext())) {
 			try {
-				Current_Version = Double.parseDouble(local_version.getText().toString());
-				Latest_Version = Double.parseDouble(Datas.get("Server").toString());
+				Current_Version = local_version.getText().toString();
+				VersionUtil.parse(Current_Version);
+				Latest_Version = Datas.get("Server").toString();
+				VersionUtil.parse(Latest_Version);
 			} catch (Exception e) {
 			}
 			Timer = new TimerTask() {
@@ -8862,13 +8866,13 @@ public class MainActivity extends AppCompatActivity {
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							if (Latest_Version < Current_Version) {
+							if (VersionUtil.compare(Latest_Version, Current_Version) < 0) {
 								com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "API Token Expired", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 								main_refresh_layout.setRefreshing(false);
 								main_body.setAlpha((float)(1.0d));
 							}
 							else {
-								if (Latest_Version > Current_Version) {
+								if (VersionUtil.compare(Latest_Version, Current_Version) > 0) {
 									com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "New Update Available", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 									main_refresh_layout.setRefreshing(false);
 									main_body.setAlpha((float)(1.0d));

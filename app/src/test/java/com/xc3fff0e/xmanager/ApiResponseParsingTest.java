@@ -89,27 +89,38 @@ public class ApiResponseParsingTest {
 
 	@Test
 	public void versionCompare_simpleCase() {
-		assertTrue(Double.parseDouble("6.0") > Double.parseDouble("5.9"));
+		assertTrue(VersionUtil.compare("6.0", "5.9") > 0);
+		assertTrue(VersionUtil.compare("5.9", "6.0") < 0);
+		assertEquals(0, VersionUtil.compare("5.9", "5.9"));
 	}
 
 	/**
-	 * BUG (TEST_REPORT #2): versions are compared as doubles, so 5.10 is treated as OLDER than 5.9
-	 * and the app would show the "maintenance / unauthorised" screen instead of an update prompt.
+	 * Fixed (TEST_REPORT #2): versions used to be compared as doubles, so 5.10 was treated as
+	 * OLDER than 5.9. MainActivity now compares them segment by segment with VersionUtil.
 	 */
 	@Test
 	public void versionCompare_multiDigitMinor() {
-		double current = Double.parseDouble("5.9");
-		double latest = Double.parseDouble("5.10");
-		assertTrue("5.10 should be newer than 5.9", latest > current);
+		assertTrue("5.10 should be newer than 5.9", VersionUtil.compare("5.10", "5.9") > 0);
+		assertTrue(VersionUtil.compare("5.9", "5.10") < 0);
 	}
 
-	/** BUG (TEST_REPORT #2): three-part versions can't be parsed at all. */
+	/** Fixed (TEST_REPORT #2): three-part versions are parsed and compared. */
 	@Test
 	public void versionCompare_threePartVersion() {
-		try {
-			Double.parseDouble("5.9.1");
-		} catch (NumberFormatException e) {
-			fail("three-part versionName \"5.9.1\" cannot be parsed by Double.parseDouble");
-		}
+		assertTrue(VersionUtil.compare("5.9.1", "5.9") > 0);
+		assertTrue(VersionUtil.compare("5.9.1", "5.10") < 0);
+		assertEquals(0, VersionUtil.compare("5.9", "5.9.0"));
+	}
+
+	/** Gson hands back JSON numbers as Doubles, e.g. 6 becomes "6.0". */
+	@Test
+	public void versionCompare_gsonDoubleAndPrefix() {
+		assertEquals(0, VersionUtil.compare("6.0", "6"));
+		assertEquals(0, VersionUtil.compare("v5.9", "5.9"));
+	}
+
+	@Test(expected = NumberFormatException.class)
+	public void versionCompare_garbageThrows() {
+		VersionUtil.compare("maintenance", "5.9");
 	}
 }
