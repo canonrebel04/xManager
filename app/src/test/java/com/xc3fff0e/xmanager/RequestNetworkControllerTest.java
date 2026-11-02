@@ -115,15 +115,26 @@ public class RequestNetworkControllerTest {
 	}
 
 	@Test
-	public void httpErrorStatus_isStillDeliveredAsResponse() throws Exception {
-		// Documents current behaviour: non-2xx is NOT treated as an error (see ENHANCEMENTS REL-*).
+	public void httpServerError_isDeliveredAsError() throws Exception {
 		server.enqueue(new MockResponse().setResponseCode(503).setBody("maintenance"));
 		RequestNetwork rn = new RequestNetwork(activity);
 		Capture c = new Capture();
 		rn.startRequestNetwork(RequestNetworkController.GET, server.url("/x").toString(), "t", c);
 		await(c);
-		assertEquals("maintenance", c.response);
-		assertNull(c.error);
+		assertNull(c.response);
+		assertNotNull(c.error);
+		assertTrue(c.error, c.error.startsWith("HTTP 503"));
+	}
+
+	@Test
+	public void httpClientError_isDeliveredAsError() throws Exception {
+		server.enqueue(new MockResponse().setResponseCode(404).setBody("nope"));
+		RequestNetwork rn = new RequestNetwork(activity);
+		Capture c = new Capture();
+		rn.startRequestNetwork(RequestNetworkController.GET, server.url("/missing").toString(), "t", c);
+		await(c);
+		assertNull(c.response);
+		assertTrue(c.error, c.error.startsWith("HTTP 404"));
 	}
 
 	@Test
