@@ -607,6 +607,7 @@
 				android:background="#212121"
 				android:orientation="vertical">
 				<LinearLayout
+					android:baselineAligned="false"
 					android:id="@+id/box_16_sub_1"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -614,7 +615,7 @@
 					android:orientation="horizontal">
 					<LinearLayout
 						android:id="@+id/title_box_5"
-						android:layout_width="match_parent"
+						android:layout_width="0dp"
 						android:layout_height="wrap_content"
 						android:orientation="horizontal"
 						android:layout_weight="1">
@@ -678,15 +679,15 @@
 				android:background="#212121"
 				android:orientation="vertical">
 				<LinearLayout
+					android:baselineAligned="false"
 					android:id="@+id/box_8_sub_1"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:gravity="right|center_vertical"
-					android:orientation="horizontal"
-					android:layout_weight="1">
+					android:orientation="horizontal">
 					<LinearLayout
 						android:id="@+id/title_box_1"
-						android:layout_width="match_parent"
+						android:layout_width="0dp"
 						android:layout_height="wrap_content"
 						android:orientation="horizontal"
 						android:layout_weight="1">
@@ -750,6 +751,7 @@
 				android:background="#212121"
 				android:orientation="vertical">
 				<LinearLayout
+					android:baselineAligned="false"
 					android:id="@+id/box_21_sub_1"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -757,7 +759,7 @@
 					android:orientation="horizontal">
 					<LinearLayout
 						android:id="@+id/title_box_12"
-						android:layout_width="match_parent"
+						android:layout_width="0dp"
 						android:layout_height="wrap_content"
 						android:orientation="vertical"
 						android:layout_weight="1">
@@ -821,6 +823,7 @@
 				android:background="#212121"
 				android:orientation="vertical">
 				<LinearLayout
+					android:baselineAligned="false"
 					android:id="@+id/box_20_sub_1"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -828,7 +831,7 @@
 					android:orientation="horizontal">
 					<LinearLayout
 						android:id="@+id/title_box_8"
-						android:layout_width="match_parent"
+						android:layout_width="0dp"
 						android:layout_height="wrap_content"
 						android:orientation="vertical"
 						android:layout_weight="1">
@@ -863,6 +866,7 @@
 					</LinearLayout>
 				</LinearLayout>
 				<LinearLayout
+					android:baselineAligned="false"
 					android:id="@+id/box_20_sub_2"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -870,7 +874,7 @@
 					android:orientation="horizontal">
 					<LinearLayout
 						android:id="@+id/title_box_9"
-						android:layout_width="match_parent"
+						android:layout_width="0dp"
 						android:layout_height="wrap_content"
 						android:orientation="vertical"
 						android:layout_weight="1">
@@ -2689,6 +2693,7 @@
 						android:scrollbarThumbVertical="@drawable/scrollbar_vertical_thumb" />
 				</LinearLayout>
 				<LinearLayout
+					android:baselineAligned="false"
 					android:id="@+id/main_box_19"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -2908,6 +2913,7 @@
 							android:layout_gravity="center_horizontal|center_vertical" />
 					</LinearLayout>
 					<LinearLayout
+						android:baselineAligned="false"
 						android:id="@+id/box_sub_2"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
@@ -2979,6 +2985,7 @@
 					</LinearLayout>
 				</LinearLayout>
 				<LinearLayout
+					android:baselineAligned="false"
 					android:id="@+id/main_box_4"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -3110,6 +3117,7 @@
 					</LinearLayout>
 				</LinearLayout>
 				<LinearLayout
+					android:baselineAligned="false"
 					android:id="@+id/main_box_15"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
