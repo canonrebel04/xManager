@@ -48,7 +48,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.wuyr.rippleanimation.*;
 import java.io.*;
 import java.text.*;
 import java.text.DecimalFormat;
@@ -820,7 +819,7 @@ public class MainActivity extends AppCompatActivity {
 		box_experiment.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				RippleAnimation.create(box_experiment).setDuration((long)1000).start();
+				RippleReveal.start(box_experiment, 1000);
 				main_body_optimization.setVisibility(View.GONE);
 				main_scroll_settings.setVisibility(View.VISIBLE);
 				main_scroll_about.setVisibility(View.GONE);
@@ -856,7 +855,7 @@ public class MainActivity extends AppCompatActivity {
 		box_switch.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				RippleAnimation.create(box_switch).setDuration((long)1000).start();
+				RippleReveal.start(box_switch, 1000);
 				main_body_optimization.setVisibility(View.GONE);
 				main_scroll_settings.setVisibility(View.VISIBLE);
 				main_scroll_about.setVisibility(View.GONE);
@@ -1001,7 +1000,7 @@ public class MainActivity extends AppCompatActivity {
 		box_settings_icon_close.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				RippleAnimation.create(box_settings_icon_close).setDuration((long)1000).start();
+				RippleReveal.start(box_settings_icon_close, 1000);
 				main_body_optimization.setVisibility(View.GONE);
 				main_scroll_settings.setVisibility(View.GONE);
 				main_scroll_about.setVisibility(View.GONE);
@@ -1871,7 +1870,7 @@ public class MainActivity extends AppCompatActivity {
 		box_icon_close.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				RippleAnimation.create(box_icon_close).setDuration((long)1000).start();
+				RippleReveal.start(box_icon_close, 1000);
 				main_body_optimization.setVisibility(View.GONE);
 				main_scroll_settings.setVisibility(View.GONE);
 				main_scroll_about.setVisibility(View.GONE);
@@ -2641,7 +2640,7 @@ public class MainActivity extends AppCompatActivity {
 		box_about.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				RippleAnimation.create(box_about).setDuration((long)1000).start();
+				RippleReveal.start(box_about, 1000);
 				main_body_optimization.setVisibility(View.GONE);
 				main_scroll_settings.setVisibility(View.GONE);
 				main_scroll_about.setVisibility(View.VISIBLE);

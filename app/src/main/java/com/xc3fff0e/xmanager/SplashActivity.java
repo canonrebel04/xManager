@@ -31,7 +31,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.Glide;
-import com.wuyr.rippleanimation.*;
 import java.io.*;
 import java.text.*;
 import java.util.*;
