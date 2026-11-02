@@ -5,12 +5,15 @@ import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.*;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+
+import androidx.test.espresso.matcher.ViewMatchers.Visibility;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -57,9 +60,11 @@ public class SmokeTest {
 		launch.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 		ctx.startActivity(launch);
 		assertTrue("splash not shown", device.wait(Until.hasObject(By.pkg(PKG).depth(0)), TIMEOUT));
-		// Splash hands over to MainActivity after ~1 s; the main header has id box_header.
+		// Splash hands over to MainActivity after ~1 s. The header buttons (box_header) are the
+		// first thing on screen once the main view is ready; box_settings sits below the fold
+		// on small screens (e.g. the 320x640 default CI AVD), so UiAutomator can't see it there.
 		assertTrue("MainActivity not reached",
-				device.wait(Until.hasObject(By.res(PKG, "box_settings")), TIMEOUT));
+				device.wait(Until.hasObject(By.res(PKG, "box_switch")), TIMEOUT));
 		sleep(3000); // give the (failing) API call and timers time to run
 		assertEquals("app left foreground (crash?)", PKG, device.getCurrentPackageName());
 	}
@@ -68,8 +73,10 @@ public class SmokeTest {
 	public void visitAllScreens() {
 		FirstRun.markDone();
 		try (ActivityScenario<MainActivity> s = ActivityScenario.launch(MainActivity.class)) {
-			sleep(1500);
-			onView(withId(R.id.box_settings)).check(matches(isDisplayed()));
+			assertTrue("main header not shown",
+					device.wait(Until.hasObject(By.res(PKG, "box_switch")), TIMEOUT));
+			onView(withId(R.id.box_switch)).check(matches(isDisplayed()));
+			onView(withId(R.id.box_settings)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
 
 			// Settings
 			onView(withId(R.id.box_switch)).perform(click());
@@ -111,8 +118,10 @@ public class SmokeTest {
 			device.setOrientationLeft();
 			sleep(1500);
 			device.setOrientationNatural();
-			sleep(1500);
-			onView(withId(R.id.box_settings)).check(matches(isDisplayed()));
+			assertTrue("main header not shown",
+					device.wait(Until.hasObject(By.res(PKG, "box_switch")), TIMEOUT));
+			onView(withId(R.id.box_switch)).check(matches(isDisplayed()));
+			onView(withId(R.id.box_settings)).check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
 		} finally {
 			device.unfreezeRotation();
 		}
