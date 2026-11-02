@@ -458,8 +458,10 @@ public class MainActivity extends AppCompatActivity {
 		
 		
 		
-		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+		// Storage permissions only exist/matter up to Android 10 (API 29); scoped storage applies above that.
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+		&& (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+		|| ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)) {
 			ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
 		} else {
 			initializeLogic();
@@ -2466,7 +2468,7 @@ public class MainActivity extends AppCompatActivity {
 							}
 						};
 						_timer.schedule(Timer, (int)(2000));
-						if (Build.VERSION.SDK_INT <= 30) {
+						if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
 								if (FileUtil.isExistFile("/storage/emulated/0/Android/data/com.spotify.music/") || (FileUtil.isExistFile("/storage/emulated/0/Android/data/com.spotify.musix/"))) {
 										FileUtil.deleteFile("/storage/emulated/0/Android/data/com.spotify.music/");
 										FileUtil.deleteFile("/storage/emulated/0/Android/data/com.spotify.musix/");
@@ -2476,9 +2478,8 @@ public class MainActivity extends AppCompatActivity {
 										com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Directory Files Are Empty", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 								}
 						} else {
-								if (Build.VERSION.SDK_INT >= 31) {
-										com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "This feature does not support Android 12 and above", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
-								}
+								// Android 11+ scoped storage blocks access to other apps' Android/data directories.
+								com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "This feature does not support Android 11 and above", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 						}
 						
 					}
@@ -8557,7 +8558,8 @@ public class MainActivity extends AppCompatActivity {
 						prog.show();
 				}
 				
-				if (FileUtil.isExistFile("/storage/emulated/0/xManager/")) {
+				// Legacy shared-storage folder from older versions; only reachable on Android 10 and below.
+				if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q && FileUtil.isExistFile("/storage/emulated/0/xManager/")) {
 					FileUtil.deleteFile("/storage/emulated/0/xManager/");
 				}
 				Timer = new TimerTask() {
