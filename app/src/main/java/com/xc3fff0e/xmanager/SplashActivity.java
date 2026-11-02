@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
 		R.string.splash_tagline_4
 	};
 	
-	private Timer _timer = new Timer();
+	private final LifecycleTimer _timer = new LifecycleTimer();
 	
 	private LinearLayout main_body;
 	private ImageView icon_splash;
@@ -123,6 +123,14 @@ public class SplashActivity extends AppCompatActivity {
 		
 		_Dark_Navigation();
 		_Theme_UI();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// REL-12: if the splash goes away early (back, rotation, process trim), don't let its
+		// pending TimerTask start MainActivity from a destroyed activity.
+		_timer.cancel();
+		super.onDestroy();
 	}
 	
 	private void _onBackPressed() {

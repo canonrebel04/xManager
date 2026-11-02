@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Process;
+import android.os.StrictMode;
 import android.util.Log;
 
 public class xManager extends Application {
@@ -21,6 +22,7 @@ public class xManager extends Application {
 	@Override
 	public void onCreate() {
 		mApplicationContext = getApplicationContext();
+		enableStrictModeInDebug();
 		this.uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 		
 		Thread.setDefaultUncaughtExceptionHandler(
@@ -52,5 +54,23 @@ public class xManager extends Application {
 		});
 		xManagerLogger.startLogging();
 		super.onCreate();
+	}
+	
+	/**
+	 * PERF-12: in debug builds, log (never crash on) disk and network access on the main
+	 * thread and leaked resources, so ANR causes show up in logcat during development.
+	 * Release builds are unaffected.
+	 */
+	static boolean enableStrictModeInDebug() {
+		if (!BuildConfig.DEBUG) return false;
+		StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+				.detectAll()
+				.penaltyLog()
+				.build());
+		StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+				.detectAll()
+				.penaltyLog()
+				.build());
+		return true;
 	}
 }
