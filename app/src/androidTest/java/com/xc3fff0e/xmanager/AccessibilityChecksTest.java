@@ -7,6 +7,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.accessibility.AccessibilityChecks;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +23,11 @@ public class AccessibilityChecksTest {
 	@BeforeClass
 	public static void enable() {
 		AccessibilityChecks.enable().setRunChecksFromRootView(true);
+	}
+
+	@Before
+	public void skipFirstRunRelaunch() {
+		FirstRun.markDone();
 	}
 
 	@Test

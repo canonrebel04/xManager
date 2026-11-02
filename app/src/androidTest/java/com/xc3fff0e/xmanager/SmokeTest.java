@@ -66,6 +66,7 @@ public class SmokeTest {
 
 	@Test
 	public void visitAllScreens() {
+		FirstRun.markDone();
 		try (ActivityScenario<MainActivity> s = ActivityScenario.launch(MainActivity.class)) {
 			sleep(1500);
 			onView(withId(R.id.box_settings)).check(matches(isDisplayed()));
@@ -104,6 +105,7 @@ public class SmokeTest {
 
 	@Test
 	public void rotate_doesNotCrash() throws Exception {
+		FirstRun.markDone();
 		try (ActivityScenario<MainActivity> s = ActivityScenario.launch(MainActivity.class)) {
 			sleep(1000);
 			device.setOrientationLeft();
