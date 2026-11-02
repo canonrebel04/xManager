@@ -7,9 +7,7 @@ import android.widget.TextView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.Until;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -55,10 +53,19 @@ public class MockApiServerTest {
 		try (ActivityScenario<MainActivity> s = ActivityScenario.launch(MainActivity.class)) {
 			assertTrue("app never requested the mock server",
 					server.takeRequest(TIMEOUT_MS, TimeUnit.MILLISECONDS) != null);
+			// Read the label from the activity: on the small CI AVD sub_1 sits below the fold, where
+			// UiAutomator doesn't see it.
 			UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-			boolean loaded = device.wait(Until.hasObject(By.res(PKG, "sub_1").text(LATEST)), TIMEOUT_MS);
 			AtomicReference<String> shown = new AtomicReference<>("");
-			s.onActivity(a -> shown.set(((TextView) a.findViewById(R.id.sub_1)).getText().toString()));
+			long deadline = android.os.SystemClock.uptimeMillis() + TIMEOUT_MS;
+			boolean loaded = false;
+			while (true) {
+				InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+				s.onActivity(a -> shown.set(((TextView) a.findViewById(R.id.sub_1)).getText().toString()));
+				if (LATEST.equals(shown.get())) { loaded = true; break; }
+				if (android.os.SystemClock.uptimeMillis() >= deadline) break;
+				device.waitForWindowUpdate(PKG, 250);
+			}
 			assertTrue("LATEST label shows '" + shown.get() + "', not the fixture's " + LATEST, loaded);
 		}
 	}
