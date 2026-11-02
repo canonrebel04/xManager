@@ -206,7 +206,6 @@ public class BacklogTargetsTest {
 	 * entries get distinct tags that start with "de".
 	 */
 	@Test
-	@Ignore("Pending: REL-10 lands in a follow-up PR")
 	public void REL10_selectedLanguage_isSavedAsLanguageTag() {
 		MainActivity a = launchMain();
 		String informal = selectLanguage(a, "German (informal, du)");
@@ -227,7 +226,6 @@ public class BacklogTargetsTest {
 	 * matching language tag, and the same language stays selected.
 	 */
 	@Test
-	@Ignore("Pending: REL-10 lands in a follow-up PR")
 	public void REL10_legacyIndexPreference_isMigratedToTag() {
 		MainActivity first = launchMain();
 		Spinner s = first.findViewById(R.id.select_language);

@@ -825,6 +825,8 @@ public class MainActivity extends AppCompatActivity {
 		Connection = new RequestNetwork(this);
 		LIST_REFRESH = getSharedPreferences("LIST_REFRESH", Activity.MODE_PRIVATE);
 		LANGUAGE = getSharedPreferences("LANGUAGE", Activity.MODE_PRIVATE);
+		// REL-10: older versions saved the spinner index; store the language tag instead.
+		LanguageTags.migrate(LANGUAGE);
 		SWITCH_VERSION = getSharedPreferences("SWITCH_VERSION", Activity.MODE_PRIVATE);
 		REFETCH = getSharedPreferences("REFETCH", Activity.MODE_PRIVATE);
 		INITIALIZATION = getSharedPreferences("INITIALIZATION", Activity.MODE_PRIVATE);
@@ -1450,277 +1452,277 @@ public class MainActivity extends AppCompatActivity {
 					return;
 				}
 				if (_position == 0) {
-					LANGUAGE.edit().putString("LANGUAGE", "0").apply();
+					LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(0)).apply();
 					COUNTER = 1;
 					_Language_UI();
 				}
 				else {
 					if (_position == 1) {
-						LANGUAGE.edit().putString("LANGUAGE", "1").apply();
+						LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(1)).apply();
 						COUNTER = 1;
 						_Language_UI();
 					}
 					else {
 						if (_position == 2) {
-							LANGUAGE.edit().putString("LANGUAGE", "2").apply();
+							LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(2)).apply();
 							COUNTER = 1;
 							_Language_UI();
 						}
 						else {
 							if (_position == 3) {
-								LANGUAGE.edit().putString("LANGUAGE", "3").apply();
+								LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(3)).apply();
 								COUNTER = 1;
 								_Language_UI();
 							}
 							else {
 								if (_position == 4) {
-									LANGUAGE.edit().putString("LANGUAGE", "4").apply();
+									LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(4)).apply();
 									COUNTER = 1;
 									_Language_UI();
 								}
 								else {
 									if (_position == 5) {
-										LANGUAGE.edit().putString("LANGUAGE", "5").apply();
+										LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(5)).apply();
 										COUNTER = 1;
 										_Language_UI();
 									}
 									else {
 										if (_position == 6) {
-											LANGUAGE.edit().putString("LANGUAGE", "6").apply();
+											LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(6)).apply();
 											COUNTER = 1;
 											_Language_UI();
 										}
 										else {
 											if (_position == 7) {
-												LANGUAGE.edit().putString("LANGUAGE", "7").apply();
+												LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(7)).apply();
 												COUNTER = 1;
 												_Language_UI();
 											}
 											else {
 												if (_position == 8) {
-													LANGUAGE.edit().putString("LANGUAGE", "8").apply();
+													LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(8)).apply();
 													COUNTER = 1;
 													_Language_UI();
 												}
 												else {
 													if (_position == 9) {
-														LANGUAGE.edit().putString("LANGUAGE", "9").apply();
+														LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(9)).apply();
 														COUNTER = 1;
 														_Language_UI();
 													}
 													else {
 														if (_position == 10) {
-															LANGUAGE.edit().putString("LANGUAGE", "10").apply();
+															LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(10)).apply();
 															COUNTER = 1;
 															_Language_UI();
 														}
 														else {
 															if (_position == 11) {
-																LANGUAGE.edit().putString("LANGUAGE", "11").apply();
+																LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(11)).apply();
 																COUNTER = 1;
 																_Language_UI();
 															}
 															else {
 																if (_position == 12) {
-																	LANGUAGE.edit().putString("LANGUAGE", "12").apply();
+																	LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(12)).apply();
 																	COUNTER = 1;
 																	_Language_UI();
 																}
 																else {
 																	if (_position == 13) {
-																		LANGUAGE.edit().putString("LANGUAGE", "13").apply();
+																		LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(13)).apply();
 																		COUNTER = 1;
 																		_Language_UI();
 																	}
 																	else {
 																		if (_position == 14) {
-																			LANGUAGE.edit().putString("LANGUAGE", "14").apply();
+																			LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(14)).apply();
 																			COUNTER = 1;
 																			_Language_UI();
 																		}
 																		else {
 																			if (_position == 15) {
-																				LANGUAGE.edit().putString("LANGUAGE", "15").apply();
+																				LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(15)).apply();
 																				COUNTER = 1;
 																				_Language_UI();
 																			}
 																			else {
 																				if (_position == 16) {
-																					LANGUAGE.edit().putString("LANGUAGE", "16").apply();
+																					LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(16)).apply();
 																					COUNTER = 1;
 																					_Language_UI();
 																				}
 																				else {
 																					if (_position == 17) {
-																						LANGUAGE.edit().putString("LANGUAGE", "17").apply();
+																						LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(17)).apply();
 																						COUNTER = 1;
 																						_Language_UI();
 																					}
 																					else {
 																						if (_position == 18) {
-																							LANGUAGE.edit().putString("LANGUAGE", "18").apply();
+																							LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(18)).apply();
 																							COUNTER = 1;
 																							_Language_UI();
 																						}
 																						else {
 																							if (_position == 19) {
-																								LANGUAGE.edit().putString("LANGUAGE", "19").apply();
+																								LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(19)).apply();
 																								COUNTER = 1;
 																								_Language_UI();
 																							}
 																							else {
 																								if (_position == 20) {
-																									LANGUAGE.edit().putString("LANGUAGE", "20").apply();
+																									LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(20)).apply();
 																									COUNTER = 1;
 																									_Language_UI();
 																								}
 																								else {
 																									if (_position == 21) {
-																										LANGUAGE.edit().putString("LANGUAGE", "21").apply();
+																										LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(21)).apply();
 																										COUNTER = 1;
 																										_Language_UI();
 																									}
 																									else {
 																										if (_position == 22) {
-																											LANGUAGE.edit().putString("LANGUAGE", "22").apply();
+																											LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(22)).apply();
 																											COUNTER = 1;
 																											_Language_UI();
 																										}
 																										else {
 																											if (_position == 23) {
-																												LANGUAGE.edit().putString("LANGUAGE", "23").apply();
+																												LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(23)).apply();
 																												COUNTER = 1;
 																												_Language_UI();
 																											}
 																											else {
 																												if (_position == 24) {
-																													LANGUAGE.edit().putString("LANGUAGE", "24").apply();
+																													LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(24)).apply();
 																													COUNTER = 1;
 																													_Language_UI();
 																												}
 																												else {
 																													if (_position == 25) {
-																														LANGUAGE.edit().putString("LANGUAGE", "25").apply();
+																														LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(25)).apply();
 																														COUNTER = 1;
 																														_Language_UI();
 																													}
 																													else {
 																														if (_position == 26) {
-																															LANGUAGE.edit().putString("LANGUAGE", "26").apply();
+																															LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(26)).apply();
 																															COUNTER = 1;
 																															_Language_UI();
 																														}
 																														else {
 																															if (_position == 27) {
-																																LANGUAGE.edit().putString("LANGUAGE", "27").apply();
+																																LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(27)).apply();
 																																COUNTER = 1;
 																																_Language_UI();
 																															}
 																															else {
 																																if (_position == 28) {
-																																	LANGUAGE.edit().putString("LANGUAGE", "28").apply();
+																																	LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(28)).apply();
 																																	COUNTER = 1;
 																																	_Language_UI();
 																																}
 																																else {
 																																	if (_position == 29) {
-																																		LANGUAGE.edit().putString("LANGUAGE", "29").apply();
+																																		LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(29)).apply();
 																																		COUNTER = 1;
 																																		_Language_UI();
 																																	}
 																																	else {
 																																		if (_position == 30) {
-																																			LANGUAGE.edit().putString("LANGUAGE", "30").apply();
+																																			LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(30)).apply();
 																																			COUNTER = 1;
 																																			_Language_UI();
 																																		}
 																																		else {
 																																			if (_position == 31) {
-																																				LANGUAGE.edit().putString("LANGUAGE", "31").apply();
+																																				LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(31)).apply();
 																																				COUNTER = 1;
 																																				_Language_UI();
 																																			}
 																																			else {
 																																				if (_position == 32) {
-																																					LANGUAGE.edit().putString("LANGUAGE", "32").apply();
+																																					LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(32)).apply();
 																																					COUNTER = 1;
 																																					_Language_UI();
 																																				}
 																																				else {
 																																					if (_position == 33) {
-																																						LANGUAGE.edit().putString("LANGUAGE", "33").apply();
+																																						LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(33)).apply();
 																																						COUNTER = 1;
 																																						_Language_UI();
 																																					}
 																																					else {
 																																						if (_position == 34) {
-																																							LANGUAGE.edit().putString("LANGUAGE", "34").apply();
+																																							LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(34)).apply();
 																																							COUNTER = 1;
 																																							_Language_UI();
 																																						}
 																																						else {
 																																							if (_position == 35) {
-																																								LANGUAGE.edit().putString("LANGUAGE", "35").apply();
+																																								LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(35)).apply();
 																																								COUNTER = 1;
 																																								_Language_UI();
 																																							}
 																																							else {
 																																								if (_position == 36) {
-																																									LANGUAGE.edit().putString("LANGUAGE", "36").apply();
+																																									LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(36)).apply();
 																																									COUNTER = 1;
 																																									_Language_UI();
 																																								}
 																																								else {
 																																									if (_position == 37) {
-																																										LANGUAGE.edit().putString("LANGUAGE", "37").apply();
+																																										LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(37)).apply();
 																																										COUNTER = 1;
 																																										_Language_UI();
 																																									}
 																																									else {
 																																										if (_position == 38) {
-																																											LANGUAGE.edit().putString("LANGUAGE", "38").apply();
+																																											LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(38)).apply();
 																																											COUNTER = 1;
 																																											_Language_UI();
 																																										}
 																																										else {
 																																											if (_position == 39) {
-																																												LANGUAGE.edit().putString("LANGUAGE", "39").apply();
+																																												LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(39)).apply();
 																																												COUNTER = 1;
 																																												_Language_UI();
 																																											}
 																																											else {
 																																												if (_position == 40) {
-																																													LANGUAGE.edit().putString("LANGUAGE", "40").apply();
+																																													LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(40)).apply();
 																																													COUNTER = 1;
 																																													_Language_UI();
 																																												}
 																																												else {
 																																													if (_position == 41) {
-																																														LANGUAGE.edit().putString("LANGUAGE", "41").apply();
+																																														LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(41)).apply();
 																																														COUNTER = 1;
 																																														_Language_UI();
 																																													}
 																																													else {
 																																														if (_position == 42) {
-																																															LANGUAGE.edit().putString("LANGUAGE", "42").apply();
+																																															LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(42)).apply();
 																																															COUNTER = 1;
 																																															_Language_UI();
 																																														}
 																																														else {
 																																															if (_position == 43) {
-																																																LANGUAGE.edit().putString("LANGUAGE", "43").apply();
+																																																LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(43)).apply();
 																																																COUNTER = 1;
 																																																_Language_UI();
 																																															}
 																																															else {
 																																																if (_position == 44) {
-																																																	LANGUAGE.edit().putString("LANGUAGE", "44").apply();
+																																																	LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(44)).apply();
 																																																	COUNTER = 1;
 																																																	_Language_UI();
 																																																}
 																																																else {
 																																																	if (_position == 45) {
-																																																		LANGUAGE.edit().putString("LANGUAGE", "45").apply();
+																																																		LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(45)).apply();
 																																																		COUNTER = 1;
 																																																		_Language_UI();
 																																																	}
@@ -4505,7 +4507,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	private void _applyLanguageUi() {
-		if (LANGUAGE.getString("LANGUAGE", "").equals("0")) {
+		if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 0)) {
 			sub_text_installed.setText(R.string.installed);
 			main_title.setText(R.string.main_title);
 			about_title.setText(R.string.about_title);
@@ -4581,7 +4583,7 @@ public class MainActivity extends AppCompatActivity {
 			select_language.setSelection((int)(0));
 		}
 		else {
-			if (LANGUAGE.getString("LANGUAGE", "").equals("1")) {
+			if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 1)) {
 				sub_text_installed.setText(R.string.installed_01);
 				main_title.setText(R.string.main_title_01);
 				about_title.setText(R.string.about_title_01);
@@ -4656,7 +4658,7 @@ public class MainActivity extends AppCompatActivity {
 				select_language.setSelection((int)(1));
 			}
 			else {
-				if (LANGUAGE.getString("LANGUAGE", "").equals("2")) {
+				if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 2)) {
 					sub_text_installed.setText(R.string.installed_02);
 					main_title.setText(R.string.main_title_02);
 					about_title.setText(R.string.about_title_02);
@@ -4731,7 +4733,7 @@ public class MainActivity extends AppCompatActivity {
 					select_language.setSelection((int)(2));
 				}
 				else {
-					if (LANGUAGE.getString("LANGUAGE", "").equals("3")) {
+					if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 3)) {
 						sub_text_installed.setText(R.string.installed_03);
 						main_title.setText(R.string.main_title_03);
 						about_title.setText(R.string.about_title_03);
@@ -4806,7 +4808,7 @@ public class MainActivity extends AppCompatActivity {
 						select_language.setSelection((int)(3));
 					}
 					else {
-						if (LANGUAGE.getString("LANGUAGE", "").equals("4")) {
+						if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 4)) {
 							sub_text_installed.setText(R.string.installed_04);
 							main_title.setText(R.string.main_title_04);
 							about_title.setText(R.string.about_title_04);
@@ -4881,7 +4883,7 @@ public class MainActivity extends AppCompatActivity {
 							select_language.setSelection((int)(4));
 						}
 						else {
-							if (LANGUAGE.getString("LANGUAGE", "").equals("5")) {
+							if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 5)) {
 								sub_text_installed.setText(R.string.installed_05);
 								main_title.setText(R.string.main_title_05);
 								about_title.setText(R.string.about_title_05);
@@ -4956,7 +4958,7 @@ public class MainActivity extends AppCompatActivity {
 								select_language.setSelection((int)(5));
 							}
 							else {
-								if (LANGUAGE.getString("LANGUAGE", "").equals("6")) {
+								if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 6)) {
 									sub_text_installed.setText(R.string.installed_06);
 									main_title.setText(R.string.main_title_06);
 									about_title.setText(R.string.about_title_06);
@@ -5031,7 +5033,7 @@ public class MainActivity extends AppCompatActivity {
 									select_language.setSelection((int)(6));
 								}
 								else {
-									if (LANGUAGE.getString("LANGUAGE", "").equals("7")) {
+									if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 7)) {
 										sub_text_installed.setText(R.string.installed_07);
 										main_title.setText(R.string.main_title_07);
 										about_title.setText(R.string.about_title_07);
@@ -5106,7 +5108,7 @@ public class MainActivity extends AppCompatActivity {
 										select_language.setSelection((int)(7));
 									}
 									else {
-										if (LANGUAGE.getString("LANGUAGE", "").equals("8")) {
+										if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 8)) {
 											sub_text_installed.setText(R.string.installed_08);
 											main_title.setText(R.string.main_title_08);
 											about_title.setText(R.string.about_title_08);
@@ -5181,7 +5183,7 @@ public class MainActivity extends AppCompatActivity {
 											select_language.setSelection((int)(8));
 										}
 										else {
-											if (LANGUAGE.getString("LANGUAGE", "").equals("9")) {
+											if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 9)) {
 												sub_text_installed.setText(R.string.installed_09);
 												main_title.setText(R.string.main_title_09);
 												about_title.setText(R.string.about_title_09);
@@ -5256,7 +5258,7 @@ public class MainActivity extends AppCompatActivity {
 												select_language.setSelection((int)(9));
 											}
 											else {
-												if (LANGUAGE.getString("LANGUAGE", "").equals("10")) {
+												if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 10)) {
 													sub_text_installed.setText(R.string.installed_10);
 													main_title.setText(R.string.main_title_10);
 													about_title.setText(R.string.about_title_10);
@@ -5331,7 +5333,7 @@ public class MainActivity extends AppCompatActivity {
 													select_language.setSelection((int)(10));
 												}
 												else {
-													if (LANGUAGE.getString("LANGUAGE", "").equals("11")) {
+													if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 11)) {
 														sub_text_installed.setText(R.string.installed_11);
 														main_title.setText(R.string.main_title_11);
 														about_title.setText(R.string.about_title_11);
@@ -5406,7 +5408,7 @@ public class MainActivity extends AppCompatActivity {
 														select_language.setSelection((int)(11));
 													}
 													else {
-														if (LANGUAGE.getString("LANGUAGE", "").equals("12")) {
+														if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 12)) {
 															sub_text_installed.setText(R.string.installed_12);
 															main_title.setText(R.string.main_title_12);
 															about_title.setText(R.string.about_title_12);
@@ -5481,7 +5483,7 @@ public class MainActivity extends AppCompatActivity {
 															select_language.setSelection((int)(12));
 														}
 														else {
-															if (LANGUAGE.getString("LANGUAGE", "").equals("13")) {
+															if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 13)) {
 																sub_text_installed.setText(R.string.installed_13);
 																main_title.setText(R.string.main_title_13);
 																about_title.setText(R.string.about_title_13);
@@ -5556,7 +5558,7 @@ public class MainActivity extends AppCompatActivity {
 																select_language.setSelection((int)(13));
 															}
 															else {
-																if (LANGUAGE.getString("LANGUAGE", "").equals("14")) {
+																if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 14)) {
 																	sub_text_installed.setText(R.string.installed_14);
 																	main_title.setText(R.string.main_title_14);
 																	about_title.setText(R.string.about_title_14);
@@ -5631,7 +5633,7 @@ public class MainActivity extends AppCompatActivity {
 																	select_language.setSelection((int)(14));
 																}
 																else {
-																	if (LANGUAGE.getString("LANGUAGE", "").equals("15")) {
+																	if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 15)) {
 																		sub_text_installed.setText(R.string.installed_15);
 																		main_title.setText(R.string.main_title_15);
 																		about_title.setText(R.string.about_title_15);
@@ -5706,7 +5708,7 @@ public class MainActivity extends AppCompatActivity {
 																		select_language.setSelection((int)(15));
 																	}
 																	else {
-																		if (LANGUAGE.getString("LANGUAGE", "").equals("16")) {
+																		if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 16)) {
 																			sub_text_installed.setText(R.string.installed_16);
 																			main_title.setText(R.string.main_title_16);
 																			about_title.setText(R.string.about_title_16);
@@ -5781,7 +5783,7 @@ public class MainActivity extends AppCompatActivity {
 																			select_language.setSelection((int)(16));
 																		}
 																		else {
-																			if (LANGUAGE.getString("LANGUAGE", "").equals("17")) {
+																			if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 17)) {
 																				sub_text_installed.setText(R.string.installed_17);
 																				main_title.setText(R.string.main_title_17);
 																				about_title.setText(R.string.about_title_17);
@@ -5856,7 +5858,7 @@ public class MainActivity extends AppCompatActivity {
 																				select_language.setSelection((int)(17));
 																			}
 																			else {
-																				if (LANGUAGE.getString("LANGUAGE", "").equals("18")) {
+																				if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 18)) {
 																					sub_text_installed.setText(R.string.installed_18);
 																					main_title.setText(R.string.main_title_18);
 																					about_title.setText(R.string.about_title_18);
@@ -5931,7 +5933,7 @@ public class MainActivity extends AppCompatActivity {
 																					select_language.setSelection((int)(18));
 																				}
 																				else {
-																					if (LANGUAGE.getString("LANGUAGE", "").equals("19")) {
+																					if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 19)) {
 																						sub_text_installed.setText(R.string.installed_19);
 																						main_title.setText(R.string.main_title_19);
 																						about_title.setText(R.string.about_title_19);
@@ -6006,7 +6008,7 @@ public class MainActivity extends AppCompatActivity {
 																						select_language.setSelection((int)(19));
 																					}
 																					else {
-																						if (LANGUAGE.getString("LANGUAGE", "").equals("20")) {
+																						if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 20)) {
 																							sub_text_installed.setText(R.string.installed_20);
 																							main_title.setText(R.string.main_title_20);
 																							about_title.setText(R.string.about_title_20);
@@ -6081,7 +6083,7 @@ public class MainActivity extends AppCompatActivity {
 																							select_language.setSelection((int)(20));
 																						}
 																						else {
-																							if (LANGUAGE.getString("LANGUAGE", "").equals("21")) {
+																							if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 21)) {
 																								sub_text_installed.setText(R.string.installed_21);
 																								main_title.setText(R.string.main_title_21);
 																								about_title.setText(R.string.about_title_21);
@@ -6156,7 +6158,7 @@ public class MainActivity extends AppCompatActivity {
 																								select_language.setSelection((int)(21));
 																							}
 																							else {
-																								if (LANGUAGE.getString("LANGUAGE", "").equals("22")) {
+																								if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 22)) {
 																									sub_text_installed.setText(R.string.installed_22);
 																									main_title.setText(R.string.main_title_22);
 																									about_title.setText(R.string.about_title_22);
@@ -6231,7 +6233,7 @@ public class MainActivity extends AppCompatActivity {
 																									select_language.setSelection((int)(22));
 																								}
 																								else {
-																									if (LANGUAGE.getString("LANGUAGE", "").equals("23")) {
+																									if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 23)) {
 																										sub_text_installed.setText(R.string.installed_23);
 																										main_title.setText(R.string.main_title_23);
 																										about_title.setText(R.string.about_title_23);
@@ -6306,7 +6308,7 @@ public class MainActivity extends AppCompatActivity {
 																										select_language.setSelection((int)(23));
 																									}
 																									else {
-																										if (LANGUAGE.getString("LANGUAGE", "").equals("24")) {
+																										if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 24)) {
 																											sub_text_installed.setText(R.string.installed_24);
 																											main_title.setText(R.string.main_title_24);
 																											about_title.setText(R.string.about_title_24);
@@ -6381,7 +6383,7 @@ public class MainActivity extends AppCompatActivity {
 																											select_language.setSelection((int)(24));
 																										}
 																										else {
-																											if (LANGUAGE.getString("LANGUAGE", "").equals("25")) {
+																											if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 25)) {
 																												sub_text_installed.setText(R.string.installed_25);
 																												main_title.setText(R.string.main_title_25);
 																												about_title.setText(R.string.about_title_25);
@@ -6456,7 +6458,7 @@ public class MainActivity extends AppCompatActivity {
 																												select_language.setSelection((int)(25));
 																											}
 																											else {
-																												if (LANGUAGE.getString("LANGUAGE", "").equals("26")) {
+																												if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 26)) {
 																													sub_text_installed.setText(R.string.installed_26);
 																													main_title.setText(R.string.main_title_26);
 																													about_title.setText(R.string.about_title_26);
@@ -6531,7 +6533,7 @@ public class MainActivity extends AppCompatActivity {
 																													select_language.setSelection((int)(26));
 																												}
 																												else {
-																													if (LANGUAGE.getString("LANGUAGE", "").equals("27")) {
+																													if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 27)) {
 																														sub_text_installed.setText(R.string.installed_27);
 																														main_title.setText(R.string.main_title_27);
 																														about_title.setText(R.string.about_title_27);
@@ -6606,7 +6608,7 @@ public class MainActivity extends AppCompatActivity {
 																														select_language.setSelection((int)(27));
 																													}
 																													else {
-																														if (LANGUAGE.getString("LANGUAGE", "").equals("28")) {
+																														if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 28)) {
 																															sub_text_installed.setText(R.string.installed_28);
 																															main_title.setText(R.string.main_title_28);
 																															about_title.setText(R.string.about_title_28);
@@ -6681,7 +6683,7 @@ public class MainActivity extends AppCompatActivity {
 																															select_language.setSelection((int)(28));
 																														}
 																														else {
-																															if (LANGUAGE.getString("LANGUAGE", "").equals("29")) {
+																															if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 29)) {
 																																sub_text_installed.setText(R.string.installed_29);
 																																main_title.setText(R.string.main_title_29);
 																																about_title.setText(R.string.about_title_29);
@@ -6756,7 +6758,7 @@ public class MainActivity extends AppCompatActivity {
 																																select_language.setSelection((int)(29));
 																															}
 																															else {
-																																if (LANGUAGE.getString("LANGUAGE", "").equals("30")) {
+																																if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 30)) {
 																																	sub_text_installed.setText(R.string.installed_30);
 																																	main_title.setText(R.string.main_title_30);
 																																	about_title.setText(R.string.about_title_30);
@@ -6831,7 +6833,7 @@ public class MainActivity extends AppCompatActivity {
 																																	select_language.setSelection((int)(30));
 																																}
 																																else {
-																																	if (LANGUAGE.getString("LANGUAGE", "").equals("31")) {
+																																	if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 31)) {
 																																		sub_text_installed.setText(R.string.installed_31);
 																																		main_title.setText(R.string.main_title_31);
 																																		about_title.setText(R.string.about_title_31);
@@ -6906,7 +6908,7 @@ public class MainActivity extends AppCompatActivity {
 																																		select_language.setSelection((int)(31));
 																																	}
 																																	else {
-																																		if (LANGUAGE.getString("LANGUAGE", "").equals("32")) {
+																																		if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 32)) {
 																																			sub_text_installed.setText(R.string.installed_32);
 																																			main_title.setText(R.string.main_title_32);
 																																			about_title.setText(R.string.about_title_32);
@@ -6981,7 +6983,7 @@ public class MainActivity extends AppCompatActivity {
 																																			select_language.setSelection((int)(32));
 																																		}
 																																		else {
-																																			if (LANGUAGE.getString("LANGUAGE", "").equals("33")) {
+																																			if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 33)) {
 																																				sub_text_installed.setText(R.string.installed_33);
 																																				main_title.setText(R.string.main_title_33);
 																																				about_title.setText(R.string.about_title_33);
@@ -7056,7 +7058,7 @@ public class MainActivity extends AppCompatActivity {
 																																				select_language.setSelection((int)(33));
 																																			}
 																																			else {
-																																				if (LANGUAGE.getString("LANGUAGE", "").equals("34")) {
+																																				if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 34)) {
 																																					sub_text_installed.setText(R.string.installed_34);
 																																					main_title.setText(R.string.main_title_34);
 																																					about_title.setText(R.string.about_title_34);
@@ -7131,7 +7133,7 @@ public class MainActivity extends AppCompatActivity {
 																																					select_language.setSelection((int)(34));
 																																				}
 																																				else {
-																																					if (LANGUAGE.getString("LANGUAGE", "").equals("35")) {
+																																					if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 35)) {
 																																						sub_text_installed.setText(R.string.installed_35);
 																																						main_title.setText(R.string.main_title_35);
 																																						about_title.setText(R.string.about_title_35);
@@ -7206,7 +7208,7 @@ public class MainActivity extends AppCompatActivity {
 																																						select_language.setSelection((int)(35));
 																																					}
 																																					else {
-																																						if (LANGUAGE.getString("LANGUAGE", "").equals("36")) {
+																																						if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 36)) {
 																																							sub_text_installed.setText(R.string.installed_36);
 																																							main_title.setText(R.string.main_title_36);
 																																							about_title.setText(R.string.about_title_36);
@@ -7281,7 +7283,7 @@ public class MainActivity extends AppCompatActivity {
 																																							select_language.setSelection((int)(36));
 																																						}
 																																						else {
-																																							if (LANGUAGE.getString("LANGUAGE", "").equals("37")) {
+																																							if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 37)) {
 																																								sub_text_installed.setText(R.string.installed_37);
 																																								main_title.setText(R.string.main_title_37);
 																																								about_title.setText(R.string.about_title_37);
@@ -7356,7 +7358,7 @@ public class MainActivity extends AppCompatActivity {
 																																								select_language.setSelection((int)(37));
 																																							}
 																																							else {
-																																								if (LANGUAGE.getString("LANGUAGE", "").equals("38")) {
+																																								if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 38)) {
 																																									sub_text_installed.setText(R.string.installed_38);
 																																									main_title.setText(R.string.main_title_38);
 																																									about_title.setText(R.string.about_title_38);
@@ -7431,7 +7433,7 @@ public class MainActivity extends AppCompatActivity {
 																																									select_language.setSelection((int)(38));
 																																								}
 																																								else {
-																																									if (LANGUAGE.getString("LANGUAGE", "").equals("39")) {
+																																									if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 39)) {
 																																										sub_text_installed.setText(R.string.installed_39);
 																																										main_title.setText(R.string.main_title_39);
 																																										about_title.setText(R.string.about_title_39);
@@ -7506,7 +7508,7 @@ public class MainActivity extends AppCompatActivity {
 																																										select_language.setSelection((int)(39));
 																																									}
 																																									else {
-																																										if (LANGUAGE.getString("LANGUAGE", "").equals("40")) {
+																																										if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 40)) {
 																																											sub_text_installed.setText(R.string.installed_40);
 																																											main_title.setText(R.string.main_title_40);
 																																											about_title.setText(R.string.about_title_40);
@@ -7581,7 +7583,7 @@ public class MainActivity extends AppCompatActivity {
 																																											select_language.setSelection((int)(40));
 																																										}
 																																										else {
-																																											if (LANGUAGE.getString("LANGUAGE", "").equals("41")) {
+																																											if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 41)) {
 																																												sub_text_installed.setText(R.string.installed_41);
 																																												main_title.setText(R.string.main_title_41);
 																																												about_title.setText(R.string.about_title_41);
@@ -7656,7 +7658,7 @@ public class MainActivity extends AppCompatActivity {
 																																												select_language.setSelection((int)(41));
 																																											}
 																																											else {
-																																												if (LANGUAGE.getString("LANGUAGE", "").equals("42")) {
+																																												if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 42)) {
 																																													sub_text_installed.setText(R.string.installed_42);
 																																													main_title.setText(R.string.main_title_42);
 																																													about_title.setText(R.string.about_title_42);
@@ -7731,7 +7733,7 @@ public class MainActivity extends AppCompatActivity {
 																																													select_language.setSelection((int)(42));
 																																												}
 																																												else {
-																																													if (LANGUAGE.getString("LANGUAGE", "").equals("43")) {
+																																													if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 43)) {
 																																														sub_text_installed.setText(R.string.installed_43);
 																																														main_title.setText(R.string.main_title_43);
 																																														about_title.setText(R.string.about_title_43);
@@ -7806,7 +7808,7 @@ public class MainActivity extends AppCompatActivity {
 																																														select_language.setSelection((int)(43));
 																																													}
 																																													else {
-																																														if (LANGUAGE.getString("LANGUAGE", "").equals("44")) {
+																																														if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 44)) {
 																																															sub_text_installed.setText(R.string.installed_44);
 																																															main_title.setText(R.string.main_title_44);
 																																															about_title.setText(R.string.about_title_44);
@@ -7881,7 +7883,7 @@ public class MainActivity extends AppCompatActivity {
 																																															select_language.setSelection((int)(44));
 																																														}
 																																														else {
-																																															if (LANGUAGE.getString("LANGUAGE", "").equals("45")) {
+																																															if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 45)) {
 																																																sub_text_installed.setText(R.string.installed_45);
 																																																main_title.setText(R.string.main_title_45);
 																																																about_title.setText(R.string.about_title_45);
@@ -8068,6 +8070,11 @@ public class MainActivity extends AppCompatActivity {
 				
 				return textViewv; }
 		});
+		// Show the saved language (tag or migrated index) without waiting for Settings to open.
+		int savedLanguage = LanguageTags.indexOf(LANGUAGE.getString("LANGUAGE", ""));
+		if (savedLanguage >= 0) {
+			select_language.setSelection(savedLanguage, false);
+		}
 	}
 	
 	
