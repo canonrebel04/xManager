@@ -453,6 +453,12 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.main);
+		getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+			@Override
+			public void handleOnBackPressed() {
+				_onBackPressed();
+			}
+		});
 		initialize(_savedInstanceState);
 		
 		
@@ -2752,8 +2758,7 @@ public class MainActivity extends AppCompatActivity {
 		_Dark_Navigation();
 	}
 	
-	@Override
-	public void onBackPressed() {
+	private void _onBackPressed() {
 		try {
 			if (CLOSER_1 == 1) {
 				CHECK = 0;

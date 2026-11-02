@@ -55,6 +55,12 @@ public class SplashActivity extends AppCompatActivity {
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		setContentView(R.layout.splash);
+		getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+			@Override
+			public void handleOnBackPressed() {
+				_onBackPressed();
+			}
+		});
 		initialize(_savedInstanceState);
 		
 		
@@ -131,8 +137,7 @@ public class SplashActivity extends AppCompatActivity {
 		_Theme_UI();
 	}
 	
-	@Override
-	public void onBackPressed() {
+	private void _onBackPressed() {
 		com.google.android.material.snackbar.Snackbar.make(main_body, "Can't Go Back", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 	}
 	public void _Dark_Navigation() {
