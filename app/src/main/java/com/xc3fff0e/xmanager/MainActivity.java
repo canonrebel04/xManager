@@ -8463,10 +8463,13 @@ public class MainActivity extends AppCompatActivity {
 							donors_1.setText(Datas.get("Supporters").toString());
 							hidden_update.setText(Datas.get("Update").toString());
 							app_changelogs.setText(Datas.get("App_Changelogs").toString());
-							Current_Version = local_version.getText().toString();
-							VersionUtil.parse(Current_Version);
-							Latest_Version = Datas.get("Server").toString();
-							VersionUtil.parse(Latest_Version);
+							// Validate both before storing, so a bad value never reaches VersionUtil.compare() later.
+							String currentVersion = local_version.getText().toString();
+							String latestVersion = Datas.get("Server").toString();
+							VersionUtil.parse(currentVersion);
+							VersionUtil.parse(latestVersion);
+							Current_Version = currentVersion;
+							Latest_Version = latestVersion;
 							if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
 								list_items_1.setAdapter(new List_items_1Adapter(stock_patched));
 								list_items_2.setAdapter(new List_items_2Adapter(amoled_patched));
@@ -8942,10 +8945,13 @@ public class MainActivity extends AppCompatActivity {
 		main_refresh_layout.setRefreshing(true);
 		if (SketchwareUtil.isConnected(getApplicationContext())) {
 			try {
-				Current_Version = local_version.getText().toString();
-				VersionUtil.parse(Current_Version);
-				Latest_Version = Datas.get("Server").toString();
-				VersionUtil.parse(Latest_Version);
+				// Validate both before storing, so a bad value never reaches VersionUtil.compare() later.
+				String currentVersion = local_version.getText().toString();
+				String latestVersion = Datas.get("Server").toString();
+				VersionUtil.parse(currentVersion);
+				VersionUtil.parse(latestVersion);
+				Current_Version = currentVersion;
+				Latest_Version = latestVersion;
 			} catch (Exception e) {
 			}
 			Timer = new TimerTask() {
