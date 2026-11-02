@@ -14,6 +14,7 @@
 		android:orientation="horizontal">
 		<ImageView
 			android:id="@+id/icon"
+			android:importantForAccessibility="no"
 			android:focusable="false"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
