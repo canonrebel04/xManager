@@ -29,14 +29,19 @@ Revival of the archived upstream project on the `revive/build-fix` branch.
 - The splash tagline is picked with a single draw, so every title is equally likely.
 - The notification channel has a readable name instead of "Null".
 - The header buttons keep 48dp touch targets on narrow (320dp) screens.
+- Pending timers are cancelled when the main or splash screen is destroyed, so late callbacks can't touch a closed screen, and a splash closed early no longer opens the main screen (REL-12).
+- Installed-version refresh reacts only to the two watched packages and runs once per install instead of once per broadcast (REL-23, REL-24).
 
 ### Accessibility
 - Icon-only buttons, switches and the stock card have labels, and touch targets are 48dp.
+- Section titles are marked as headings, so screen-reader users can jump between sections (A11Y-06).
 
 ### Performance and code health
 - Installed-app polling was replaced with an event-driven refresh. Timers use fixed-delay scheduling.
 - Layouts were flattened, and hard-coded UI text was moved to string resources.
 - All Android Lint errors are fixed.
+- Debug builds log StrictMode violations (main-thread disk/network access, leaks); release builds are unchanged (PERF-12).
 
 ### Tests and CI
 - JVM unit tests, Robolectric activity tests, and emulator smoke and Accessibility Test Framework tests run in GitHub Actions on API 30 and API 34.
+- CI validates the Gradle wrapper checksum before building (CI-04), and pull requests get a template with a testing checklist (DOC-04).
