@@ -70,7 +70,7 @@ import androidx.browser.customtabs.CustomTabsIntent;
 
 public class MainActivity extends AppCompatActivity {
 	
-	private Timer _timer = new Timer();
+	private final LifecycleTimer _timer = new LifecycleTimer();
 	
 	private double CHECK = 0;
 	private double COUNTER = 0;
@@ -2818,6 +2818,7 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
+		_Mark_Headings();
 		_API();
 		_Initialize();
 		_Reinitialize();
@@ -2871,12 +2872,35 @@ public class MainActivity extends AppCompatActivity {
 	// activity is started. The lookups run on a background thread; UI updates are posted back.
 	private final java.util.concurrent.ExecutorService installedExecutor = java.util.concurrent.Executors.newSingleThreadExecutor();
 	private boolean packageReceiverRegistered = false;
-	private final BroadcastReceiver packageChangeReceiver = new BroadcastReceiver() {
+	// The two packages whose installed version is shown on the main screen (REL-23).
+	static final String[] WATCHED_PACKAGES = {"com.spotify.music", "com.spotify.musix"};
+	// One install sends ADDED, REPLACED and CHANGED back to back; refresh once (REL-24).
+	static final long PACKAGE_REFRESH_DEBOUNCE_MS = 300;
+	private final android.os.Handler packageRefreshHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+	private final Runnable packageRefreshRunnable = new Runnable() {
 		@Override
-		public void onReceive(Context _context, Intent _intent) {
+		public void run() {
 			_Refresh_Installed();
 		}
 	};
+	private final BroadcastReceiver packageChangeReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context _context, Intent _intent) {
+			if (!isWatchedPackageIntent(_intent)) return;
+			packageRefreshHandler.removeCallbacks(packageRefreshRunnable);
+			packageRefreshHandler.postDelayed(packageRefreshRunnable, PACKAGE_REFRESH_DEBOUNCE_MS);
+		}
+	};
+	
+	static boolean isWatchedPackageIntent(Intent _intent) {
+		if (_intent == null || _intent.getData() == null) return false;
+		String pkg = _intent.getData().getSchemeSpecificPart();
+		if (pkg == null) return false;
+		for (String watched : WATCHED_PACKAGES) {
+			if (watched.equals(pkg)) return true;
+		}
+		return false;
+	}
 	
 	@Override
 	protected void onStart() {
@@ -2907,11 +2931,15 @@ public class MainActivity extends AppCompatActivity {
 			unregisterReceiver(packageChangeReceiver);
 			packageReceiverRegistered = false;
 		}
+		packageRefreshHandler.removeCallbacks(packageRefreshRunnable);
 		super.onStop();
 	}
 	
 	@Override
 	protected void onDestroy() {
+		// REL-12: drop pending TimerTasks so they don't touch this activity after it is gone.
+		_timer.cancel();
+		packageRefreshHandler.removeCallbacks(packageRefreshRunnable);
 		installedExecutor.shutdownNow();
 		super.onDestroy();
 	}
@@ -2931,8 +2959,8 @@ public class MainActivity extends AppCompatActivity {
 		installedExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
-				final String version = _Installed_Version(pm, "com.spotify.music");
-				final String version_c = _Installed_Version(pm, "com.spotify.musix");
+				final String version = _Installed_Version(pm, WATCHED_PACKAGES[0]);
+				final String version_c = _Installed_Version(pm, WATCHED_PACKAGES[1]);
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -2970,6 +2998,16 @@ public class MainActivity extends AppCompatActivity {
 		sub_installed.setTextColor(0xFFFFFFFF);
 		sub_separator_1.setTextColor(0xFF616161);
 		sub_installed_c.setTextColor(0xFFBDBDBD);
+	}
+	
+	// A11Y-06: section titles are headings, so TalkBack users can jump between sections.
+	private void _Mark_Headings() {
+		View[] headings = {title_header, title_about, title_1, title_2, title_3, title_6, title_sub};
+		for (View heading : headings) {
+			if (heading != null) {
+				androidx.core.view.ViewCompat.setAccessibilityHeading(heading, true);
+			}
+		}
 	}
 	
 	public void _Informations() {

@@ -274,7 +274,8 @@ Skip RippleReveal and the splash animations when ANIMATOR_DURATION_SCALE is 0 or
 Mark section titles with accessibilityHeading=true.
 
 *Why:* Lets screen-reader users jump between sections.  
-*Files:* `res/layout/main.xml`
+*Files:* `res/layout/main.xml`  
+*Status:* Done: the header, About title, the four version-section titles and Manager Tools are marked as headings (`ViewCompat.setAccessibilityHeading`, works below API 28 too).
 
 ### A11Y-07 · Logical focus order  `P1` `S`
 
@@ -451,7 +452,8 @@ Define gradients as XML drawables or cache them instead of allocating new ones o
 Enable StrictMode thread and VM policies in debug to surface disk and network on the main thread.
 
 *Why:* Finds hidden performance bugs early.  
-*Files:* `xManager.java`
+*Files:* `xManager.java`  
+*Status:* Done: debug builds enable StrictMode thread and VM policies with `penaltyLog()` only (never crash); release builds are unchanged.
 
 ### PERF-13 · Make the logcat reader opt-in  `P1` `S`
 
@@ -586,7 +588,8 @@ Reset isRunning in finally, allow stop/start, don't throw if already running, an
 Keep references to TimerTasks and cancel them in onDestroy/onStop.
 
 *Why:* Late callbacks can touch views of a destroyed Activity and crash.  
-*Files:* `MainActivity.java, SplashActivity.java`
+*Files:* `MainActivity.java, SplashActivity.java`  
+*Status:* Done: `MainActivity` and `SplashActivity` cancel their timer in `onDestroy`; a late `schedule()` after that is ignored instead of crashing (`LifecycleTimer`).
 
 ### REL-13 · Survive configuration changes  `P1` `M`
 
@@ -656,28 +659,32 @@ Replace the INITIALIZATION and REFETCH SharedPreferences dance with one well-def
 Catch NameNotFoundException when querying the installed version of a managed app.
 
 *Why:* Gives graceful 'not installed' display instead of crashes.  
-*Files:* `MainActivity.java`
+*Files:* `MainActivity.java`  
+*Status:* Already satisfied: `_Installed_Version` catches the lookup failure (including `NameNotFoundException`) and returns null, shown as N/A. Covered by the Robolectric launch tests.
 
 ### REL-23 · Filter package broadcasts by package name  `P2` `S`
 
 In packageChangeReceiver, read intent.getData().getSchemeSpecificPart() and refresh only for the two managed packages.
 
 *Why:* Today every app install, update or uninstall on the device triggers a PackageManager refresh.  
-*Files:* `MainActivity.java#packageChangeReceiver (~line 2802)`
+*Files:* `MainActivity.java#packageChangeReceiver (~line 2802)`  
+*Status:* Done: the package receiver only reacts to `com.spotify.music` and `com.spotify.musix` (`MainActivity.isWatchedPackageIntent`).
 
 ### REL-24 · Coalesce bursts of package broadcasts  `P3` `S`
 
 Debounce _Refresh_Installed (e.g. 300 ms) so ADDED+REPLACED+CHANGED from one install only refresh once.
 
 *Why:* A single update sends 3–4 broadcasts, each queuing a refresh.  
-*Files:* `MainActivity.java#_Refresh_Installed`
+*Files:* `MainActivity.java#_Refresh_Installed`  
+*Status:* Done: package broadcasts are debounced by 300 ms on the main looper, so one install refreshes once; a pending refresh is dropped in `onStop`.
 
 ### REL-25 · Don't touch views after destroy in installed refresh  `P2` `S`
 
 Check isFinishing()/isDestroyed() before posting results from installedExecutor to the UI thread.
 
 *Why:* shutdownNow() interrupts the work but a result already posted can still run against a destroyed Activity.  
-*Files:* `MainActivity.java#_Refresh_Installed`
+*Files:* `MainActivity.java#_Refresh_Installed`  
+*Status:* Already satisfied: the result is posted only if `!isFinishing() && !isDestroyed()`, and the executor shuts down in `onDestroy`.
 
 ## Update checking
 
@@ -1349,7 +1356,8 @@ Enable org.gradle.caching and configuration-cache.
 Add gradle/actions/wrapper-validation to CI.
 
 *Why:* Protects against a malicious gradle-wrapper.jar.  
-*Files:* `.github/workflows`
+*Files:* `.github/workflows`  
+*Status:* Done: the unit-test job runs `gradle/actions/wrapper-validation@v4` before building.
 
 ### CI-05 · Dependabot / Renovate  `P1` `S`
 
@@ -1570,7 +1578,8 @@ Upstream has issues disabled; turn them on with templates.
 Add a PR template with a testing checklist.
 
 *Why:* Improves PR quality.  
-*Files:* `.github/pull_request_template.md`
+*Files:* `.github/pull_request_template.md`  
+*Status:* Done: `.github/pull_request_template.md` with a build/test/lint/CI checklist and the scope reminder.
 
 ### DOC-05 · CHANGELOG.md (Keep a Changelog)  `P1` `S`
 
