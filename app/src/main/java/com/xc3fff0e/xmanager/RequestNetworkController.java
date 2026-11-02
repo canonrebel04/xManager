@@ -16,6 +16,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class RequestNetworkController {
 	public static final String GET = "GET";
@@ -28,6 +29,8 @@ public class RequestNetworkController {
 	
 	private static final int SOCKET_TIMEOUT = 15000;
 	private static final int READ_TIMEOUT = 25000;
+	
+	private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 	
 	protected OkHttpClient client;
 	
@@ -103,7 +106,7 @@ public class RequestNetworkController {
 					reqBuilder.url(url).headers(headerBuilder.build()).method(method, reqBody);
 				}
 			} else {
-				RequestBody reqBody = RequestBody.create(MediaType.parse("application/json"), new Gson().toJson(requestNetwork.getParams()));
+				RequestBody reqBody = RequestBody.create(new Gson().toJson(requestNetwork.getParams()), JSON);
 				
 				if (method.equals(GET)) {
 					reqBuilder.url(url).headers(headerBuilder.build()).get();
@@ -127,11 +130,15 @@ public class RequestNetworkController {
 				
 				@Override
 				public void onResponse(Call call, final Response response) throws IOException {
-					final String responseBody = response.body().string().trim();
+					final String responseBody;
+					// OkHttp 4: close the body when done; body is null-safe for odd responses.
+					try (ResponseBody body = response.body()) {
+						responseBody = body != null ? body.string().trim() : "";
+					}
+					final Headers b = response.headers();
 					requestNetwork.getActivity().runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
-							Headers b = response.headers();
 							HashMap<String, Object> map = new HashMap<>();
 							for (String s : b.names()) {
 								map.put(s, b.get(s) != null ? b.get(s) : "null");
