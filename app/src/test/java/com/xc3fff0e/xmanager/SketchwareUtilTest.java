@@ -95,7 +95,7 @@ public class SketchwareUtilTest {
 	}
 
 	/**
-	 * BUG (TEST_REPORT #1): the numeric comparator never returns +1
+	 * Fixed (TEST_REPORT #1): the numeric comparator used to never return +1
 	 * ({@code a < b ? -1 : a < b ? 1 : 0}), so numeric sorting is wrong.
 	 */
 	@Test
@@ -113,7 +113,7 @@ public class SketchwareUtilTest {
 	}
 
 	/**
-	 * BUG (TEST_REPORT #1): the numeric comparator never returns +1
+	 * Fixed (TEST_REPORT #1): the numeric comparator used to never return +1
 	 * ({@code a < b ? -1 : a < b ? 1 : 0}). Small lists happen to sort correctly (binary insertion
 	 * only checks {@code < 0}), but TimSort's merge/gallop phase on lists of more than 32 entries
 	 * relies on {@code > 0} and produces a wrong order (or "Comparison method violates its general
@@ -139,6 +139,14 @@ public class SketchwareUtilTest {
 		} catch (NumberFormatException e) {
 			fail("numeric sort fails on Gson-parsed numbers: " + e.getMessage());
 		}
+		assertEquals(java.util.Arrays.asList("1.0", "2.0", "3.0"), column(list, "n"));
+	}
+
+	@Test
+	public void sortListMap_numeric_mixedWithText_doesNotCrash() {
+		ArrayList<HashMap<String, Object>> list = rows("n", "10", "x", 2.0, "9");
+		SketchwareUtil.sortListMap(list, "n", true, true);
+		assertEquals(java.util.Arrays.asList("2.0", "9", "10", "x"), column(list, "n"));
 	}
 
 	@Test
