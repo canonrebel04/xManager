@@ -25,6 +25,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.annotation.LooperMode;
 import org.robolectric.shadows.ShadowLooper;
+import org.robolectric.shadows.ShadowToast;
 
 /**
  * Backlog targets that need the app running (Robolectric). Every test here except
@@ -260,6 +261,8 @@ public class BacklogTargetsTest {
 		assertFalse("refresh inside the debounce window still ran (spinner on)", srl.isRefreshing());
 		assertFalse("refresh inside the debounce window still ran; snackbars: " + snackbarTexts(a),
 				snackbarTexts(a).contains("Refreshing Data List..."));
+		assertTrue("debounced refresh gave no feedback",
+				ShadowToast.showedToast(a.getString(R.string.refresh_debounced)));
 	}
 
 	// ---------------------------------------------------------------- UI-15 Pull-to-refresh feedback
@@ -309,8 +312,26 @@ public class BacklogTargetsTest {
 		assertEquals("refresh did not fetch from the server", 1, fake.urls.size());
 		int id = resId(a, "string", "refresh_no_changes");
 		assertNotEquals("no string resource 'refresh_no_changes'", 0, id);
+		// A short Toast, not a snackbar that sits over the bottom buttons until tapped.
+		assertTrue("unchanged refresh not reported as 'no changes'", ShadowToast.showedToast(a.getString(id)));
 		List<String> shown = snackbarTexts(a);
-		assertTrue("unchanged refresh not reported as 'no changes'; snackbars: " + shown, shown.contains(a.getString(id)));
+		assertFalse("'no changes' left a snackbar over the bottom buttons: " + shown, shown.contains(a.getString(id)));
+	}
+
+	/** The header shows the open screen's title; it follows a language change right away. */
+	@Test
+	public void settingsHeader_followsLanguageChange() {
+		MainActivity a = launchMain();
+		selectLanguage(a, "English (Default)");
+		a.findViewById(R.id.box_switch).performClick();
+		idle();
+		TextView header = a.findViewById(R.id.title_header);
+		TextView settingsTitle = a.findViewById(R.id.settings_title);
+		String before = header.getText().toString();
+		assertEquals(settingsTitle.getText().toString(), before);
+		selectLanguage(a, "German (informal, du)");
+		assertNotEquals("settings title didn't change language", before, settingsTitle.getText().toString());
+		assertEquals("header kept the old language", settingsTitle.getText().toString(), header.getText().toString());
 	}
 
 	// ---------------------------------------------------------------- UI-16 Empty / error state

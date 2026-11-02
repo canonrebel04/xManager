@@ -87,7 +87,10 @@ public class SplashActivity extends AppCompatActivity {
 		w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
 		Glide.with(getApplicationContext()).load(Uri.parse("file:///android_asset/splash.gif")).into(icon_splash);
-		title_splash.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_glitch.ttf"), Typeface.BOLD);
+		// Load MainActivity's font and OkHttp off the main thread while the splash is showing.
+		Fonts.preloadAsync(getApplicationContext().getAssets(), Fonts.BASE);
+		RequestNetworkController.warmUpAsync();
+		title_splash.setTypeface(Fonts.get(getAssets(), Fonts.GLITCH), Typeface.BOLD);
 		// One draw, so each of the five titles is equally likely (the old if/else chain
 		// re-rolled at every step and mostly showed the first entries).
 		int pick = SketchwareUtil.getRandom(0, TAGLINES.length - 1);

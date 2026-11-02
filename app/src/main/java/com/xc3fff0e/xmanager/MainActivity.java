@@ -172,6 +172,8 @@ public class MainActivity extends AppCompatActivity {
 	private TextView thanks;
 	private TextView main_title;
 	private TextView settings_title;
+	/** The screen title the header currently mirrors (null until a screen sets it). */
+	private TextView headerTitleSource;
 	private TextView about_title;
 	private TextView file_directory;
 	private TextView new_update;
@@ -869,7 +871,7 @@ public class MainActivity extends AppCompatActivity {
 				
 				
 				
-				title_header.setText(experiment_title.getText().toString());
+				_setHeaderTitle(experiment_title);
 				title_header_beta.setTextColor(Color.TRANSPARENT);
 				title_header_separator.setTextColor(Color.TRANSPARENT);
 				_Tap_Animation(box_experiment);
@@ -898,7 +900,7 @@ public class MainActivity extends AppCompatActivity {
 				main_box_16.setVisibility(View.GONE);
 				main_box_20.setVisibility(View.VISIBLE);
 				main_box_21.setVisibility(View.VISIBLE);
-				title_header.setText(settings_title.getText().toString());
+				_setHeaderTitle(settings_title);
 				title_header_beta.setTextColor(Color.TRANSPARENT);
 				title_header_separator.setTextColor(Color.TRANSPARENT);
 				_Tap_Animation(box_switch);
@@ -1036,7 +1038,7 @@ public class MainActivity extends AppCompatActivity {
 				box_experiment.setVisibility(View.VISIBLE);
 				box_switch.setVisibility(View.VISIBLE);
 				box_update.setVisibility(View.VISIBLE);
-				title_header.setText(main_title.getText().toString());
+				_setHeaderTitle(main_title);
 				title_header_beta.setTextColor(0xFFFFFFFF);
 				title_header_separator.setTextColor(0xFFFFFFFF);
 				Animation header_beta;
@@ -1059,8 +1061,8 @@ public class MainActivity extends AppCompatActivity {
 					title_2.setText("AMOLED PATCHED");
 					patched_1.setText("Ad-free, unlimited skips, and play on-demand");
 					patched_2.setText("Same features but in an AMOLED black theme");
-					patched_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.NORMAL);
-					patched_2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.NORMAL);
+					patched_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.NORMAL);
+					patched_2.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.NORMAL);
 					patched_1.setTextSize((int)12);
 					patched_2.setTextSize((int)12);
 					sub_1.setVisibility(View.VISIBLE);
@@ -1091,8 +1093,8 @@ public class MainActivity extends AppCompatActivity {
 						title_2.setText("AMOLED CLONED PATCHED");
 						patched_1.setText("A cloned version of the stock patched");
 						patched_2.setText("A cloned version of the stock patched with an AMOLED black theme");
-						patched_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.NORMAL);
-						patched_2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.NORMAL);
+						patched_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.NORMAL);
+						patched_2.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.NORMAL);
 						patched_1.setTextSize((int)12);
 						patched_2.setTextSize((int)12);
 						sub_1.setVisibility(View.GONE);
@@ -1912,7 +1914,7 @@ public class MainActivity extends AppCompatActivity {
 				box_experiment.setVisibility(View.VISIBLE);
 				box_switch.setVisibility(View.VISIBLE);
 				box_update.setVisibility(View.VISIBLE);
-				title_header.setText(main_title.getText().toString());
+				_setHeaderTitle(main_title);
 				title_header_beta.setTextColor(0xFFFFFFFF);
 				title_header_separator.setTextColor(0xFFFFFFFF);
 				Animation header_beta;
@@ -2694,7 +2696,7 @@ public class MainActivity extends AppCompatActivity {
 				box_experiment.setVisibility(View.GONE);
 				box_switch.setVisibility(View.GONE);
 				box_update.setVisibility(View.GONE);
-				title_header.setText(about_title.getText().toString());
+				_setHeaderTitle(about_title);
 				title_header_beta.setTextColor(Color.TRANSPARENT);
 				title_header_separator.setTextColor(Color.TRANSPARENT);
 				_Tap_Animation(box_about);
@@ -2782,8 +2784,9 @@ public class MainActivity extends AppCompatActivity {
 												if (fromRefresh) {
 														main_refresh_layout.setRefreshing(false);
 														if (apiAvailable && parsed.equals(Datas)) {
-																// UI-15: same document as before; nothing to redraw.
-																_showRefreshResult(getString(R.string.refresh_no_changes));
+																// UI-15: same document as before; nothing to redraw. A short Toast,
+																// so nothing sits over the bottom buttons waiting for a tap.
+																Toast.makeText(MainActivity.this, R.string.refresh_no_changes, Toast.LENGTH_SHORT).show();
 																return;
 														}
 												}
@@ -4528,9 +4531,21 @@ public class MainActivity extends AppCompatActivity {
 		languageUiSyncing = true;
 		try {
 			_applyLanguageUi();
+			// The header copies the current screen's title; re-copy it so it follows a
+			// language change instead of keeping the old language until the next restart.
+			if (headerTitleSource != null) {
+				title_header.setText(headerTitleSource.getText().toString());
+			}
 		} finally {
 			languageUiSyncing = false;
 		}
+	}
+	
+	
+	/** Shows {@code source}'s title in the header and remembers it for language changes. */
+	private void _setHeaderTitle(TextView source) {
+		headerTitleSource = source;
+		title_header.setText(source.getText().toString());
 	}
 	
 	
@@ -8623,60 +8638,60 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Initialize() {
-		title_header.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		title_sub.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		title_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		title_2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		title_3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		title_6.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_text_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_text_2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		versions_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		versions_2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		versions_3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_installed.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_separator_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_installed_c.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_text_installed.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		title_sub.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		support.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		donate.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		about.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		source.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		website.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		discord.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		reddit.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		faq.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		theme.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		title_about.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		local_version.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		xmanager_dev.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		developer_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		contributors.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_donors.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		donors_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		changelogs.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		sub_title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		list_auto_refresh.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		list_auto_refresh_info.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		reboot.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		reset_preferences.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		language.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		patched_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.NORMAL);
-		patched_2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.NORMAL);
-		patched_3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.NORMAL);
-		title_header_beta.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		title_header_separator.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		cloned_version.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		cloned_version_info.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		disable_notification.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		disable_notification_info.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		hide_stock_patched.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		hide_amoled_patched.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
+		title_header.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		title_sub.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		title_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		title_2.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		title_3.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		title_6.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_2.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_3.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_4.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_text_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_text_2.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		versions_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		versions_2.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		versions_3.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_installed.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_separator_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_installed_c.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_text_installed.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		title_sub.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		support.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		donate.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		about.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		source.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		website.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		discord.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		reddit.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		faq.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		theme.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		title_about.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		local_version.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		xmanager_dev.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		developer_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		contributors.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_donors.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		donors_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		changelogs.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		sub_title.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		list_auto_refresh.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		list_auto_refresh_info.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		reboot.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		reset_preferences.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		language.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		patched_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.NORMAL);
+		patched_2.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.NORMAL);
+		patched_3.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.NORMAL);
+		title_header_beta.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		title_header_separator.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		cloned_version.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		cloned_version_info.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		disable_notification.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		disable_notification_info.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		hide_stock_patched.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		hide_amoled_patched.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 		box_sub_header.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
 		main_box_2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
@@ -8864,8 +8879,9 @@ public class MainActivity extends AppCompatActivity {
 				}
 				if (lastSuccessfulFetchAt >= 0
 						&& SystemClock.elapsedRealtime() - lastSuccessfulFetchAt < REFRESH_DEBOUNCE_MS) {
-					// PERF-09: the list was fetched moments ago; don't hit the server again.
+					// PERF-09: the list was fetched moments ago; don't hit the server again, but say so.
 					main_refresh_layout.setRefreshing(false);
+					Toast.makeText(MainActivity.this, R.string.refresh_debounced, Toast.LENGTH_SHORT).show();
 					return;
 				}
 				// UI-15: fetch again and report the real outcome (updated, no changes, or the error).
@@ -8983,96 +8999,96 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Reinitialize() {
-		manager_lang_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_5.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_6.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_7.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_8.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_9.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_10.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_11.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_12.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_13.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_14.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_15.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_16.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_17.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_18.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_19.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_20.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_21.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_22.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_23.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_24.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_25.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_26.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_27.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_28.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_29.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_30.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_31.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_32.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_33.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_34.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_35.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_36.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_37.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_38.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_39.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_40.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_41.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_42.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_43.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_44.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		manager_lang_45.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_1.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_2.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_3.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_4.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_5.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_6.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_7.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_8.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_9.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_10.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_11.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_12.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_13.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_14.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_15.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_16.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_17.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_18.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_19.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_20.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_21.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_22.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_23.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_24.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_25.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_26.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_27.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_28.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_29.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_30.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_31.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_32.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_33.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_34.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_35.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_36.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_37.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_38.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_39.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_40.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_41.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_42.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_43.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_44.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-		translator_45.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
+		manager_lang_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_2.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_3.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_4.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_5.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_6.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_7.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_8.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_9.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_10.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_11.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_12.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_13.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_14.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_15.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_16.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_17.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_18.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_19.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_20.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_21.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_22.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_23.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_24.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_25.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_26.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_27.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_28.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_29.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_30.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_31.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_32.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_33.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_34.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_35.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_36.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_37.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_38.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_39.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_40.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_41.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_42.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_43.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_44.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		manager_lang_45.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_1.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_2.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_3.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_4.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_5.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_6.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_7.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_8.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_9.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_10.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_11.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_12.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_13.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_14.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_15.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_16.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_17.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_18.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_19.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_20.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_21.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_22.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_23.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_24.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_25.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_26.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_27.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_28.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_29.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_30.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_31.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_32.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_33.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_34.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_35.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_36.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_37.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_38.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_39.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_40.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_41.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_42.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_43.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_44.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+		translator_45.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 	}
 	
 	
@@ -9474,9 +9490,9 @@ public class MainActivity extends AppCompatActivity {
 					sub_separator.setTextColor(0xFF616161);
 					sub_separator.setText("|");
 				}
-				sub.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-				sub_separator.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-				title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
+				sub.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+				sub_separator.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+				title.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 				if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
 					title.setText(stock_patched.get((int)(stock_patched.size() - 1) - _position).get("Title").toString());
 				}
@@ -9551,9 +9567,9 @@ public class MainActivity extends AppCompatActivity {
 					sub_separator.setTextColor(0xFF616161);
 					sub_separator.setText("|");
 				}
-				sub.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-				sub_separator.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-				title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
+				sub.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+				sub_separator.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+				title.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 				if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
 					title.setText(amoled_patched.get((int)(amoled_patched.size() - 1) - _position).get("Title").toString());
 				}
@@ -9630,9 +9646,9 @@ public class MainActivity extends AppCompatActivity {
 					sub_separator.setTextColor(0xFF616161);
 					sub_separator.setText("|");
 				}
-				sub.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-				sub_separator.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
-				title.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
+				sub.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+				sub_separator.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
+				title.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 				title.setText(other_patched.get((int)(other_patched.size() - 1) - _position).get("Title").toString());
 				Animation animation;
 				animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
@@ -9680,7 +9696,7 @@ public class MainActivity extends AppCompatActivity {
 			final TextView info = _view.findViewById(R.id.info);
 			
 			try {
-				info.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_font.ttf"), Typeface.BOLD);
+				info.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 				info.setText(patched_changelogs.get((int)(patched_changelogs.size() - 1) - _position).get("Patched_Changelogs").toString());
 				box.setOnLongClickListener(new View.OnLongClickListener() {
 					@Override
