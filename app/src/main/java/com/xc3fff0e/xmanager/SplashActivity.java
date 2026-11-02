@@ -75,11 +75,9 @@ public class SplashActivity extends AppCompatActivity {
 	}
 	
 	private void initializeLogic() {
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-			Window w =SplashActivity.this.getWindow();
-			w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-			w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
-		}
+		Window w =SplashActivity.this.getWindow();
+		w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+		w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
 		Glide.with(getApplicationContext()).load(Uri.parse("file:///android_asset/splash.gif")).into(icon_splash);
 		title_splash.setTypeface(Typeface.createFromAsset(getAssets(),"fonts/base_glitch.ttf"), Typeface.BOLD);
 		if (0 == SketchwareUtil.getRandom((int)(0), (int)(4))) {
@@ -141,9 +139,7 @@ public class SplashActivity extends AppCompatActivity {
 		com.google.android.material.snackbar.Snackbar.make(main_body, "Can't Go Back", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 	}
 	public void _Dark_Navigation() {
-		if (Build.VERSION.SDK_INT >= 21) {
-				getWindow().setNavigationBarColor(Color.parseColor("#171717"));
-		}
+			getWindow().setNavigationBarColor(Color.parseColor("#171717"));
 		
 	}
 	

@@ -1831,11 +1831,9 @@ public class MainActivity extends AppCompatActivity {
 						}
 					};
 					_timer.schedule(Timer, (int)(1500));
-					if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-						Window w =MainActivity.this.getWindow();
-						w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-						w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
-					}
+					Window w =MainActivity.this.getWindow();
+					w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+					w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
 					main_body_optimization.setVisibility(View.VISIBLE);
 					main_scroll_settings.setVisibility(View.GONE);
 					main_scroll_about.setVisibility(View.GONE);
@@ -3959,32 +3957,15 @@ public class MainActivity extends AppCompatActivity {
 	
 	public static class Drawables {
 			public static android.graphics.drawable.Drawable getSelectableDrawableFor(int color) {
-					if (Build.VERSION.SDK_INT < 21) {
-							android.graphics.drawable.StateListDrawable stateListDrawable = new android.graphics.drawable.StateListDrawable();
-							stateListDrawable.addState(
-							new int[]{android.R.attr.state_pressed},
-							new android.graphics.drawable.ColorDrawable(Color.parseColor("#ffffff"))
-							);
-							stateListDrawable.addState(
-							new int[]{android.R.attr.state_focused},
-							new android.graphics.drawable.ColorDrawable(Color.parseColor("#00ffffff"))
-							);
-							stateListDrawable.addState(
-							new int[]{},
-							new android.graphics.drawable.ColorDrawable(Color.parseColor("#00ffffff"))
-							);
-							return stateListDrawable;
-					} else {
-							android.content.res.ColorStateList pressedColor = android.content.res.ColorStateList.valueOf(color);
-							android.graphics.drawable.ColorDrawable defaultColor = new android.graphics.drawable.ColorDrawable(Color.parseColor("#00ffffff"));
-							
-							android.graphics.drawable.Drawable rippleColor = getRippleColor(color);
-							return new android.graphics.drawable.RippleDrawable(
-							pressedColor,
-							defaultColor,
-							rippleColor
-							);
-					}
+						android.content.res.ColorStateList pressedColor = android.content.res.ColorStateList.valueOf(color);
+						android.graphics.drawable.ColorDrawable defaultColor = new android.graphics.drawable.ColorDrawable(Color.parseColor("#00ffffff"));
+						
+						android.graphics.drawable.Drawable rippleColor = getRippleColor(color);
+						return new android.graphics.drawable.RippleDrawable(
+						pressedColor,
+						defaultColor,
+						rippleColor
+						);
 			}
 			
 			private static android.graphics.drawable.Drawable getRippleColor(int color) {
@@ -4057,32 +4038,15 @@ public class MainActivity extends AppCompatActivity {
 	}
 	public static class CircleDrawables {
 			public static android.graphics.drawable.Drawable getSelectableDrawableFor(int color) {
-					if (Build.VERSION.SDK_INT < 21) {
-							android.graphics.drawable.StateListDrawable stateListDrawable = new android.graphics.drawable.StateListDrawable();
-							stateListDrawable.addState(
-							new int[]{android.R.attr.state_pressed},
-							new android.graphics.drawable.ColorDrawable(Color.parseColor("#ffffff"))
-							);
-							stateListDrawable.addState(
-							new int[]{android.R.attr.state_focused},
-							new android.graphics.drawable.ColorDrawable(Color.parseColor("#00ffffff"))
-							);
-							stateListDrawable.addState(
-							new int[]{},
-							new android.graphics.drawable.ColorDrawable(Color.parseColor("#00ffffff"))
-							);
-							return stateListDrawable;
-					} else {
-							android.content.res.ColorStateList pressedColor = android.content.res.ColorStateList.valueOf(color);
-							android.graphics.drawable.ColorDrawable defaultColor = new android.graphics.drawable.ColorDrawable(Color.parseColor("#00ffffff"));
-							
-							android.graphics.drawable.Drawable rippleColor = getRippleColor(color);
-							return new android.graphics.drawable.RippleDrawable(
-							pressedColor,
-							defaultColor,
-							rippleColor
-							);
-					}
+						android.content.res.ColorStateList pressedColor = android.content.res.ColorStateList.valueOf(color);
+						android.graphics.drawable.ColorDrawable defaultColor = new android.graphics.drawable.ColorDrawable(Color.parseColor("#00ffffff"));
+						
+						android.graphics.drawable.Drawable rippleColor = getRippleColor(color);
+						return new android.graphics.drawable.RippleDrawable(
+						pressedColor,
+						defaultColor,
+						rippleColor
+						);
 			}
 			
 			private static android.graphics.drawable.Drawable getRippleColor(int color) {
@@ -4296,9 +4260,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Dark_Navigation() {
-		if (Build.VERSION.SDK_INT >= 21) {
-				getWindow().setNavigationBarColor(Color.parseColor("#171717"));
-		}
+			getWindow().setNavigationBarColor(Color.parseColor("#171717"));
 		
 	}
 	
@@ -8623,11 +8585,9 @@ public class MainActivity extends AppCompatActivity {
 					}
 				};
 				_timer.schedule(Timer, (int)(2000));
-				if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-					Window w =MainActivity.this.getWindow();
-					w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-					w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
-				}
+				Window w =MainActivity.this.getWindow();
+				w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+				w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
 				main_body_optimization.setVisibility(View.VISIBLE);
 				main_scroll_settings.setVisibility(View.GONE);
 				main_scroll_about.setVisibility(View.GONE);
@@ -8661,11 +8621,9 @@ public class MainActivity extends AppCompatActivity {
 							sub_4.setVisibility(View.VISIBLE);
 						}
 					}
-					if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-						Window w =MainActivity.this.getWindow();
-						w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-						w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
-					}
+					Window w =MainActivity.this.getWindow();
+					w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+					w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
 					title_header.setTextColor(0xFF1DB954);
 					title_header_separator.setTextColor(0xFFFFFFFF);
 					title_header_beta.setTextColor(0xFFFFFFFF);
@@ -9068,37 +9026,35 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Layout_Transition() {
-		if (Build.VERSION.SDK_INT >= 4.1) {
-				((ViewGroup) findViewById(R.id.main_box_1)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-				
-				((ViewGroup) findViewById(R.id.main_box_2)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-				
-				((ViewGroup) findViewById(R.id.main_box_3)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-				
-				((ViewGroup) findViewById(R.id.main_box_19)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-				
-				((ViewGroup) findViewById(R.id.main_box_6)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-				
-				((ViewGroup) findViewById(R.id.box_sub_header)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-				
-				((ViewGroup) findViewById(R.id.main_box_4)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-				
-				((ViewGroup) findViewById(R.id.main_box_15)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-			    
-			    ((ViewGroup) findViewById(R.id.box_theme_switch)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-				
-				((ViewGroup) findViewById(R.id.box_language_switch)).getLayoutTransition()
-				.enableTransitionType(LayoutTransition.CHANGING);
-		}
+			((ViewGroup) findViewById(R.id.main_box_1)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
+			
+			((ViewGroup) findViewById(R.id.main_box_2)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
+			
+			((ViewGroup) findViewById(R.id.main_box_3)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
+			
+			((ViewGroup) findViewById(R.id.main_box_19)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
+			
+			((ViewGroup) findViewById(R.id.main_box_6)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
+			
+			((ViewGroup) findViewById(R.id.box_sub_header)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
+			
+			((ViewGroup) findViewById(R.id.main_box_4)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
+			
+			((ViewGroup) findViewById(R.id.main_box_15)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
+		    
+			((ViewGroup) findViewById(R.id.box_theme_switch)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
+			
+			((ViewGroup) findViewById(R.id.box_language_switch)).getLayoutTransition()
+			.enableTransitionType(LayoutTransition.CHANGING);
 		
 	}
 	
@@ -9181,11 +9137,9 @@ public class MainActivity extends AppCompatActivity {
 				}
 		};
 		_timer.schedule(Timer, (int)(1000));
-		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-				Window w =MainActivity.this.getWindow();
-				w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-				w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
-		}
+			Window w =MainActivity.this.getWindow();
+			w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS); w.setStatusBarColor(0xFF171717);
 		title_header.setTextColor(0xFF1DB954);
 		title_header_separator.setTextColor(0xFFFFFFFF);
 		title_header_beta.setTextColor(0xFFFFFFFF);
