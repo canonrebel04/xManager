@@ -1,0 +1,58 @@
+{
+ "main_resumed": {
+  "ok": true,
+  "note": "com.xc3fff0e.xmanager/.MainActivity"
+ },
+ "main_rows_present": {
+  "ok": true,
+  "note": "STOCK PATCHED / AMOLED PATCHED / OTHER PATCHED / MISCELLANEOUS rows rendered"
+ },
+ "main_versions_tap": {
+  "ok": true,
+  "note": "3 'Versions' rows tappable; list empty because api_url is empty"
+ },
+ "settings_open": {
+  "ok": true,
+  "note": "no StackOverflowError on device"
+ },
+ "settings_scroll": {
+  "ok": true,
+  "note": "scrolled to bottom; still in MainActivity"
+ },
+ "relaunch_after_emulator_restart": {
+  "ok": true,
+  "note": "com.xc3fff0e.xmanager/.MainActivity"
+ },
+ "about_open_scroll": {
+  "ok": true,
+  "note": ""
+ },
+ "installed_label_not_installed": {
+  "ok": true,
+  "note": "sub_installed='N/A' sub_installed_c=None"
+ },
+ "installed_label_live_after_install (receiver)": {
+  "ok": true,
+  "note": "('0.0.1-dummy', None)"
+ },
+ "installed_label_both_live": {
+  "ok": true,
+  "note": "('0.0.1-dummy', '0.0.1-dummy')"
+ },
+ "no_crash_buffer_entries": {
+  "ok": true,
+  "note": ""
+ },
+ "installed_label_after_bg_uninstall (onResume)": {
+  "ok": true,
+  "note": "(None, '0.0.1-dummy') resumed=com.xc3fff0e.xmanager/.MainActivity (sub_installed GONE expected)"
+ },
+ "installed_label_live_after_uninstall (receiver)": {
+  "ok": true,
+  "note": "('N/A', None)"
+ },
+ "experiments_open": {
+  "ok": true,
+  "note": ""
+ }
+}
