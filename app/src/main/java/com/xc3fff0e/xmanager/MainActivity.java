@@ -2793,110 +2793,123 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 	
-	public void _Informations() {
-		Timer = new TimerTask() {
+	// Installed-version info used to be refreshed by a TimerTask polling PackageManager every
+	// 150 ms on the UI thread for the whole lifetime of the activity. It is now event driven:
+	// refreshed in onResume and whenever a package is added/removed/replaced/changed while the
+	// activity is started. The lookups run on a background thread; UI updates are posted back.
+	private final java.util.concurrent.ExecutorService installedExecutor = java.util.concurrent.Executors.newSingleThreadExecutor();
+	private boolean packageReceiverRegistered = false;
+	private final BroadcastReceiver packageChangeReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context _context, Intent _intent) {
+			_Refresh_Installed();
+		}
+	};
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		if (!packageReceiverRegistered) {
+			IntentFilter filter = new IntentFilter();
+			filter.addAction(Intent.ACTION_PACKAGE_ADDED);
+			filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+			filter.addAction(Intent.ACTION_PACKAGE_REPLACED);
+			filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
+			filter.addDataScheme("package");
+			// Package broadcasts are protected system broadcasts, which are delivered to
+			// non-exported receivers too, so other apps cannot spoof them into this receiver.
+			ContextCompat.registerReceiver(this, packageChangeReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
+			packageReceiverRegistered = true;
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		_Refresh_Installed();
+	}
+	
+	@Override
+	protected void onStop() {
+		if (packageReceiverRegistered) {
+			unregisterReceiver(packageChangeReceiver);
+			packageReceiverRegistered = false;
+		}
+		super.onStop();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		installedExecutor.shutdownNow();
+		super.onDestroy();
+	}
+	
+	private static String _Installed_Version(PackageManager _pm, String _package) {
+		try {
+			return _pm.getPackageInfo(_package, 0).versionName;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public void _Refresh_Installed() {
+		if (installedExecutor.isShutdown()) return;
+		final PackageManager pm = getPackageManager();
+		installedExecutor.execute(new Runnable() {
 			@Override
 			public void run() {
+				final String version = _Installed_Version(pm, "com.spotify.music");
+				final String version_c = _Installed_Version(pm, "com.spotify.musix");
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						Timer = new TimerTask() {
-							@Override
-							public void run() {
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										if (Installed_Checker.equals("true") && Installed_Checker_Cloned.equals("true")) {
-											sub_installed.setVisibility(View.VISIBLE);
-											sub_separator_1.setVisibility(View.VISIBLE);
-											sub_installed_c.setVisibility(View.VISIBLE);
-											sub_installed.setTextColor(0xFFFFFFFF);
-											sub_separator_1.setTextColor(0xFF616161);
-											sub_installed_c.setTextColor(0xFFBDBDBD);
-										}
-										else {
-											if (Installed_Checker.equals("false") && Installed_Checker_Cloned.equals("false")) {
-												sub_installed.setVisibility(View.VISIBLE);
-												sub_separator_1.setVisibility(View.GONE);
-												sub_installed_c.setVisibility(View.GONE);
-												sub_installed.setTextColor(0xFFFFFFFF);
-												sub_separator_1.setTextColor(0xFF616161);
-												sub_installed_c.setTextColor(0xFFBDBDBD);
-											}
-											else {
-												if (Installed_Checker.equals("true") && Installed_Checker_Cloned.equals("false")) {
-													sub_installed.setVisibility(View.VISIBLE);
-													sub_separator_1.setVisibility(View.GONE);
-													sub_installed_c.setVisibility(View.GONE);
-													sub_installed.setTextColor(0xFFFFFFFF);
-													sub_separator_1.setTextColor(0xFF616161);
-													sub_installed_c.setTextColor(0xFFBDBDBD);
-												}
-												else {
-													if (Installed_Checker.equals("false") && Installed_Checker_Cloned.equals("true")) {
-														sub_installed.setVisibility(View.GONE);
-														sub_separator_1.setVisibility(View.GONE);
-														sub_installed_c.setVisibility(View.VISIBLE);
-														sub_installed.setTextColor(0xFFFFFFFF);
-														sub_separator_1.setTextColor(0xFF616161);
-														sub_installed_c.setTextColor(0xFFBDBDBD);
-													}
-												}
-											}
-										}
-										String uri = "com.spotify.music";
-										android.content.pm.PackageManager pm = getPackageManager();
-										
-										try {
-												android.content.pm.PackageInfo pInfo = pm.getPackageInfo(uri, android.content.pm.PackageManager.GET_ACTIVITIES);
-												String version = pInfo.versionName;
-												sub_installed.setText(version);
-												Installed_Checker = "true";
-										}
-										
-										catch (Exception e) {
-												sub_installed.setText("N/A");
-												Installed_Checker = "false";
-										}
-										
-										String uri_c = "com.spotify.musix";
-										android.content.pm.PackageManager pm_c = getPackageManager();
-										
-										try {
-												android.content.pm.PackageInfo pInfo = pm_c.getPackageInfo(uri_c, android.content.pm.PackageManager.GET_ACTIVITIES);
-												String version_c = pInfo.versionName;
-												sub_installed_c.setText(version_c);
-												Installed_Checker_Cloned = "true";
-										}
-										
-										catch (Exception e) {
-												sub_installed_c.setText("N/A");
-												Installed_Checker_Cloned = "false";
-										}
-										
-										String app = "com.xc3fff0e.xmanager";
-										android.content.pm.PackageManager ver = getPackageManager();
-										
-										try {
-												android.content.pm.PackageInfo pInfo = ver.getPackageInfo(app, android.content.pm.PackageManager.GET_ACTIVITIES);
-												String version = pInfo.versionName;
-												local_version.setText(version);
-												
-										}
-										catch (Exception e) {
-												SketchwareUtil.showMessage(getApplicationContext(), "Fatal Error");
-										}
-										
-									}
-								});
-							}
-						};
-						_timer.schedule(Timer, (int)(75));
+						if (isFinishing() || isDestroyed()) return;
+						_Apply_Installed(version, version_c);
 					}
 				});
 			}
-		};
-		_timer.schedule(Timer, (int)(0), (int)(150));
+		});
+	}
+	
+	private void _Apply_Installed(String version, String version_c) {
+		Installed_Checker = version != null ? "true" : "false";
+		Installed_Checker_Cloned = version_c != null ? "true" : "false";
+		sub_installed.setText(version != null ? version : "N/A");
+		sub_installed_c.setText(version_c != null ? version_c : "N/A");
+		if (Installed_Checker.equals("true") && Installed_Checker_Cloned.equals("true")) {
+			sub_installed.setVisibility(View.VISIBLE);
+			sub_separator_1.setVisibility(View.VISIBLE);
+			sub_installed_c.setVisibility(View.VISIBLE);
+		}
+		else {
+			if (Installed_Checker.equals("false") && Installed_Checker_Cloned.equals("true")) {
+				sub_installed.setVisibility(View.GONE);
+				sub_separator_1.setVisibility(View.GONE);
+				sub_installed_c.setVisibility(View.VISIBLE);
+			}
+			else {
+				// stock only, or neither installed (shows "N/A")
+				sub_installed.setVisibility(View.VISIBLE);
+				sub_separator_1.setVisibility(View.GONE);
+				sub_installed_c.setVisibility(View.GONE);
+			}
+		}
+		sub_installed.setTextColor(0xFFFFFFFF);
+		sub_separator_1.setTextColor(0xFF616161);
+		sub_installed_c.setTextColor(0xFFBDBDBD);
+	}
+	
+	public void _Informations() {
+		// This app's own version never changes while running; set it right away so later code
+		// that parses local_version (update check) always sees it.
+		try {
+			local_version.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+		}
+		catch (Exception e) {
+			SketchwareUtil.showMessage(getApplicationContext(), "Fatal Error");
+		}
+		// Spotify install state is refreshed in onResume and on package broadcasts.
 	}
 	
 	
