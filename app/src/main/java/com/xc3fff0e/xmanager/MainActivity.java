@@ -8789,7 +8789,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	public void _API() {
 		try {
-				Connection.startRequestNetwork(RequestNetworkController.GET, this.getString(R.string.ㅤ), "null", _Connection_request_listener);
+				Connection.startRequestNetwork(RequestNetworkController.GET, this.getString(R.string.api_url), "null", _Connection_request_listener);
 		} catch (Exception e) {
 				com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Invalid API Response", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 		}
