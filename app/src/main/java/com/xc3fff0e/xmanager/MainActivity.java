@@ -2896,7 +2896,7 @@ public class MainActivity extends AppCompatActivity {
 				});
 			}
 		};
-		_timer.scheduleAtFixedRate(Timer, (int)(0), (int)(150));
+		_timer.schedule(Timer, (int)(0), (int)(150));
 	}
 	
 	
@@ -8204,7 +8204,7 @@ public class MainActivity extends AppCompatActivity {
 				});
 			}
 		};
-		_timer.scheduleAtFixedRate(Timer, (int)(0), (int)(9000));
+		_timer.schedule(Timer, (int)(0), (int)(9000));
 	}
 	
 	
