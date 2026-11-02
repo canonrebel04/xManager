@@ -3,7 +3,8 @@ package com.xc3fff0e.xmanager;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
-import okhttp3.HttpUrl;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Where the update-server endpoint comes from. The URL is a build-time setting
@@ -41,7 +42,18 @@ public final class ApiConfig {
 		if (url == null || url.trim().isEmpty()) {
 			return false;
 		}
-		HttpUrl parsed = HttpUrl.parse(url.trim());
-		return parsed != null && !parsed.host().isEmpty();
+		// java.net.URI rather than OkHttp's HttpUrl: this runs on the main thread at startup,
+		// and touching OkHttp there loads and initialises its classes (an ANR on slow devices).
+		try {
+			URI parsed = new URI(url.trim());
+			String scheme = parsed.getScheme();
+			if (!"http".equalsIgnoreCase(scheme) && !"https".equalsIgnoreCase(scheme)) {
+				return false;
+			}
+			String host = parsed.getHost();
+			return host != null && !host.isEmpty();
+		} catch (URISyntaxException e) {
+			return false;
+		}
 	}
 }

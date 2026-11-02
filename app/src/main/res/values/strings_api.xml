@@ -11,4 +11,5 @@
     <string name="latest_unavailable">Couldn\'t load versions</string>
     <string name="refresh_no_changes">The version list is already up to date.</string>
     <string name="refresh_result_ok">OK</string>
+    <string name="refresh_debounced">Already refreshed just now</string>
 </resources>

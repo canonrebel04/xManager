@@ -36,6 +36,23 @@ public class RequestNetworkController {
 	
 	private static RequestNetworkController mInstance;
 	
+	/**
+	 * Loads OkHttp and builds the shared client on a background thread, so the first request
+	 * from the main thread doesn't pay for OkHttp's class loading (a startup ANR on slow devices).
+	 */
+	public static void warmUpAsync() {
+		Thread warmUp = new Thread(() -> {
+			try {
+				getInstance().getClient();
+				HttpUrl.parse("http://localhost/");
+			} catch (RuntimeException e) {
+				// Best effort only: the first real request builds the client if this failed.
+			}
+		}, "xManager-okhttp-warmup");
+		warmUp.setDaemon(true);
+		warmUp.start();
+	}
+	
 	public static synchronized RequestNetworkController getInstance() {
 		if(mInstance == null) {
 			mInstance = new RequestNetworkController();
@@ -43,7 +60,7 @@ public class RequestNetworkController {
 		return mInstance;
 	}
 	
-	private OkHttpClient getClient() {
+	private synchronized OkHttpClient getClient() {
 		if (client == null) {
 			OkHttpClient.Builder builder = new OkHttpClient.Builder();
 			
