@@ -24,7 +24,7 @@
 		android:layout_height="wrap_content"
 		android:padding="8dp"
 		android:gravity="center_horizontal|center_vertical"
-		android:text="xManager"
+		android:text="@string/app_name"
 		android:textSize="25sp"
 		android:textStyle="bold"
 		android:textColor="#FFFFFF"

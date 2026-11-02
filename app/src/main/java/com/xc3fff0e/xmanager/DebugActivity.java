@@ -19,12 +19,12 @@ public class DebugActivity extends Activity {
 
 		String error = getIntent() != null ? getIntent().getStringExtra("error") : null;
 		if (error == null || error.isEmpty()) {
-			error = "No error details were provided.";
+			error = getString(R.string.debug_no_error_details);
 		}
 
 		int padding = (int) (16 * getResources().getDisplayMetrics().density);
 		TextView textView = new TextView(this);
-		textView.setText("An unexpected error occurred:\n\n" + error);
+		textView.setText(getString(R.string.debug_unexpected_error, error));
 		textView.setTypeface(Typeface.MONOSPACE);
 		textView.setTextIsSelectable(true);
 		textView.setPadding(padding, padding, padding, padding);

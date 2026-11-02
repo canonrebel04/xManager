@@ -24,7 +24,7 @@
 			android:paddingEnd="0dp"
 			android:paddingTop="8dp"
 			android:paddingBottom="8dp"
-			android:text="xManager"
+			android:text="@string/app_name"
 			android:textSize="20sp"
 			android:textStyle="bold"
 			android:textColor="#171717" />
@@ -34,7 +34,7 @@
 			android:layout_height="wrap_content"
 			android:paddingStart="3dp"
 			android:paddingEnd="3dp"
-			android:text="|"
+			android:text="@string/ui_title_header_separator"
 			android:textSize="16sp"
 			android:textStyle="bold"
 			android:textColor="#171717" />
@@ -115,7 +115,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="TextView"
+			android:text="@string/ui_experiment_title"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -178,7 +178,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="CLOSE"
+			android:text="@string/close"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -214,7 +214,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="OPEN SETTINGS"
+			android:text="@string/open_settings"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -223,7 +223,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="UNINSTALL"
+			android:text="@string/uninstall"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -313,7 +313,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="N/A"
+			android:text="@string/ui_hidden_update"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -322,7 +322,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text=" "
+			android:text="@string/ui_app_changelogs"
 			android:textSize="12sp"
 			android:textStyle="bold"
 			android:textColor="#FFFFFF"
@@ -377,7 +377,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="xManager is currently unavailable. Kindly check the application later."
+			android:text="@string/ui_maintenance_desc"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -386,7 +386,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="MAINTENANCE"
+			android:text="@string/maintenance"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -395,7 +395,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="THANKS!"
+			android:text="@string/thanks"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -404,7 +404,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="xManager"
+			android:text="@string/app_name"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -413,7 +413,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="Settings"
+			android:text="@string/settings_title"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -422,7 +422,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="About"
+			android:text="@string/about_title"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -440,7 +440,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="NEW MANAGER UPDATE"
+			android:text="@string/new_update"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -449,7 +449,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="CONTINUE"
+			android:text="@string/ui_continue_1"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -458,7 +458,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="CANCEL"
+			android:text="@string/cancel"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -476,7 +476,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="LATER"
+			android:text="@string/later"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -512,7 +512,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="GO BACK"
+			android:text="@string/go_back"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -530,7 +530,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="NOT NOW"
+			android:text="@string/not_now"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -548,7 +548,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="SHOW YOUR SUPPORT"
+			android:text="@string/show_support"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -557,7 +557,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:padding="8dp"
-			android:text="We are a non-profit, non-corporate and non-compromised team. People like you encourage us to create an app to make things much easier especially from downloading to installing.\n\nWe are pouring all of our time and best efforts just to make things right and perfect. We will do our best to support this app as long as we could.\n\nAny amount will help and be very much appreciated!"
+			android:text="@string/show_support_desc"
 			android:textSize="12sp"
 			android:textColor="#000000"
 			android:alpha="0.0" />
@@ -701,7 +701,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:padding="8dp"
-							android:text="LIST AUTO-REFRESH"
+							android:text="@string/list_auto_refresh"
 							android:textSize="12sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954" />
@@ -739,7 +739,7 @@
 						android:id="@+id/list_auto_refresh_info"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="Enabling this will automatically refresh the list everytime you launch the application.\n\nYou can manually refresh the list by dragging the main screen downward."
+						android:text="@string/list_auto_refresh_desc"
 						android:textSize="12sp"
 						android:textStyle="bold"
 						android:textColor="#FFFFFF" />
@@ -937,7 +937,7 @@
 						android:layout_height="wrap_content"
 						android:padding="8dp"
 						android:gravity="start|center_vertical"
-						android:text="THEMES"
+						android:text="@string/show_themes"
 						android:textSize="12sp"
 						android:textStyle="bold"
 						android:textColor="#1DB954"
@@ -981,7 +981,7 @@
 						android:layout_height="wrap_content"
 						android:padding="8dp"
 						android:gravity="start|center_vertical"
-						android:text="LANGUAGE"
+						android:text="@string/language"
 						android:textSize="12sp"
 						android:textStyle="bold"
 						android:textColor="#1DB954"
@@ -1029,7 +1029,7 @@
 						android:paddingStart="10dp"
 						android:paddingEnd="10dp"
 						android:gravity="center_horizontal|center_vertical"
-						android:text="REFETCH AND REBOOT"
+						android:text="@string/reboot"
 						android:textSize="12sp"
 						android:textStyle="bold"
 						android:textColor="#FFFFFF" />
@@ -1049,7 +1049,7 @@
 						android:paddingStart="10dp"
 						android:paddingEnd="10dp"
 						android:gravity="center_horizontal|center_vertical"
-						android:text="RESET PREFERENCES"
+						android:text="@string/reset_preferences"
 						android:textSize="12sp"
 						android:textStyle="bold"
 						android:textColor="#FFFFFF" />
@@ -1113,7 +1113,7 @@
 					android:paddingStart="30dp"
 					android:paddingEnd="0dp"
 					android:gravity="center_horizontal|center_vertical"
-					android:text="xManager v"
+					android:text="@string/ui_title_about"
 					android:textSize="18sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF"
@@ -1125,7 +1125,7 @@
 					android:paddingEnd="30dp"
 					android:paddingStart="0dp"
 					android:gravity="center_horizontal|center_vertical"
-					android:text="N/A"
+					android:text="@string/ui_local_version"
 					android:textSize="18sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF"
@@ -1170,7 +1170,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="xManager Developer"
+					android:text="@string/xmanager_dev"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1181,7 +1181,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="xC3FFF0E"
+					android:text="@string/ui_developer_1"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1203,7 +1203,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Arabic Translation"
+					android:text="@string/ui_manager_lang_13"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1214,7 +1214,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Yazan Kasem | Infinitesimal"
+					android:text="@string/ui_translator_13"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1225,7 +1225,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Bengali Translation"
+					android:text="@string/ui_manager_lang_1"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1236,7 +1236,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="0V3R5!9H7 | ssabit"
+					android:text="@string/ui_translator_1"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1247,7 +1247,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Chinese (Simplified) Translation"
+					android:text="@string/ui_manager_lang_2"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1258,7 +1258,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Gent G | Softland99 | zelixdxin"
+					android:text="@string/ui_translator_2"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1269,7 +1269,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="French Translation"
+					android:text="@string/ui_manager_lang_3"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1280,7 +1280,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="The Punisher | Luxchar | xerta555 | GlThibault"
+					android:text="@string/ui_translator_3"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1291,7 +1291,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Greek Translation"
+					android:text="@string/ui_manager_lang_4"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1302,7 +1302,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Walter's Cousin #CAF"
+					android:text="@string/ui_translator_4"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1313,7 +1313,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Indonesian Translation"
+					android:text="@string/ui_manager_lang_5"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1324,7 +1324,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Mc. J | Deraidos | RelvinArsenio"
+					android:text="@string/ui_translator_5"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1335,7 +1335,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Italian Translation"
+					android:text="@string/ui_manager_lang_6"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1346,7 +1346,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Marco | gdonisi | albertopasqualetto"
+					android:text="@string/ui_translator_6"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1357,7 +1357,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Portuguese (Brazil) Translation"
+					android:text="@string/ui_manager_lang_7"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1368,7 +1368,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Loui's™ | Zilberto Junior"
+					android:text="@string/ui_translator_7"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1379,7 +1379,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Portuguese (Portugal) Translation"
+					android:text="@string/ui_manager_lang_8"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1390,7 +1390,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Androide323"
+					android:text="@string/ui_translator_8"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1401,7 +1401,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Romanian Translation"
+					android:text="@string/ui_manager_lang_15"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1412,7 +1412,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="NACH | f9branza | StephenTheMoldovan"
+					android:text="@string/ui_translator_15"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1423,7 +1423,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Russian Translation"
+					android:text="@string/ui_manager_lang_9"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1434,7 +1434,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Pegioner | vanja-san"
+					android:text="@string/ui_translator_9"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1445,7 +1445,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Slovenian Translation"
+					android:text="@string/ui_manager_lang_14"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1456,7 +1456,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="MysticX"
+					android:text="@string/ui_translator_14"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1467,7 +1467,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Spanish (Spain) Translation"
+					android:text="@string/ui_manager_lang_10"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1478,7 +1478,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="PetFix | Snapdragon845GMS | Zkyclad | c-franco"
+					android:text="@string/ui_translator_10"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1489,7 +1489,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Turkish Translation"
+					android:text="@string/ui_manager_lang_12"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1500,7 +1500,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Berkay | mikropsoft"
+					android:text="@string/ui_translator_12"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1511,7 +1511,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Ukrainian Translation"
+					android:text="@string/ui_manager_lang_11"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1522,7 +1522,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="NIKITA🇺🇦[beryllium] #PocoForEver | Veydzher"
+					android:text="@string/ui_translator_11"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1533,7 +1533,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Korean Translation"
+					android:text="@string/ui_manager_lang_16"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1544,7 +1544,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Apious | Annyeong-One"
+					android:text="@string/ui_translator_16"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1555,7 +1555,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Dutch Translation"
+					android:text="@string/ui_manager_lang_17"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1566,7 +1566,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Kevin"
+					android:text="@string/ui_translator_17"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1577,7 +1577,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Vietnamese Translation"
+					android:text="@string/ui_manager_lang_18"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1588,7 +1588,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="minhtamvn | tungnnnt17"
+					android:text="@string/ui_translator_18"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1599,7 +1599,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="German Translation"
+					android:text="@string/ui_manager_lang_19"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1610,7 +1610,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="smokedzn"
+					android:text="@string/ui_translator_19"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1621,7 +1621,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Persian Translation"
+					android:text="@string/ui_manager_lang_20"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1632,7 +1632,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="ohshahab"
+					android:text="@string/ui_translator_20"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1643,7 +1643,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Hebrew Translation"
+					android:text="@string/ui_manager_lang_21"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1654,7 +1654,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="GreenArmy18"
+					android:text="@string/ui_translator_21"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1665,7 +1665,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Polish Translation"
+					android:text="@string/ui_manager_lang_22"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1676,7 +1676,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="dearminder"
+					android:text="@string/ui_translator_22"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1687,7 +1687,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="English Translation"
+					android:text="@string/ui_manager_lang_23"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1698,7 +1698,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="Dyras | TheChilledBuffalo"
+					android:text="@string/ui_translator_23"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1709,7 +1709,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Slovak Translation"
+					android:text="@string/ui_manager_lang_24"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1720,7 +1720,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="KaldonM"
+					android:text="@string/ui_translator_24"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1731,7 +1731,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Swedish Translation"
+					android:text="@string/ui_manager_lang_25"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1742,7 +1742,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="rexobo"
+					android:text="@string/ui_translator_25"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1753,7 +1753,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Finnish Translation"
+					android:text="@string/ui_manager_lang_26"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1764,7 +1764,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="AfraidOfTheBigBlack | lilko1ra | KasperiP"
+					android:text="@string/ui_translator_26"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1775,7 +1775,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Czech Translation"
+					android:text="@string/ui_manager_lang_27"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1786,7 +1786,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="rex2630"
+					android:text="@string/ui_translator_27"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1797,7 +1797,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Chinese (Traditional) Translation"
+					android:text="@string/ui_manager_lang_28"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1808,7 +1808,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="cracky5322 | TragicLifeHu"
+					android:text="@string/ui_translator_28"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1819,7 +1819,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Bulgarian Translation"
+					android:text="@string/ui_manager_lang_29"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1830,7 +1830,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="meorro | martinov83"
+					android:text="@string/ui_translator_29"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1841,7 +1841,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Serbian (Cyrillic) Translation"
+					android:text="@string/ui_manager_lang_30"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1852,7 +1852,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="nexiRS | crnobog69 | momcilovicluka"
+					android:text="@string/ui_translator_30"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1863,7 +1863,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Serbian (Latin) Translation"
+					android:text="@string/ui_manager_lang_31"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1874,7 +1874,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="nexiRS | crnobog69 | momcilovicluka"
+					android:text="@string/ui_translator_31"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1885,7 +1885,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Catalan Translation"
+					android:text="@string/ui_manager_lang_32"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1896,7 +1896,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="tomaquet18"
+					android:text="@string/ui_translator_32"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1907,7 +1907,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Latvian Translation"
+					android:text="@string/ui_manager_lang_33"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1918,7 +1918,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="5dp"
-					android:text="ClientSiderz | gatesbydude"
+					android:text="@string/ui_translator_33"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1929,7 +1929,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="German Translation"
+					android:text="@string/ui_manager_lang_34"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1940,7 +1940,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="4NDROM3DA"
+					android:text="@string/ui_translator_34"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1951,7 +1951,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Sinhala Translation"
+					android:text="@string/ui_manager_lang_35"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1962,7 +1962,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="Psycho649"
+					android:text="@string/ui_translator_35"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1973,7 +1973,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Hungarian Translation"
+					android:text="@string/ui_manager_lang_36"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -1984,7 +1984,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="gurtnyi"
+					android:text="@string/ui_translator_36"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -1995,7 +1995,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Japanese Translation"
+					android:text="@string/ui_manager_lang_37"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2006,7 +2006,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="reindex-ot"
+					android:text="@string/ui_translator_37"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2017,7 +2017,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Nepali Translation"
+					android:text="@string/ui_manager_lang_38"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2028,7 +2028,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="iamkishansharma"
+					android:text="@string/ui_translator_38"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2039,7 +2039,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Tamil Translation"
+					android:text="@string/ui_manager_lang_39"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2050,7 +2050,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="jothi-prasath"
+					android:text="@string/ui_translator_39"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2061,7 +2061,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Thai Translation"
+					android:text="@string/ui_manager_lang_40"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2072,7 +2072,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="MaxNjtk"
+					android:text="@string/ui_translator_40"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2083,7 +2083,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Marathi Translation"
+					android:text="@string/ui_manager_lang_41"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2094,7 +2094,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="5eeTheaveragecoder"
+					android:text="@string/ui_translator_41"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2105,7 +2105,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Malayalam Translation"
+					android:text="@string/ui_manager_lang_42"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2116,7 +2116,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="TheChilledBuffalo | ShuhaibNC"
+					android:text="@string/ui_translator_42"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2127,7 +2127,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Croatian Translation"
+					android:text="@string/ui_manager_lang_43"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2138,7 +2138,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="mrki1111 | momcilovicluka"
+					android:text="@string/ui_translator_43"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2149,7 +2149,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Hindi Translation"
+					android:text="@string/ui_manager_lang_44"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2160,7 +2160,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="askadityapandey"
+					android:text="@string/ui_translator_44"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2171,7 +2171,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Mongolian Translation"
+					android:text="@string/ui_manager_lang_45"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2182,7 +2182,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="Madvellony"
+					android:text="@string/ui_translator_45"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2193,7 +2193,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Armenian Translation"
+					android:text="@string/ui_manager_lang_46"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2204,7 +2204,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="AAVVIronAlex"
+					android:text="@string/ui_translator_46"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2226,7 +2226,7 @@
 					android:paddingStart="8dp"
 					android:paddingTop="8dp"
 					android:paddingEnd="8dp"
-					android:text="Supporters and Donors"
+					android:text="@string/ui_manager_donors"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#1DB954" />
@@ -2237,7 +2237,7 @@
 					android:paddingStart="8dp"
 					android:paddingEnd="8dp"
 					android:paddingBottom="8dp"
-					android:text="&lt; list of donors &gt;"
+					android:text="@string/ui_donors_1"
 					android:textSize="14sp"
 					android:textStyle="bold"
 					android:textColor="#FFFFFF" />
@@ -2250,7 +2250,7 @@
 				android:layout_marginBottom="70dp"
 				android:padding="8dp"
 				android:gravity="center_horizontal|center_vertical"
-				android:text="THANKS TO ALL CONTRIBUTORS! ❤️"
+				android:text="@string/contributors"
 				android:textSize="14sp"
 				android:textStyle="bold"
 				android:textColor="#FFFFFF"
@@ -2741,7 +2741,7 @@
 							android:id="@+id/title_6"
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="MISCELLANEOUS"
+							android:text="@string/ui_title_6"
 							android:textSize="12sp"
 							android:textStyle="bold"
 							android:textColor="#FFFFFF" />
@@ -2784,7 +2784,7 @@
 							android:paddingEnd="8dp"
 							android:paddingBottom="8dp"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="INSTALLED"
+							android:text="@string/installed"
 							android:textSize="12sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
@@ -2804,7 +2804,7 @@
 								android:paddingTop="8dp"
 								android:paddingBottom="8dp"
 								android:gravity="end|center_vertical"
-								android:text="N/A"
+								android:text="@string/ui_sub_installed"
 								android:textSize="12sp"
 								android:textStyle="bold"
 								android:textColor="#FFFFFF"
@@ -2818,7 +2818,7 @@
 								android:paddingEnd="3dp"
 								android:paddingBottom="8dp"
 								android:gravity="end|center_vertical"
-								android:text="|"
+								android:text="@string/ui_sub_separator_1"
 								android:textSize="14sp"
 								android:textStyle="bold"
 								android:textColor="#FFFFFF"
@@ -2830,7 +2830,7 @@
 								android:paddingTop="8dp"
 								android:paddingBottom="8dp"
 								android:gravity="end|center_vertical"
-								android:text="N/A"
+								android:text="@string/ui_sub_installed_c"
 								android:textSize="12sp"
 								android:textStyle="bold"
 								android:textColor="#FFFFFF"
@@ -2862,7 +2862,7 @@
 							android:paddingEnd="8dp"
 							android:paddingBottom="8dp"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="CHANGELOGS"
+							android:text="@string/changelogs"
 							android:textSize="12sp"
 							android:textStyle="bold"
 							android:textColor="#FFFFFF"
@@ -2924,7 +2924,7 @@
 							android:paddingEnd="8dp"
 							android:paddingBottom="8dp"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="MANAGER TOOLS"
+							android:text="@string/manager_tools"
 							android:textSize="12sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
@@ -3031,7 +3031,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="TELEGRAM"
+							android:text="@string/support"
 							android:textSize="11sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
@@ -3062,7 +3062,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="REDDIT"
+							android:text="@string/reddit"
 							android:textSize="11sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
@@ -3093,7 +3093,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="SUPPORT"
+							android:text="@string/donate"
 							android:textSize="11sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
@@ -3126,7 +3126,7 @@
 							android:paddingStart="1dp"
 							android:paddingEnd="1dp"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="ABOUT"
+							android:text="@string/about"
 							android:textSize="11sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
@@ -3169,7 +3169,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="DISCORD"
+							android:text="@string/discord"
 							android:textSize="11sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
@@ -3201,7 +3201,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="SOURCE"
+							android:text="@string/source"
 							android:textSize="11sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
@@ -3233,7 +3233,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="WEBSITE"
+							android:text="@string/website"
 							android:textSize="11sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
@@ -3264,7 +3264,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:gravity="center_horizontal|center_vertical"
-							android:text="FAQ"
+							android:text="@string/faq"
 							android:textSize="11sp"
 							android:textStyle="bold"
 							android:textColor="#1DB954"
