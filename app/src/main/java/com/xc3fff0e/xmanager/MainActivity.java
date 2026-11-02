@@ -85,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
 	private HashMap<String, Object> Datas = new HashMap<>();
 	private String Current_Version = "0";
 	private String Latest_Version = "0";
+	/** True while _Theme_UI() runs, so select_theme.setSelection() can't re-enter it. */
+	private boolean themeUiSyncing = false;
+	/** True while _Language_UI() runs, so select_language.setSelection() can't re-enter it. */
+	private boolean languageUiSyncing = false;
 	private double CLICKER_1 = 0;
 	private double CLICKER_2 = 0;
 	private double CLICKER_3 = 0;
@@ -1275,6 +1279,10 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
+				if (themeUiSyncing) {
+					// _Theme_UI() is moving the spinner to the saved theme; don't re-apply it.
+					return;
+				}
 				if (_position == 0) {
 					THEME.edit().putString("THEME", "0").apply();
 					COUNTER = 1;
@@ -1432,6 +1440,10 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> _param1, View _param2, int _param3, long _param4) {
 				final int _position = _param3;
+				if (languageUiSyncing) {
+					// _Language_UI() is moving the spinner to the saved language; don't re-apply it.
+					return;
+				}
 				if (_position == 0) {
 					LANGUAGE.edit().putString("LANGUAGE", "0").apply();
 					COUNTER = 1;
@@ -2914,6 +2926,19 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Theme_UI() {
+		if (themeUiSyncing) {
+			return;
+		}
+		themeUiSyncing = true;
+		try {
+			_applyThemeUi();
+		} finally {
+			themeUiSyncing = false;
+		}
+	}
+	
+	
+	private void _applyThemeUi() {
 		if (THEME.getString("THEME", "").equals("0")) {
 			main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF000000}));
 			main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF000000}));
@@ -4440,6 +4465,19 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Language_UI() {
+		if (languageUiSyncing) {
+			return;
+		}
+		languageUiSyncing = true;
+		try {
+			_applyLanguageUi();
+		} finally {
+			languageUiSyncing = false;
+		}
+	}
+	
+	
+	private void _applyLanguageUi() {
 		if (LANGUAGE.getString("LANGUAGE", "").equals("0")) {
 			sub_text_installed.setText(R.string.installed);
 			main_title.setText(R.string.main_title);
