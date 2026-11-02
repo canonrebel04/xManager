@@ -7959,7 +7959,7 @@ public class MainActivity extends AppCompatActivity {
 		Language.add("Korean");
 		Language.add("Dutch");
 		Language.add("Vietnamese");
-		Language.add("German");
+		Language.add("German (informal, du)");
 		Language.add("Persian");
 		Language.add("Hebrew");
 		Language.add("Slovak");
@@ -7972,7 +7972,7 @@ public class MainActivity extends AppCompatActivity {
 		Language.add("Serbian (Latin)");
 		Language.add("Catalan");
 		Language.add("Latvian");
-		Language.add("German");
+		Language.add("German (formal, Sie)");
 		Language.add("Sinhala");
 		Language.add("Hungarian");
 		Language.add("Japanese");
