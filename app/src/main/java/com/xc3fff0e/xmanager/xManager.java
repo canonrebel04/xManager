@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Process;
 import android.util.Log;
 
@@ -36,6 +37,7 @@ public class xManager extends Application {
 				11111,
 				intent,
 				PendingIntent.FLAG_ONE_SHOT
+				| (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0)
 				);
 				
 				AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);

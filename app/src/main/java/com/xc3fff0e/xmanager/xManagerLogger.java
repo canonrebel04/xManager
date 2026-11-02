@@ -55,6 +55,8 @@ public class xManagerLogger {
 		
 		Intent intent = new Intent();
 		intent.setAction("com.xc3fff0e.xmanager.ACTION_NEW_DEBUG_LOG");
+		// Keep log broadcasts inside this app; other apps must not receive logcat output.
+		intent.setPackage(context.getPackageName());
 		intent.putExtra("log", log);
 		intent.putExtra("packageName", context.getPackageName());
 		context.sendBroadcast(intent);
