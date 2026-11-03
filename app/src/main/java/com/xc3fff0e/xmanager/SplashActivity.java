@@ -96,15 +96,18 @@ public class SplashActivity extends AppCompatActivity {
 		int pick = SketchwareUtil.getRandom(0, TAGLINES.length - 1);
 		title_splash.setText(TAGLINES[pick]);
 		title_splash.setTextSize(pick == TAGLINES.length - 1 ? 20 : 25);
-		Animation animation_icon;
-		animation_icon = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-		animation_icon.setDuration(800); icon_splash.startAnimation(animation_icon);
-		animation_icon = null;
-		
-		Animation animation_title;
-		animation_title = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-		animation_title.setDuration(800); title_splash.startAnimation(animation_title);
-		animation_title = null;
+		// A11Y-05: skip the fade-in when the user turned animations off.
+		if (RippleReveal.animationsEnabled(this)) {
+			Animation animation_icon;
+			animation_icon = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
+			animation_icon.setDuration(800); icon_splash.startAnimation(animation_icon);
+			animation_icon = null;
+			
+			Animation animation_title;
+			animation_title = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
+			animation_title.setDuration(800); title_splash.startAnimation(animation_title);
+			animation_title = null;
+		}
 		
 		Timer = new TimerTask() {
 				@Override

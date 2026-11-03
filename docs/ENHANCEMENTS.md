@@ -267,7 +267,8 @@ Use sp everywhere, remove fixed heights on text containers and test at 200% font
 Skip RippleReveal and the splash animations when ANIMATOR_DURATION_SCALE is 0 or remove-animations is on.
 
 *Why:* Animations can cause discomfort for vestibular-sensitive users.  
-*Files:* `RippleReveal.java, SplashActivity.java`
+*Files:* `RippleReveal.java, SplashActivity.java`  
+*Status:* Done: RippleReveal skips the reveal and the splash skips its fade-in when the animator scale is 0 (Developer options, or Accessibility "Remove animations"). Tests in `SmallFixesBatch7Test`.
 
 ### A11Y-06 · Accessibility headings  `P2` `S`
 
@@ -1335,7 +1336,8 @@ Add docs/adr/ explaining the major refactor choices.
 Run lint and upload SARIF to GitHub code scanning.
 
 *Why:* Findings show up inline in PRs.  
-*Files:* `.github/workflows`
+*Files:* `.github/workflows`  
+*Status:* Done: new "Android lint" CI job runs `lintDebug` (errors fail the job), uploads the SARIF report to code scanning (best effort) and the HTML/XML reports as an artifact.
 
 ### CI-02 · Release workflow with signing  `P1` `M`
 
@@ -1349,7 +1351,8 @@ Tag-triggered workflow that builds a signed release APK using encrypted secrets 
 Enable org.gradle.caching and configuration-cache.
 
 *Why:* Faster local and CI builds.  
-*Files:* `gradle.properties`
+*Files:* `gradle.properties`  
+*Status:* Partly done: `org.gradle.caching=true`. Configuration cache is not enabled yet (needs a check that every plugin and task supports it).
 
 ### CI-04 · Gradle wrapper validation  `P1` `S`
 
@@ -1434,7 +1437,8 @@ Add an optional pre-commit hook running spotless and unit tests.
 Reference actions by commit SHA.
 
 *Why:* Guards against supply-chain attacks on tags.  
-*Files:* `.github/workflows`
+*Files:* `.github/workflows`  
+*Status:* Done: every action in `android-tests.yml` is pinned to a commit SHA with its tag in a comment.
 
 ### CI-16 · Matrix build for minSdk device  `P2` `S`
 
@@ -1471,14 +1475,16 @@ Capture screenshots for each of the 21 themes and key languages.
 Parameterized test that applies every theme and asserts no crash plus contrast thresholds.
 
 *Why:* 21 themes are too many to check by hand.  
-*Files:* `app/src/test`
+*Files:* `app/src/test`  
+*Status:* Partly done: `SmallFixesBatch7Test.TEST02_everyThemeApplies` applies all 21 themes and checks each selects its spinner entry and sets a background. Contrast thresholds are not checked yet.
 
 ### TEST-03 · Language matrix test  `P2` `S`
 
 Parameterized test that switches every language and asserts that no view keeps the English default.
 
 *Why:* Catches missing translations.  
-*Files:* `app/src/test`
+*Files:* `app/src/test`  
+*Status:* Partly done: `SmallFixesBatch7Test.TEST03_everyLanguageApplies` applies all 46 languages and checks each selects its spinner entry and leaves the title non-empty. It does not yet check for leftover English text.
 
 ### TEST-04 · Fake API server for instrumented tests  `P1` `M`
 

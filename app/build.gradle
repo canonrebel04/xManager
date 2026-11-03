@@ -28,6 +28,10 @@ android {
 		buildConfig true
 	}
 
+	// CI-01: also write a SARIF report for GitHub code scanning.
+	lint {
+		sarifReport = true
+	}
 	testOptions {
 		unitTests {
 			includeAndroidResources = true

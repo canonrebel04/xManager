@@ -2819,6 +2819,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	private void initializeLogic() {
 		_Mark_Headings();
+		_Trim_Outlines(getWindow().getDecorView());
 		_API();
 		_Initialize();
 		_Reinitialize();
@@ -2998,6 +2999,31 @@ public class MainActivity extends AppCompatActivity {
 		sub_installed.setTextColor(0xFFFFFFFF);
 		sub_separator_1.setTextColor(0xFF616161);
 		sub_installed_c.setTextColor(0xFFBDBDBD);
+	}
+	
+	/**
+	 * Startup ANR fix: every view with a background gets an outline, rebuilt on each size
+	 * change during layout. Outlines only matter for shadows and outline clipping, so views
+	 * with no elevation, no translationZ, no press animator and no clipping can drop it;
+	 * nothing visible changes. Views that do cast a shadow (the pull-to-refresh spinner,
+	 * Material buttons) are left alone. Returns how many views were trimmed.
+	 */
+	static int _Trim_Outlines(View view) {
+		if (view == null) return 0;
+		int trimmed = 0;
+		if (view.getElevation() == 0f && view.getTranslationZ() == 0f
+				&& !view.getClipToOutline() && view.getStateListAnimator() == null
+				&& view.getOutlineProvider() != null) {
+			view.setOutlineProvider(null);
+			trimmed++;
+		}
+		if (view instanceof ViewGroup) {
+			ViewGroup group = (ViewGroup) view;
+			for (int i = 0; i < group.getChildCount(); i++) {
+				trimmed += _Trim_Outlines(group.getChildAt(i));
+			}
+		}
+		return trimmed;
 	}
 	
 	// A11Y-06: section titles are headings, so TalkBack users can jump between sections.
@@ -9158,37 +9184,54 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	
+	/** Home containers that animate layout changes (they used animateLayoutChanges in main.xml). */
+	static final int[] ANIMATED_CONTAINERS = {
+		R.id.main_box_1, R.id.main_box_2, R.id.main_box_3, R.id.main_box_19, R.id.main_box_6,
+		R.id.box_sub_header, R.id.main_box_4, R.id.main_box_15, R.id.box_theme_switch,
+		R.id.box_language_switch,
+	};
+	
+	private boolean layoutTransitionsApplied;
+	
+	/**
+	 * Startup ANR fix: with animateLayoutChanges in the XML, the very first layout set up a
+	 * change animation for every child of these containers (LayoutTransition clones its
+	 * animators per child), which showed up in "Waited 5000ms for FocusEvent" traces. Nothing
+	 * on screen animates during the first layout anyway, so install the same transitions
+	 * (defaults plus CHANGING) right after the first frame is drawn.
+	 */
 	public void _Layout_Transition() {
-			((ViewGroup) findViewById(R.id.main_box_1)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-			
-			((ViewGroup) findViewById(R.id.main_box_2)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-			
-			((ViewGroup) findViewById(R.id.main_box_3)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-			
-			((ViewGroup) findViewById(R.id.main_box_19)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-			
-			((ViewGroup) findViewById(R.id.main_box_6)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-			
-			((ViewGroup) findViewById(R.id.box_sub_header)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-			
-			((ViewGroup) findViewById(R.id.main_box_4)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-			
-			((ViewGroup) findViewById(R.id.main_box_15)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-		    
-			((ViewGroup) findViewById(R.id.box_theme_switch)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-			
-			((ViewGroup) findViewById(R.id.box_language_switch)).getLayoutTransition()
-			.enableTransitionType(LayoutTransition.CHANGING);
-		
+		final View decor = getWindow().getDecorView();
+		decor.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				ViewTreeObserver observer = decor.getViewTreeObserver();
+				if (observer.isAlive()) {
+					observer.removeOnPreDrawListener(this);
+				}
+				// Posted, so it runs after this frame has been drawn.
+				decor.post(new Runnable() {
+					@Override
+					public void run() {
+						_Apply_Layout_Transitions();
+					}
+				});
+				return true;
+			}
+		});
+	}
+	
+	void _Apply_Layout_Transitions() {
+		if (layoutTransitionsApplied || isFinishing()) return;
+		layoutTransitionsApplied = true;
+		for (int id : ANIMATED_CONTAINERS) {
+			View container = findViewById(id);
+			if (container instanceof ViewGroup && ((ViewGroup) container).getLayoutTransition() == null) {
+				LayoutTransition transition = new LayoutTransition();
+				transition.enableTransitionType(LayoutTransition.CHANGING);
+				((ViewGroup) container).setLayoutTransition(transition);
+			}
+		}
 	}
 	
 	
