@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.provider.Settings;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -29,9 +30,24 @@ public final class RippleReveal {
 
 	private RippleReveal() {}
 
+	/**
+	 * A11Y-05: false when the user turned animations off (Developer options animator scale 0,
+	 * or Accessibility "Remove animations", which sets the same value).
+	 */
+	public static boolean animationsEnabled(Context context) {
+		try {
+			return Settings.Global.getFloat(context.getContentResolver(),
+					Settings.Global.ANIMATOR_DURATION_SCALE, 1f) != 0f;
+		} catch (RuntimeException e) {
+			return true;
+		}
+	}
+
 	public static void start(final View origin, final long durationMs) {
 		final Activity activity = findActivity(origin.getContext());
 		if (activity == null || activity.isFinishing()) return;
+		// A11Y-05: with animations turned off, just apply the UI change without the reveal.
+		if (!animationsEnabled(activity)) return;
 		final ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView();
 		final int w = decor.getWidth();
 		final int h = decor.getHeight();
