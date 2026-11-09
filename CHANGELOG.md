@@ -33,6 +33,7 @@ Revival of the archived upstream project on the `revive/build-fix` branch.
 - Installed-version refresh reacts only to the two watched packages and runs once per install instead of once per broadcast (REL-23, REL-24).
 - Fewer startup freezes on slow devices: the home screen installs its layout animations right after the first frame instead of during the first layout, and views that draw no shadow skip outline work. Nothing looks different.
 - Copying a changelog marks the clipboard entry as sensitive on Android 13+, and the confirmation uses a string resource (SEC-12).
+- Fewer startup freezes: prefs (and the language-tag migration) load on a background thread; the default theme applies home colours immediately and about/settings colours after the first frame; the API-error Snackbar waits until after layout (inline error stays immediate); dialog dismiss is guarded when the activity is gone.
 
 ### Accessibility
 - Icon-only buttons, switches and the stock card have labels, and touch targets are 48dp.
@@ -46,6 +47,7 @@ Revival of the archived upstream project on the `revive/build-fix` branch.
 - All Android Lint errors are fixed.
 - Debug builds log StrictMode violations (main-thread disk/network access, leaks); release builds are unchanged (PERF-12).
 - Preference file names and keys live in `Prefs` (CODE-16).
+- `_Initialize` no longer builds the same ~32 theme drawables that `_Theme_UI` immediately rebuilds.
 
 ### Tests and CI
 - JVM unit tests, Robolectric activity tests, and emulator smoke and Accessibility Test Framework tests run in GitHub Actions on API 30 and API 34.
@@ -54,3 +56,4 @@ Revival of the archived upstream project on the `revive/build-fix` branch.
 - Tests apply every theme and every language and check each one takes effect (TEST-02, TEST-03), and cover the deferred layout animations and outline trim.
 - Language tests require non-English labels to differ from English (TEST-03). Robolectric recreate keeps theme and language (TEST-06).
 - Gradle configuration cache is on (CI-03), the compile JDK is pinned to 17 via a toolchain (CI-08), and unit-test results are published on the PR Checks tab (CI-13).
+- GitHub Actions bumped to checkout/setup-java/upload-artifact/cache/gradle-actions v5 and CodeQL Action v4 (still pinned by commit SHA).

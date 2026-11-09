@@ -22,6 +22,9 @@ public class xManager extends Application {
 	@Override
 	public void onCreate() {
 		mApplicationContext = getApplicationContext();
+		// Start prefs XML load + language migration off the main thread before any Activity
+		// touches SharedPreferences (clears StrictMode DiskReadViolation / awaitLoadedLocked ANRs).
+		Prefs.preloadAsync(this);
 		enableStrictModeInDebug();
 		this.uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 		

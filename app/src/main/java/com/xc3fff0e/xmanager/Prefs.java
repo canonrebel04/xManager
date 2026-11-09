@@ -1,5 +1,8 @@
 package com.xc3fff0e.xmanager;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 /**
  * CODE-16: SharedPreferences file names and keys in one place, so a typo can't silently
  * create a second prefs file or ignore a saved value.
@@ -40,4 +43,35 @@ public final class Prefs {
 
 	/** Key inside {@link #DESC_X}. */
 	public static final String KEY_UPDATE = "UPDATE";
+
+	private static final String[] ALL_FILES = {
+		THEME, LANGUAGE, DESC_X, LIST_REFRESH, SWITCH_VERSION, REFETCH,
+		INITIALIZATION, HIDE_PATCHED, DISABLE_NOTIFICATION,
+	};
+
+	/**
+	 * Opens every prefs file and forces the on-disk load (plus the language-tag migration)
+	 * on a background thread so Splash/Main don't hit {@code awaitLoadedLocked} on the
+	 * main thread during the first frame.
+	 */
+	public static void preloadAsync(Context context) {
+		final Context app = context.getApplicationContext();
+		Thread loader = new Thread(() -> {
+			for (String file : ALL_FILES) {
+				try {
+					SharedPreferences prefs = app.getSharedPreferences(file, Context.MODE_PRIVATE);
+					// getAll() waits for the XML load without touching a specific key.
+					prefs.getAll();
+				} catch (RuntimeException ignored) {
+					// Corrupt prefs: the activity path will surface it.
+				}
+			}
+			try {
+				LanguageTags.migrate(app.getSharedPreferences(LANGUAGE, Context.MODE_PRIVATE));
+			} catch (RuntimeException ignored) {
+			}
+		}, "xManager-prefs-preload");
+		loader.setDaemon(true);
+		loader.start();
+	}
 }
