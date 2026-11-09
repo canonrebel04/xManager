@@ -174,7 +174,8 @@ Show 'Latest' and 'Installed' chips on list rows by comparing with PackageManage
 Show a Snackbar with the result (updated, no changes or error) when the swipe refresh finishes.
 
 *Why:* Refreshing currently ends silently, even on failure.  
-*Files:* `MainActivity.java#main_refresh_layout`
+*Files:* `MainActivity.java#main_refresh_layout`  
+*Status:* Done: a user-started refresh reports no-change via toast (`R.string.refresh_no_changes`); errors still use the existing API error view (UI-16).
 
 ### UI-16 · Empty and error states  `P0` `S`
 
@@ -223,7 +224,8 @@ Add static and dynamic launcher shortcuts for 'Check for updates' and 'Settings'
 Add a <monochrome> layer to the adaptive icon for Android 13 themed icons.
 
 *Why:* The icon otherwise looks out of place on themed home screens.  
-*Files:* `res/mipmap-anydpi-v26/ic_launcher.xml`
+*Files:* `res/mipmap-anydpi-v26/ic_launcher.xml`  
+*Status:* Already satisfied: `mipmap-anydpi-v26/xmanager.xml` (and the round variant) include a `<monochrome>` layer pointing at `@mipmap/ic_launcher_monet`.
 
 ### UI-24 · Explain empty 'LATEST: N/A'  `P1` `S`
 
@@ -432,7 +434,8 @@ Use OkHttp's disk cache and conditional requests.
 Ignore refresh requests made within N seconds of the last successful fetch.
 
 *Why:* Prevents hammering the API server.  
-*Files:* `MainActivity.java#main_refresh_layout`
+*Files:* `MainActivity.java#main_refresh_layout`  
+*Status:* Done: pull-to-refresh is ignored for 15 s after a successful fetch (`REFRESH_DEBOUNCE_MS`), with a short toast (`R.string.refresh_debounced`).
 
 ### PERF-10 · Move work off the main thread  `P1` `M`
 
@@ -1078,7 +1081,8 @@ Sort languages with Collator for the current locale instead of a hard-coded orde
 Move the random splash titles to string-array resources per locale.
 
 *Why:* The splash text is currently English-only.  
-*Files:* `SplashActivity.java`
+*Files:* `SplashActivity.java`  
+*Status:* Already satisfied: splash titles come from `R.string.splash_tagline_*` / `app_name` (see `SplashActivity.TAGLINES`). Per-locale overrides can still be added under `values-xx/` later.
 
 ### I18N-16 · Lint check that every language has every key  `P2` `S`
 
@@ -1164,7 +1168,8 @@ Check that there are no trackers (Exodus scan) and advertise it.
 Mark copied links or logs containing device info as sensitive (ClipDescription EXTRA_IS_SENSITIVE).
 
 *Why:* Avoids clipboard previews leaking data on Android 13+.  
-*Files:* `MainActivity.java`
+*Files:* `MainActivity.java`  
+*Status:* Done: changelog long-press copy goes through `_copyToClipboard`, which sets `ClipDescription.EXTRA_IS_SENSITIVE` on Android 13+; the snackbar uses `R.string.changelog_copied`.
 
 ### SEC-13 · Remove package visibility over-reach  `P2` `S`
 
@@ -1299,7 +1304,8 @@ Convert the build scripts to build.gradle.kts.
 Replace string literals like "THEME" with constants.
 
 *Why:* Prevents typos across thousands of lines.  
-*Files:* `MainActivity.java`
+*Files:* `MainActivity.java`  
+*Status:* Done: `Prefs.java` holds SharedPreferences file names and keys; `MainActivity` and `SplashActivity` use them (and `LanguageTags.KEY` for the language value).
 
 ### CODE-17 · Remove duplicated click handlers  `P2` `M`
 
@@ -1352,7 +1358,7 @@ Enable org.gradle.caching and configuration-cache.
 
 *Why:* Faster local and CI builds.  
 *Files:* `gradle.properties`  
-*Status:* Partly done: `org.gradle.caching=true`. Configuration cache is not enabled yet (needs a check that every plugin and task supports it).
+*Status:* Done: `org.gradle.caching=true` and `org.gradle.configuration-cache=true`. Verified for assembleDebug, unit tests and lintDebug.
 
 ### CI-04 · Gradle wrapper validation  `P1` `S`
 
@@ -1388,7 +1394,8 @@ Track AGP 8.x/9 and Gradle 8.x/9 updates, and the compileSdk 36 readiness.
 Use java { toolchain { languageVersion = 17 } } so builds don't depend on the host JDK.
 
 *Why:* Gives reproducible builds across machines.  
-*Files:* `app/build.gradle`
+*Files:* `app/build.gradle`  
+*Status:* Done: `java { toolchain { languageVersion = 17 } }` in `app/build.gradle` so the compile JDK is pinned regardless of JAVA_HOME.
 
 ### CI-09 · Version code from git  `P3` `S`
 
@@ -1423,7 +1430,8 @@ A CI job that builds twice and diffs the APKs.
 Publish JUnit XML results as a PR check (dorny/test-reporter).
 
 *Why:* Shows failing tests directly in the PR UI.  
-*Files:* `.github/workflows/android-tests.yml`
+*Files:* `.github/workflows/android-tests.yml`  
+*Status:* Done: the unit-test job publishes JUnit XML with `dorny/test-reporter@v2.7.0` (pinned by SHA; best effort, does not fail the job).
 
 ### CI-14 · Pre-commit hooks  `P3` `S`
 
@@ -1476,7 +1484,7 @@ Parameterized test that applies every theme and asserts no crash plus contrast t
 
 *Why:* 21 themes are too many to check by hand.  
 *Files:* `app/src/test`  
-*Status:* Partly done: `SmallFixesBatch7Test.TEST02_everyThemeApplies` applies all 21 themes and checks each selects its spinner entry and sets a background. Contrast thresholds are not checked yet.
+*Status:* Done: `SmallFixesBatch7Test` applies all 21 themes; `SmallFixesBatch8Test` checks header text contrast (WCAG AA). Themes 17 (Light Orange) and 20 (Light Cyan) are recorded as known failures under A11Y-03.
 
 ### TEST-03 · Language matrix test  `P2` `S`
 
@@ -1484,7 +1492,7 @@ Parameterized test that switches every language and asserts that no view keeps t
 
 *Why:* Catches missing translations.  
 *Files:* `app/src/test`  
-*Status:* Partly done: `SmallFixesBatch7Test.TEST03_everyLanguageApplies` applies all 46 languages and checks each selects its spinner entry and leaves the title non-empty. It does not yet check for leftover English text.
+*Status:* Done: `SmallFixesBatch8Test.TEST03_nonEnglishLanguagesDoNotKeepEnglishLabels` applies all 46 languages and requires settings/about/installed/latest/language labels to differ from English (the app name stays "xManager" on purpose).
 
 ### TEST-04 · Fake API server for instrumented tests  `P1` `M`
 
@@ -1505,7 +1513,8 @@ Exhaustive tests for the new semver comparator.
 Use ActivityScenario.recreate() to check state is restored.
 
 *Why:* Catches lost state and leaks.  
-*Files:* `app/src/androidTest`
+*Files:* `app/src/androidTest`  
+*Status:* Done (JVM): `SmallFixesBatch8Test.TEST06_recreateRestoresThemeAndLanguage` uses Robolectric `recreate()` and checks the theme and language spinners. An instrumented ActivityScenario version can still be added later.
 
 ### TEST-07 · Monkey / stress test in CI  `P2` `S`
 

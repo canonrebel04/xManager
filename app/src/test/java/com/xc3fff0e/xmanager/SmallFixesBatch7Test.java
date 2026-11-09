@@ -159,7 +159,7 @@ public class SmallFixesBatch7Test {
 		int count = spinner.getAdapter().getCount();
 		assertEquals(21, count);
 		for (int i = 0; i < count; i++) {
-			theme.edit().putString("THEME", String.valueOf(i)).commit();
+			theme.edit().putString(Prefs.THEME, String.valueOf(i)).commit();
 			a._Theme_UI();
 			idle();
 			assertEquals("theme " + i, i, spinner.getSelectedItemPosition());

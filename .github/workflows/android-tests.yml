@@ -17,6 +17,10 @@ jobs:
     name: JVM unit tests (JUnit4 + Robolectric)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: read
+      checks: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       # CI-04: fail fast if gradle/wrapper/gradle-wrapper.jar isn't an official Gradle release.
@@ -37,6 +41,16 @@ jobs:
           path: |
             app/build/reports/tests/testDebugUnitTest/
             app/build/test-results/testDebugUnitTest/
+      # CI-13: show pass/fail counts on the PR Checks tab.
+      - name: Publish unit test results
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        uses: dorny/test-reporter@df6247429542221bc30d46a036ee47af1102c451 # v2.7.0
+        with:
+          name: Unit test results
+          path: app/build/test-results/testDebugUnitTest/*.xml
+          reporter: java-junit
+          fail-on-error: false
 
   # CI-01: Android lint runs on every push/PR. Lint errors fail the job; the SARIF report is
   # uploaded to GitHub code scanning so findings show up on the PR (upload is best effort).

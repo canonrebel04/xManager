@@ -79,7 +79,7 @@ public class SplashActivity extends AppCompatActivity {
 		main_body = findViewById(R.id.main_body);
 		icon_splash = findViewById(R.id.icon_splash);
 		title_splash = findViewById(R.id.title_splash);
-		THEME = getSharedPreferences("THEME", Activity.MODE_PRIVATE);
+		THEME = getSharedPreferences(Prefs.THEME, Activity.MODE_PRIVATE);
 	}
 	
 	private void initializeLogic() {
