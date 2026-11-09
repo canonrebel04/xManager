@@ -7,6 +7,7 @@ import android.app.*;
 import android.app.Activity;
 import android.content.*;
 import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -833,18 +834,18 @@ public class MainActivity extends AppCompatActivity {
 		icon_website = findViewById(R.id.icon_website);
 		faq = findViewById(R.id.faq);
 		icon_faq = findViewById(R.id.icon_faq);
-		THEME = getSharedPreferences("THEME", Activity.MODE_PRIVATE);
-		DESC_X = getSharedPreferences("DESC_X", Activity.MODE_PRIVATE);
+		THEME = getSharedPreferences(Prefs.THEME, Activity.MODE_PRIVATE);
+		DESC_X = getSharedPreferences(Prefs.DESC_X, Activity.MODE_PRIVATE);
 		Connection = new RequestNetwork(this);
-		LIST_REFRESH = getSharedPreferences("LIST_REFRESH", Activity.MODE_PRIVATE);
-		LANGUAGE = getSharedPreferences("LANGUAGE", Activity.MODE_PRIVATE);
+		LIST_REFRESH = getSharedPreferences(Prefs.LIST_REFRESH, Activity.MODE_PRIVATE);
+		LANGUAGE = getSharedPreferences(Prefs.LANGUAGE, Activity.MODE_PRIVATE);
 		// REL-10: older versions saved the spinner index; store the language tag instead.
 		LanguageTags.migrate(LANGUAGE);
-		SWITCH_VERSION = getSharedPreferences("SWITCH_VERSION", Activity.MODE_PRIVATE);
-		REFETCH = getSharedPreferences("REFETCH", Activity.MODE_PRIVATE);
-		INITIALIZATION = getSharedPreferences("INITIALIZATION", Activity.MODE_PRIVATE);
-		HIDE_PATCHED = getSharedPreferences("HIDE_PATCHED", Activity.MODE_PRIVATE);
-		DISABLE_NOTIFICATION = getSharedPreferences("DISABLE_NOTIFICATION", Activity.MODE_PRIVATE);
+		SWITCH_VERSION = getSharedPreferences(Prefs.SWITCH_VERSION, Activity.MODE_PRIVATE);
+		REFETCH = getSharedPreferences(Prefs.REFETCH, Activity.MODE_PRIVATE);
+		INITIALIZATION = getSharedPreferences(Prefs.INITIALIZATION, Activity.MODE_PRIVATE);
+		HIDE_PATCHED = getSharedPreferences(Prefs.HIDE_PATCHED, Activity.MODE_PRIVATE);
+		DISABLE_NOTIFICATION = getSharedPreferences(Prefs.DISABLE_NOTIFICATION, Activity.MODE_PRIVATE);
 		
 		box_experiment.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -1056,7 +1057,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (!_isChecked) {
-					SWITCH_VERSION.edit().putString("SWITCH", "A").apply();
+					SWITCH_VERSION.edit().putString(Prefs.KEY_SWITCH, "A").apply();
 					title_1.setText("STOCK PATCHED");
 					title_2.setText("AMOLED PATCHED");
 					patched_1.setText("Ad-free, unlimited skips, and play on-demand");
@@ -1088,7 +1089,7 @@ public class MainActivity extends AppCompatActivity {
 				}
 				else {
 					if (_isChecked) {
-						SWITCH_VERSION.edit().putString("SWITCH", "B").apply();
+						SWITCH_VERSION.edit().putString(Prefs.KEY_SWITCH, "B").apply();
 						title_1.setText("STOCK CLONED PATCHED");
 						title_2.setText("AMOLED CLONED PATCHED");
 						patched_1.setText("A cloned version of the stock patched");
@@ -1157,10 +1158,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					LIST_REFRESH.edit().putString("UPDATE", "ON").apply();
+					LIST_REFRESH.edit().putString(Prefs.KEY_UPDATE, "ON").apply();
 				}
 				else {
-					LIST_REFRESH.edit().putString("UPDATE", "OFF").apply();
+					LIST_REFRESH.edit().putString(Prefs.KEY_UPDATE, "OFF").apply();
 				}
 				COUNTER = 1;
 			}
@@ -1200,10 +1201,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					DISABLE_NOTIFICATION.edit().putString("DISABLE", "ON").apply();
+					DISABLE_NOTIFICATION.edit().putString(Prefs.KEY_DISABLE, "ON").apply();
 				}
 				else {
-					DISABLE_NOTIFICATION.edit().putString("DISABLE", "OFF").apply();
+					DISABLE_NOTIFICATION.edit().putString(Prefs.KEY_DISABLE, "OFF").apply();
 				}
 				COUNTER = 1;
 			}
@@ -1243,10 +1244,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					HIDE_PATCHED.edit().putString("SWITCH_A", "ON").apply();
+					HIDE_PATCHED.edit().putString(Prefs.KEY_SWITCH_A, "ON").apply();
 				}
 				else {
-					HIDE_PATCHED.edit().putString("SWITCH_A", "OFF").apply();
+					HIDE_PATCHED.edit().putString(Prefs.KEY_SWITCH_A, "OFF").apply();
 				}
 				COUNTER = 1;
 			}
@@ -1286,10 +1287,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
 				final boolean _isChecked = _param2;
 				if (_isChecked) {
-					HIDE_PATCHED.edit().putString("SWITCH_B", "ON").apply();
+					HIDE_PATCHED.edit().putString(Prefs.KEY_SWITCH_B, "ON").apply();
 				}
 				else {
-					HIDE_PATCHED.edit().putString("SWITCH_B", "OFF").apply();
+					HIDE_PATCHED.edit().putString(Prefs.KEY_SWITCH_B, "OFF").apply();
 				}
 				COUNTER = 1;
 			}
@@ -1304,127 +1305,127 @@ public class MainActivity extends AppCompatActivity {
 					return;
 				}
 				if (_position == 0) {
-					THEME.edit().putString("THEME", "0").apply();
+					THEME.edit().putString(Prefs.THEME, "0").apply();
 					COUNTER = 1;
 					_Theme_UI();
 				}
 				else {
 					if (_position == 1) {
-						THEME.edit().putString("THEME", "1").apply();
+						THEME.edit().putString(Prefs.THEME, "1").apply();
 						COUNTER = 1;
 						_Theme_UI();
 					}
 					else {
 						if (_position == 2) {
-							THEME.edit().putString("THEME", "2").apply();
+							THEME.edit().putString(Prefs.THEME, "2").apply();
 							COUNTER = 1;
 							_Theme_UI();
 						}
 						else {
 							if (_position == 3) {
-								THEME.edit().putString("THEME", "3").apply();
+								THEME.edit().putString(Prefs.THEME, "3").apply();
 								COUNTER = 1;
 								_Theme_UI();
 							}
 							else {
 								if (_position == 4) {
-									THEME.edit().putString("THEME", "4").apply();
+									THEME.edit().putString(Prefs.THEME, "4").apply();
 									COUNTER = 1;
 									_Theme_UI();
 								}
 								else {
 									if (_position == 5) {
-										THEME.edit().putString("THEME", "5").apply();
+										THEME.edit().putString(Prefs.THEME, "5").apply();
 										COUNTER = 1;
 										_Theme_UI();
 									}
 									else {
 										if (_position == 6) {
-											THEME.edit().putString("THEME", "6").apply();
+											THEME.edit().putString(Prefs.THEME, "6").apply();
 											COUNTER = 1;
 											_Theme_UI();
 										}
 										else {
 											if (_position == 7) {
-												THEME.edit().putString("THEME", "7").apply();
+												THEME.edit().putString(Prefs.THEME, "7").apply();
 												COUNTER = 1;
 												_Theme_UI();
 											}
 											else {
 												if (_position == 8) {
-													THEME.edit().putString("THEME", "8").apply();
+													THEME.edit().putString(Prefs.THEME, "8").apply();
 													COUNTER = 1;
 													_Theme_UI();
 												}
 												else {
 													if (_position == 9) {
-														THEME.edit().putString("THEME", "9").apply();
+														THEME.edit().putString(Prefs.THEME, "9").apply();
 														COUNTER = 1;
 														_Theme_UI();
 													}
 													else {
 														if (_position == 10) {
-															THEME.edit().putString("THEME", "10").apply();
+															THEME.edit().putString(Prefs.THEME, "10").apply();
 															COUNTER = 1;
 															_Theme_UI();
 														}
 														else {
 															if (_position == 11) {
-																THEME.edit().putString("THEME", "11").apply();
+																THEME.edit().putString(Prefs.THEME, "11").apply();
 																COUNTER = 1;
 																_Theme_UI();
 															}
 															else {
 																if (_position == 12) {
-																	THEME.edit().putString("THEME", "12").apply();
+																	THEME.edit().putString(Prefs.THEME, "12").apply();
 																	COUNTER = 1;
 																	_Theme_UI();
 																}
 																else {
 																	if (_position == 13) {
-																		THEME.edit().putString("THEME", "13").apply();
+																		THEME.edit().putString(Prefs.THEME, "13").apply();
 																		COUNTER = 1;
 																		_Theme_UI();
 																	}
 																	else {
 																		if (_position == 14) {
-																			THEME.edit().putString("THEME", "14").apply();
+																			THEME.edit().putString(Prefs.THEME, "14").apply();
 																			COUNTER = 1;
 																			_Theme_UI();
 																		}
 																		else {
 																			if (_position == 15) {
-																				THEME.edit().putString("THEME", "15").apply();
+																				THEME.edit().putString(Prefs.THEME, "15").apply();
 																				COUNTER = 1;
 																				_Theme_UI();
 																			}
 																			else {
 																				if (_position == 16) {
-																					THEME.edit().putString("THEME", "16").apply();
+																					THEME.edit().putString(Prefs.THEME, "16").apply();
 																					COUNTER = 1;
 																					_Theme_UI();
 																				}
 																				else {
 																					if (_position == 17) {
-																						THEME.edit().putString("THEME", "17").apply();
+																						THEME.edit().putString(Prefs.THEME, "17").apply();
 																						COUNTER = 1;
 																						_Theme_UI();
 																					}
 																					else {
 																						if (_position == 18) {
-																							THEME.edit().putString("THEME", "18").apply();
+																							THEME.edit().putString(Prefs.THEME, "18").apply();
 																							COUNTER = 1;
 																							_Theme_UI();
 																						}
 																						else {
 																							if (_position == 19) {
-																								THEME.edit().putString("THEME", "19").apply();
+																								THEME.edit().putString(Prefs.THEME, "19").apply();
 																								COUNTER = 1;
 																								_Theme_UI();
 																							}
 																							else {
 																								if (_position == 20) {
-																									THEME.edit().putString("THEME", "20").apply();
+																									THEME.edit().putString(Prefs.THEME, "20").apply();
 																									COUNTER = 1;
 																									_Theme_UI();
 																								}
@@ -1465,277 +1466,277 @@ public class MainActivity extends AppCompatActivity {
 					return;
 				}
 				if (_position == 0) {
-					LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(0)).apply();
+					LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(0)).apply();
 					COUNTER = 1;
 					_Language_UI();
 				}
 				else {
 					if (_position == 1) {
-						LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(1)).apply();
+						LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(1)).apply();
 						COUNTER = 1;
 						_Language_UI();
 					}
 					else {
 						if (_position == 2) {
-							LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(2)).apply();
+							LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(2)).apply();
 							COUNTER = 1;
 							_Language_UI();
 						}
 						else {
 							if (_position == 3) {
-								LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(3)).apply();
+								LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(3)).apply();
 								COUNTER = 1;
 								_Language_UI();
 							}
 							else {
 								if (_position == 4) {
-									LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(4)).apply();
+									LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(4)).apply();
 									COUNTER = 1;
 									_Language_UI();
 								}
 								else {
 									if (_position == 5) {
-										LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(5)).apply();
+										LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(5)).apply();
 										COUNTER = 1;
 										_Language_UI();
 									}
 									else {
 										if (_position == 6) {
-											LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(6)).apply();
+											LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(6)).apply();
 											COUNTER = 1;
 											_Language_UI();
 										}
 										else {
 											if (_position == 7) {
-												LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(7)).apply();
+												LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(7)).apply();
 												COUNTER = 1;
 												_Language_UI();
 											}
 											else {
 												if (_position == 8) {
-													LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(8)).apply();
+													LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(8)).apply();
 													COUNTER = 1;
 													_Language_UI();
 												}
 												else {
 													if (_position == 9) {
-														LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(9)).apply();
+														LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(9)).apply();
 														COUNTER = 1;
 														_Language_UI();
 													}
 													else {
 														if (_position == 10) {
-															LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(10)).apply();
+															LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(10)).apply();
 															COUNTER = 1;
 															_Language_UI();
 														}
 														else {
 															if (_position == 11) {
-																LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(11)).apply();
+																LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(11)).apply();
 																COUNTER = 1;
 																_Language_UI();
 															}
 															else {
 																if (_position == 12) {
-																	LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(12)).apply();
+																	LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(12)).apply();
 																	COUNTER = 1;
 																	_Language_UI();
 																}
 																else {
 																	if (_position == 13) {
-																		LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(13)).apply();
+																		LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(13)).apply();
 																		COUNTER = 1;
 																		_Language_UI();
 																	}
 																	else {
 																		if (_position == 14) {
-																			LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(14)).apply();
+																			LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(14)).apply();
 																			COUNTER = 1;
 																			_Language_UI();
 																		}
 																		else {
 																			if (_position == 15) {
-																				LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(15)).apply();
+																				LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(15)).apply();
 																				COUNTER = 1;
 																				_Language_UI();
 																			}
 																			else {
 																				if (_position == 16) {
-																					LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(16)).apply();
+																					LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(16)).apply();
 																					COUNTER = 1;
 																					_Language_UI();
 																				}
 																				else {
 																					if (_position == 17) {
-																						LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(17)).apply();
+																						LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(17)).apply();
 																						COUNTER = 1;
 																						_Language_UI();
 																					}
 																					else {
 																						if (_position == 18) {
-																							LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(18)).apply();
+																							LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(18)).apply();
 																							COUNTER = 1;
 																							_Language_UI();
 																						}
 																						else {
 																							if (_position == 19) {
-																								LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(19)).apply();
+																								LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(19)).apply();
 																								COUNTER = 1;
 																								_Language_UI();
 																							}
 																							else {
 																								if (_position == 20) {
-																									LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(20)).apply();
+																									LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(20)).apply();
 																									COUNTER = 1;
 																									_Language_UI();
 																								}
 																								else {
 																									if (_position == 21) {
-																										LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(21)).apply();
+																										LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(21)).apply();
 																										COUNTER = 1;
 																										_Language_UI();
 																									}
 																									else {
 																										if (_position == 22) {
-																											LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(22)).apply();
+																											LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(22)).apply();
 																											COUNTER = 1;
 																											_Language_UI();
 																										}
 																										else {
 																											if (_position == 23) {
-																												LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(23)).apply();
+																												LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(23)).apply();
 																												COUNTER = 1;
 																												_Language_UI();
 																											}
 																											else {
 																												if (_position == 24) {
-																													LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(24)).apply();
+																													LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(24)).apply();
 																													COUNTER = 1;
 																													_Language_UI();
 																												}
 																												else {
 																													if (_position == 25) {
-																														LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(25)).apply();
+																														LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(25)).apply();
 																														COUNTER = 1;
 																														_Language_UI();
 																													}
 																													else {
 																														if (_position == 26) {
-																															LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(26)).apply();
+																															LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(26)).apply();
 																															COUNTER = 1;
 																															_Language_UI();
 																														}
 																														else {
 																															if (_position == 27) {
-																																LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(27)).apply();
+																																LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(27)).apply();
 																																COUNTER = 1;
 																																_Language_UI();
 																															}
 																															else {
 																																if (_position == 28) {
-																																	LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(28)).apply();
+																																	LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(28)).apply();
 																																	COUNTER = 1;
 																																	_Language_UI();
 																																}
 																																else {
 																																	if (_position == 29) {
-																																		LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(29)).apply();
+																																		LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(29)).apply();
 																																		COUNTER = 1;
 																																		_Language_UI();
 																																	}
 																																	else {
 																																		if (_position == 30) {
-																																			LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(30)).apply();
+																																			LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(30)).apply();
 																																			COUNTER = 1;
 																																			_Language_UI();
 																																		}
 																																		else {
 																																			if (_position == 31) {
-																																				LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(31)).apply();
+																																				LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(31)).apply();
 																																				COUNTER = 1;
 																																				_Language_UI();
 																																			}
 																																			else {
 																																				if (_position == 32) {
-																																					LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(32)).apply();
+																																					LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(32)).apply();
 																																					COUNTER = 1;
 																																					_Language_UI();
 																																				}
 																																				else {
 																																					if (_position == 33) {
-																																						LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(33)).apply();
+																																						LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(33)).apply();
 																																						COUNTER = 1;
 																																						_Language_UI();
 																																					}
 																																					else {
 																																						if (_position == 34) {
-																																							LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(34)).apply();
+																																							LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(34)).apply();
 																																							COUNTER = 1;
 																																							_Language_UI();
 																																						}
 																																						else {
 																																							if (_position == 35) {
-																																								LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(35)).apply();
+																																								LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(35)).apply();
 																																								COUNTER = 1;
 																																								_Language_UI();
 																																							}
 																																							else {
 																																								if (_position == 36) {
-																																									LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(36)).apply();
+																																									LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(36)).apply();
 																																									COUNTER = 1;
 																																									_Language_UI();
 																																								}
 																																								else {
 																																									if (_position == 37) {
-																																										LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(37)).apply();
+																																										LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(37)).apply();
 																																										COUNTER = 1;
 																																										_Language_UI();
 																																									}
 																																									else {
 																																										if (_position == 38) {
-																																											LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(38)).apply();
+																																											LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(38)).apply();
 																																											COUNTER = 1;
 																																											_Language_UI();
 																																										}
 																																										else {
 																																											if (_position == 39) {
-																																												LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(39)).apply();
+																																												LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(39)).apply();
 																																												COUNTER = 1;
 																																												_Language_UI();
 																																											}
 																																											else {
 																																												if (_position == 40) {
-																																													LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(40)).apply();
+																																													LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(40)).apply();
 																																													COUNTER = 1;
 																																													_Language_UI();
 																																												}
 																																												else {
 																																													if (_position == 41) {
-																																														LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(41)).apply();
+																																														LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(41)).apply();
 																																														COUNTER = 1;
 																																														_Language_UI();
 																																													}
 																																													else {
 																																														if (_position == 42) {
-																																															LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(42)).apply();
+																																															LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(42)).apply();
 																																															COUNTER = 1;
 																																															_Language_UI();
 																																														}
 																																														else {
 																																															if (_position == 43) {
-																																																LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(43)).apply();
+																																																LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(43)).apply();
 																																																COUNTER = 1;
 																																																_Language_UI();
 																																															}
 																																															else {
 																																																if (_position == 44) {
-																																																	LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(44)).apply();
+																																																	LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(44)).apply();
 																																																	COUNTER = 1;
 																																																	_Language_UI();
 																																																}
 																																																else {
 																																																	if (_position == 45) {
-																																																		LANGUAGE.edit().putString("LANGUAGE", LanguageTags.tagForIndex(45)).apply();
+																																																		LANGUAGE.edit().putString(LanguageTags.KEY, LanguageTags.tagForIndex(45)).apply();
 																																																		COUNTER = 1;
 																																																		_Language_UI();
 																																																	}
@@ -1943,13 +1944,13 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				if (CLICKER_1 == 1) {
-					if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+					if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 						list_items_1.setVisibility(View.VISIBLE);
 						list_items_1.setAdapter(new List_items_1Adapter(stock_patched));
 						((BaseAdapter)list_items_1.getAdapter()).notifyDataSetChanged();
 					}
 					else {
-						if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+						if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 							list_items_1.setVisibility(View.VISIBLE);
 							list_items_1.setAdapter(new List_items_1Adapter(stock_cloned_patched));
 							((BaseAdapter)list_items_1.getAdapter()).notifyDataSetChanged();
@@ -1985,13 +1986,13 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				if (CLICKER_2 == 1) {
-					if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+					if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 						list_items_2.setVisibility(View.VISIBLE);
 						list_items_2.setAdapter(new List_items_2Adapter(amoled_patched));
 						((BaseAdapter)list_items_2.getAdapter()).notifyDataSetChanged();
 					}
 					else {
-						if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+						if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 							list_items_2.setVisibility(View.VISIBLE);
 							list_items_2.setAdapter(new List_items_2Adapter(amoled_cloned_patched));
 							((BaseAdapter)list_items_2.getAdapter()).notifyDataSetChanged();
@@ -2100,7 +2101,7 @@ public class MainActivity extends AppCompatActivity {
 					String TitleColor = "1DB954";
 					
 					Selected_Patched.setTitle(Html.fromHtml("<font color=\"#" + TitleColor + "\">"+Title+"</font>"));
-					if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+					if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 						if (_position < 1) {
 							if ((_position % 1) == 0) {
 								String Message = "<b>VERSION: </b>".concat(stock_patched.get((int)(stock_patched.size() - 1) - _position).get("Title").toString().concat("<br/><b>PATCHED TYPE: </b>".concat("STOCK<br/><br/>").concat(download_ready_desc_0)));
@@ -2117,7 +2118,7 @@ public class MainActivity extends AppCompatActivity {
 						}
 					}
 					else {
-						if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+						if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 							if (_position < 1) {
 								if ((_position % 1) == 0) {
 									String Message = "<b>VERSION: </b>".concat(stock_cloned_patched.get((int)(stock_cloned_patched.size() - 1) - _position).get("Title").toString().concat("<br/><b>PATCHED TYPE: </b>".concat("STOCK CLONED<br/><br/>").concat(download_ready_desc_0)));
@@ -2139,7 +2140,7 @@ public class MainActivity extends AppCompatActivity {
 						                @Override
 						                public void onClick(DialogInterface Selected_Patched, int p) {
 							try {
-								if (SWITCH_VERSION.getString("SWITCH", "").contains("A")) {
+								if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").contains("A")) {
 									AlertDialog.setCancelable(true);
 									if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
 										_Browser(hidden_download_1.getText().toString());
@@ -2149,7 +2150,7 @@ public class MainActivity extends AppCompatActivity {
 									}
 								}
 								else {
-									if (SWITCH_VERSION.getString("SWITCH", "").contains("B")) {
+									if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").contains("B")) {
 										AlertDialog.setCancelable(true);
 										if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
 											_Browser(hidden_download_1.getText().toString());
@@ -2177,13 +2178,13 @@ public class MainActivity extends AppCompatActivity {
 					AlertDialog.setCancelable(false);
 					_AlertDialog_Color();
 					AlertDialog.show();
-					if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+					if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 						hidden_patched.setText(stock_patched.get((int)(stock_patched.size() - 1) - _position).get("Title").toString());
 						hidden_download_1.setText(stock_patched.get((int)(stock_patched.size() - 1) - _position).get("Link_1").toString());
 						hidden_download_2.setText(stock_patched.get((int)(stock_patched.size() - 1) - _position).get("Link_2").toString());
 					}
 					else {
-						if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+						if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 							hidden_patched.setText(stock_cloned_patched.get((int)(stock_cloned_patched.size() - 1) - _position).get("Title").toString());
 							hidden_download_1.setText(stock_cloned_patched.get((int)(stock_cloned_patched.size() - 1) - _position).get("Link_1").toString());
 							hidden_download_2.setText(stock_cloned_patched.get((int)(stock_cloned_patched.size() - 1) - _position).get("Link_2").toString());
@@ -2206,7 +2207,7 @@ public class MainActivity extends AppCompatActivity {
 					String TitleColor = "1DB954";
 					
 					Selected_Patched.setTitle(Html.fromHtml("<font color=\"#" + TitleColor + "\">"+Title+"</font>"));
-					if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+					if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 						if (_position < 1) {
 							if ((_position % 1) == 0) {
 								String Message = "<b>VERSION: </b>".concat(amoled_patched.get((int)(amoled_patched.size() - 1) - _position).get("Title").toString().concat("<br/><b>PATCHED TYPE: </b>".concat("AMOLED<br/><br/>").concat(download_ready_desc_0)));
@@ -2223,7 +2224,7 @@ public class MainActivity extends AppCompatActivity {
 						}
 					}
 					else {
-						if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+						if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 							if (_position < 1) {
 								if ((_position % 1) == 0) {
 									String Message = "<b>VERSION: </b>".concat(amoled_cloned_patched.get((int)(amoled_cloned_patched.size() - 1) - _position).get("Title").toString().concat("<br/><b>PATCHED TYPE: </b>".concat("AMOLED CLONED<br/><br/>").concat(download_ready_desc_0)));
@@ -2245,7 +2246,7 @@ public class MainActivity extends AppCompatActivity {
 						                @Override
 						                public void onClick(DialogInterface Selected_Patched, int p) {
 							try {
-								if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+								if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 									AlertDialog.setCancelable(true);
 									if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
 										_Browser(hidden_download_1.getText().toString());
@@ -2255,7 +2256,7 @@ public class MainActivity extends AppCompatActivity {
 									}
 								}
 								else {
-									if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+									if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 										AlertDialog.setCancelable(true);
 										if (0 == SketchwareUtil.getRandom((int)(0), (int)(1))) {
 											_Browser(hidden_download_1.getText().toString());
@@ -2283,13 +2284,13 @@ public class MainActivity extends AppCompatActivity {
 					AlertDialog.setCancelable(false);
 					_AlertDialog_Color();
 					AlertDialog.show();
-					if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+					if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 						hidden_patched.setText(amoled_patched.get((int)(amoled_patched.size() - 1) - _position).get("Title").toString());
 						hidden_download_1.setText(amoled_patched.get((int)(amoled_patched.size() - 1) - _position).get("Link_1").toString());
 						hidden_download_2.setText(amoled_patched.get((int)(amoled_patched.size() - 1) - _position).get("Link_2").toString());
 					}
 					else {
-						if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+						if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 							hidden_patched.setText(amoled_cloned_patched.get((int)(amoled_cloned_patched.size() - 1) - _position).get("Title").toString());
 							hidden_download_1.setText(amoled_cloned_patched.get((int)(amoled_cloned_patched.size() - 1) - _position).get("Link_1").toString());
 							hidden_download_2.setText(amoled_cloned_patched.get((int)(amoled_cloned_patched.size() - 1) - _position).get("Link_2").toString());
@@ -3027,6 +3028,23 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	// A11Y-06: section titles are headings, so TalkBack users can jump between sections.
+	/**
+	 * SEC-12: copy text and mark the clip as sensitive on Android 13+ so the system
+	 * clipboard overlay does not preview it.
+	 */
+	void _copyToClipboard(String text) {
+		ClipData clip = ClipData.newPlainText("clipboard", text == null ? "" : text);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			android.os.PersistableBundle extras = new android.os.PersistableBundle();
+			extras.putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true);
+			clip.getDescription().setExtras(extras);
+		}
+		ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+		if (cm != null) {
+			cm.setPrimaryClip(clip);
+		}
+	}
+	
 	private void _Mark_Headings() {
 		View[] headings = {title_header, title_about, title_1, title_2, title_3, title_6, title_sub};
 		for (View heading : headings) {
@@ -3063,7 +3081,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	private void _applyThemeUi() {
-		if (THEME.getString("THEME", "").equals("0")) {
+		if (THEME.getString(Prefs.THEME, "").equals("0")) {
 			main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF000000}));
 			main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF000000}));
 			main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF000000}));
@@ -3071,7 +3089,7 @@ public class MainActivity extends AppCompatActivity {
 			_Original_Theme();
 		}
 		else {
-			if (THEME.getString("THEME", "").equals("1")) {
+			if (THEME.getString(Prefs.THEME, "").equals("1")) {
 				main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF1DB954}));
 				main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF1DB954}));
 				main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF1DB954}));
@@ -3079,7 +3097,7 @@ public class MainActivity extends AppCompatActivity {
 				_Original_Theme();
 			}
 			else {
-				if (THEME.getString("THEME", "").equals("2")) {
+				if (THEME.getString(Prefs.THEME, "").equals("2")) {
 					main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFAA00FF}));
 					main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFAA00FF}));
 					main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFAA00FF}));
@@ -3087,7 +3105,7 @@ public class MainActivity extends AppCompatActivity {
 					_Original_Theme();
 				}
 				else {
-					if (THEME.getString("THEME", "").equals("3")) {
+					if (THEME.getString(Prefs.THEME, "").equals("3")) {
 						main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFD50000}));
 						main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFD50000}));
 						main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFD50000}));
@@ -3095,7 +3113,7 @@ public class MainActivity extends AppCompatActivity {
 						_Original_Theme();
 					}
 					else {
-						if (THEME.getString("THEME", "").equals("4")) {
+						if (THEME.getString(Prefs.THEME, "").equals("4")) {
 							main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF2962FF}));
 							main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF2962FF}));
 							main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF2962FF}));
@@ -3103,7 +3121,7 @@ public class MainActivity extends AppCompatActivity {
 							_Original_Theme();
 						}
 						else {
-							if (THEME.getString("THEME", "").equals("5")) {
+							if (THEME.getString(Prefs.THEME, "").equals("5")) {
 								main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFFF6D00}));
 								main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFFF6D00}));
 								main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFFF6D00}));
@@ -3111,7 +3129,7 @@ public class MainActivity extends AppCompatActivity {
 								_Original_Theme();
 							}
 							else {
-								if (THEME.getString("THEME", "").equals("6")) {
+								if (THEME.getString(Prefs.THEME, "").equals("6")) {
 									main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFFFD600}));
 									main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFFFD600}));
 									main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFFFD600}));
@@ -3119,7 +3137,7 @@ public class MainActivity extends AppCompatActivity {
 									_Original_Theme();
 								}
 								else {
-									if (THEME.getString("THEME", "").equals("7")) {
+									if (THEME.getString(Prefs.THEME, "").equals("7")) {
 										main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF616161}));
 										main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF616161}));
 										main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF616161}));
@@ -3127,7 +3145,7 @@ public class MainActivity extends AppCompatActivity {
 										_Original_Theme();
 									}
 									else {
-										if (THEME.getString("THEME", "").equals("8")) {
+										if (THEME.getString(Prefs.THEME, "").equals("8")) {
 											main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF607D8B}));
 											main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF607D8B}));
 											main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF607D8B}));
@@ -3135,7 +3153,7 @@ public class MainActivity extends AppCompatActivity {
 											_Original_Theme();
 										}
 										else {
-											if (THEME.getString("THEME", "").equals("9")) {
+											if (THEME.getString(Prefs.THEME, "").equals("9")) {
 												main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFE91E63}));
 												main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFE91E63}));
 												main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFE91E63}));
@@ -3143,7 +3161,7 @@ public class MainActivity extends AppCompatActivity {
 												_Original_Theme();
 											}
 											else {
-												if (THEME.getString("THEME", "").equals("10")) {
+												if (THEME.getString(Prefs.THEME, "").equals("10")) {
 													main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF00BCD4}));
 													main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF00BCD4}));
 													main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF00BCD4}));
@@ -3151,7 +3169,7 @@ public class MainActivity extends AppCompatActivity {
 													_Original_Theme();
 												}
 												else {
-													if (THEME.getString("THEME", "").equals("11")) {
+													if (THEME.getString(Prefs.THEME, "").equals("11")) {
 														main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFFFFFFF}));
 														main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFFFFFFF}));
 														main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFFFFFFFF}));
@@ -3159,7 +3177,7 @@ public class MainActivity extends AppCompatActivity {
 														_Original_Theme();
 													}
 													else {
-														if (THEME.getString("THEME", "").equals("12")) {
+														if (THEME.getString(Prefs.THEME, "").equals("12")) {
 															main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF795548}));
 															main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF795548}));
 															main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF795548}));
@@ -3167,7 +3185,7 @@ public class MainActivity extends AppCompatActivity {
 															_Original_Theme();
 														}
 														else {
-															if (THEME.getString("THEME", "").equals("13")) {
+															if (THEME.getString(Prefs.THEME, "").equals("13")) {
 																main_refresh_layout.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF3F51B5}));
 																main_scroll_about.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF3F51B5}));
 																main_scroll_settings.setBackground(new GradientDrawable(GradientDrawable.Orientation.BR_TL, new int[] {0xFF000000,0xFF3F51B5}));
@@ -3175,7 +3193,7 @@ public class MainActivity extends AppCompatActivity {
 																_Original_Theme();
 															}
 															else {
-																if (THEME.getString("THEME", "").equals("14")) {
+																if (THEME.getString(Prefs.THEME, "").equals("14")) {
 																	main_refresh_layout.setBackgroundColor(0xFFF2F3F4);
 																	main_scroll_about.setBackgroundColor(0xFFF2F3F4);
 																	main_scroll_settings.setBackgroundColor(0xFFF2F3F4);
@@ -3290,7 +3308,7 @@ public class MainActivity extends AppCompatActivity {
 																	select_theme.setSelection((int)(14));
 																}
 																else {
-																	if (THEME.getString("THEME", "").equals("15")) {
+																	if (THEME.getString(Prefs.THEME, "").equals("15")) {
 																		main_refresh_layout.setBackgroundColor(0xFFF2F3F4);
 																		main_scroll_about.setBackgroundColor(0xFFF2F3F4);
 																		main_scroll_settings.setBackgroundColor(0xFFF2F3F4);
@@ -3405,7 +3423,7 @@ public class MainActivity extends AppCompatActivity {
 																		select_theme.setSelection((int)(15));
 																	}
 																	else {
-																		if (THEME.getString("THEME", "").equals("16")) {
+																		if (THEME.getString(Prefs.THEME, "").equals("16")) {
 																			main_refresh_layout.setBackgroundColor(0xFFF2F3F4);
 																			main_scroll_about.setBackgroundColor(0xFFF2F3F4);
 																			main_scroll_settings.setBackgroundColor(0xFFF2F3F4);
@@ -3520,7 +3538,7 @@ public class MainActivity extends AppCompatActivity {
 																			select_theme.setSelection((int)(16));
 																		}
 																		else {
-																			if (THEME.getString("THEME", "").equals("17")) {
+																			if (THEME.getString(Prefs.THEME, "").equals("17")) {
 																				main_refresh_layout.setBackgroundColor(0xFFF2F3F4);
 																				main_scroll_about.setBackgroundColor(0xFFF2F3F4);
 																				main_scroll_settings.setBackgroundColor(0xFFF2F3F4);
@@ -3635,7 +3653,7 @@ public class MainActivity extends AppCompatActivity {
 																				select_theme.setSelection((int)(17));
 																			}
 																			else {
-																				if (THEME.getString("THEME", "").equals("18")) {
+																				if (THEME.getString(Prefs.THEME, "").equals("18")) {
 																					main_refresh_layout.setBackgroundColor(0xFFF2F3F4);
 																					main_scroll_about.setBackgroundColor(0xFFF2F3F4);
 																					main_scroll_settings.setBackgroundColor(0xFFF2F3F4);
@@ -3750,7 +3768,7 @@ public class MainActivity extends AppCompatActivity {
 																					select_theme.setSelection((int)(18));
 																				}
 																				else {
-																					if (THEME.getString("THEME", "").equals("19")) {
+																					if (THEME.getString(Prefs.THEME, "").equals("19")) {
 																						main_refresh_layout.setBackgroundColor(0xFFF2F3F4);
 																						main_scroll_about.setBackgroundColor(0xFFF2F3F4);
 																						main_scroll_settings.setBackgroundColor(0xFFF2F3F4);
@@ -3865,7 +3883,7 @@ public class MainActivity extends AppCompatActivity {
 																						select_theme.setSelection((int)(19));
 																					}
 																					else {
-																						if (THEME.getString("THEME", "").equals("20")) {
+																						if (THEME.getString(Prefs.THEME, "").equals("20")) {
 																							main_refresh_layout.setBackgroundColor(0xFFF2F3F4);
 																							main_scroll_about.setBackgroundColor(0xFFF2F3F4);
 																							main_scroll_settings.setBackgroundColor(0xFFF2F3F4);
@@ -4428,7 +4446,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _List_Updater() {
-		if (LIST_REFRESH.getString("UPDATE", "").equals("ON")) {
+		if (LIST_REFRESH.getString(Prefs.KEY_UPDATE, "").equals("ON")) {
 			try {
 				list_auto_refresh_switch.setChecked(true);
 				main_refresh_layout.setRefreshing(true);
@@ -4438,7 +4456,7 @@ public class MainActivity extends AppCompatActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+								if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 									list_items_1.setVisibility(View.VISIBLE);
 									list_items_2.setVisibility(View.GONE);
 									list_items_3.setVisibility(View.GONE);
@@ -4447,7 +4465,7 @@ public class MainActivity extends AppCompatActivity {
 									((BaseAdapter)list_items_1.getAdapter()).notifyDataSetChanged();
 								}
 								else {
-									if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+									if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 										list_items_1.setVisibility(View.VISIBLE);
 										list_items_2.setVisibility(View.GONE);
 										list_items_3.setVisibility(View.GONE);
@@ -4470,7 +4488,7 @@ public class MainActivity extends AppCompatActivity {
 										runOnUiThread(new Runnable() {
 											@Override
 											public void run() {
-												if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+												if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 													list_items_1.setVisibility(View.GONE);
 													list_items_2.setVisibility(View.VISIBLE);
 													list_items_3.setVisibility(View.GONE);
@@ -4479,7 +4497,7 @@ public class MainActivity extends AppCompatActivity {
 													((BaseAdapter)list_items_2.getAdapter()).notifyDataSetChanged();
 												}
 												else {
-													if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+													if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 														list_items_1.setVisibility(View.GONE);
 														list_items_2.setVisibility(View.VISIBLE);
 														list_items_3.setVisibility(View.GONE);
@@ -4614,7 +4632,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	private void _applyLanguageUi() {
-		if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 0)) {
+		if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 0)) {
 			sub_text_installed.setText(R.string.installed);
 			main_title.setText(R.string.main_title);
 			about_title.setText(R.string.about_title);
@@ -4690,7 +4708,7 @@ public class MainActivity extends AppCompatActivity {
 			select_language.setSelection((int)(0));
 		}
 		else {
-			if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 1)) {
+			if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 1)) {
 				sub_text_installed.setText(R.string.installed_01);
 				main_title.setText(R.string.main_title_01);
 				about_title.setText(R.string.about_title_01);
@@ -4765,7 +4783,7 @@ public class MainActivity extends AppCompatActivity {
 				select_language.setSelection((int)(1));
 			}
 			else {
-				if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 2)) {
+				if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 2)) {
 					sub_text_installed.setText(R.string.installed_02);
 					main_title.setText(R.string.main_title_02);
 					about_title.setText(R.string.about_title_02);
@@ -4840,7 +4858,7 @@ public class MainActivity extends AppCompatActivity {
 					select_language.setSelection((int)(2));
 				}
 				else {
-					if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 3)) {
+					if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 3)) {
 						sub_text_installed.setText(R.string.installed_03);
 						main_title.setText(R.string.main_title_03);
 						about_title.setText(R.string.about_title_03);
@@ -4915,7 +4933,7 @@ public class MainActivity extends AppCompatActivity {
 						select_language.setSelection((int)(3));
 					}
 					else {
-						if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 4)) {
+						if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 4)) {
 							sub_text_installed.setText(R.string.installed_04);
 							main_title.setText(R.string.main_title_04);
 							about_title.setText(R.string.about_title_04);
@@ -4990,7 +5008,7 @@ public class MainActivity extends AppCompatActivity {
 							select_language.setSelection((int)(4));
 						}
 						else {
-							if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 5)) {
+							if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 5)) {
 								sub_text_installed.setText(R.string.installed_05);
 								main_title.setText(R.string.main_title_05);
 								about_title.setText(R.string.about_title_05);
@@ -5065,7 +5083,7 @@ public class MainActivity extends AppCompatActivity {
 								select_language.setSelection((int)(5));
 							}
 							else {
-								if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 6)) {
+								if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 6)) {
 									sub_text_installed.setText(R.string.installed_06);
 									main_title.setText(R.string.main_title_06);
 									about_title.setText(R.string.about_title_06);
@@ -5140,7 +5158,7 @@ public class MainActivity extends AppCompatActivity {
 									select_language.setSelection((int)(6));
 								}
 								else {
-									if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 7)) {
+									if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 7)) {
 										sub_text_installed.setText(R.string.installed_07);
 										main_title.setText(R.string.main_title_07);
 										about_title.setText(R.string.about_title_07);
@@ -5215,7 +5233,7 @@ public class MainActivity extends AppCompatActivity {
 										select_language.setSelection((int)(7));
 									}
 									else {
-										if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 8)) {
+										if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 8)) {
 											sub_text_installed.setText(R.string.installed_08);
 											main_title.setText(R.string.main_title_08);
 											about_title.setText(R.string.about_title_08);
@@ -5290,7 +5308,7 @@ public class MainActivity extends AppCompatActivity {
 											select_language.setSelection((int)(8));
 										}
 										else {
-											if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 9)) {
+											if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 9)) {
 												sub_text_installed.setText(R.string.installed_09);
 												main_title.setText(R.string.main_title_09);
 												about_title.setText(R.string.about_title_09);
@@ -5365,7 +5383,7 @@ public class MainActivity extends AppCompatActivity {
 												select_language.setSelection((int)(9));
 											}
 											else {
-												if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 10)) {
+												if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 10)) {
 													sub_text_installed.setText(R.string.installed_10);
 													main_title.setText(R.string.main_title_10);
 													about_title.setText(R.string.about_title_10);
@@ -5440,7 +5458,7 @@ public class MainActivity extends AppCompatActivity {
 													select_language.setSelection((int)(10));
 												}
 												else {
-													if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 11)) {
+													if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 11)) {
 														sub_text_installed.setText(R.string.installed_11);
 														main_title.setText(R.string.main_title_11);
 														about_title.setText(R.string.about_title_11);
@@ -5515,7 +5533,7 @@ public class MainActivity extends AppCompatActivity {
 														select_language.setSelection((int)(11));
 													}
 													else {
-														if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 12)) {
+														if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 12)) {
 															sub_text_installed.setText(R.string.installed_12);
 															main_title.setText(R.string.main_title_12);
 															about_title.setText(R.string.about_title_12);
@@ -5590,7 +5608,7 @@ public class MainActivity extends AppCompatActivity {
 															select_language.setSelection((int)(12));
 														}
 														else {
-															if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 13)) {
+															if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 13)) {
 																sub_text_installed.setText(R.string.installed_13);
 																main_title.setText(R.string.main_title_13);
 																about_title.setText(R.string.about_title_13);
@@ -5665,7 +5683,7 @@ public class MainActivity extends AppCompatActivity {
 																select_language.setSelection((int)(13));
 															}
 															else {
-																if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 14)) {
+																if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 14)) {
 																	sub_text_installed.setText(R.string.installed_14);
 																	main_title.setText(R.string.main_title_14);
 																	about_title.setText(R.string.about_title_14);
@@ -5740,7 +5758,7 @@ public class MainActivity extends AppCompatActivity {
 																	select_language.setSelection((int)(14));
 																}
 																else {
-																	if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 15)) {
+																	if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 15)) {
 																		sub_text_installed.setText(R.string.installed_15);
 																		main_title.setText(R.string.main_title_15);
 																		about_title.setText(R.string.about_title_15);
@@ -5815,7 +5833,7 @@ public class MainActivity extends AppCompatActivity {
 																		select_language.setSelection((int)(15));
 																	}
 																	else {
-																		if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 16)) {
+																		if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 16)) {
 																			sub_text_installed.setText(R.string.installed_16);
 																			main_title.setText(R.string.main_title_16);
 																			about_title.setText(R.string.about_title_16);
@@ -5890,7 +5908,7 @@ public class MainActivity extends AppCompatActivity {
 																			select_language.setSelection((int)(16));
 																		}
 																		else {
-																			if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 17)) {
+																			if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 17)) {
 																				sub_text_installed.setText(R.string.installed_17);
 																				main_title.setText(R.string.main_title_17);
 																				about_title.setText(R.string.about_title_17);
@@ -5965,7 +5983,7 @@ public class MainActivity extends AppCompatActivity {
 																				select_language.setSelection((int)(17));
 																			}
 																			else {
-																				if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 18)) {
+																				if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 18)) {
 																					sub_text_installed.setText(R.string.installed_18);
 																					main_title.setText(R.string.main_title_18);
 																					about_title.setText(R.string.about_title_18);
@@ -6040,7 +6058,7 @@ public class MainActivity extends AppCompatActivity {
 																					select_language.setSelection((int)(18));
 																				}
 																				else {
-																					if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 19)) {
+																					if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 19)) {
 																						sub_text_installed.setText(R.string.installed_19);
 																						main_title.setText(R.string.main_title_19);
 																						about_title.setText(R.string.about_title_19);
@@ -6115,7 +6133,7 @@ public class MainActivity extends AppCompatActivity {
 																						select_language.setSelection((int)(19));
 																					}
 																					else {
-																						if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 20)) {
+																						if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 20)) {
 																							sub_text_installed.setText(R.string.installed_20);
 																							main_title.setText(R.string.main_title_20);
 																							about_title.setText(R.string.about_title_20);
@@ -6190,7 +6208,7 @@ public class MainActivity extends AppCompatActivity {
 																							select_language.setSelection((int)(20));
 																						}
 																						else {
-																							if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 21)) {
+																							if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 21)) {
 																								sub_text_installed.setText(R.string.installed_21);
 																								main_title.setText(R.string.main_title_21);
 																								about_title.setText(R.string.about_title_21);
@@ -6265,7 +6283,7 @@ public class MainActivity extends AppCompatActivity {
 																								select_language.setSelection((int)(21));
 																							}
 																							else {
-																								if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 22)) {
+																								if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 22)) {
 																									sub_text_installed.setText(R.string.installed_22);
 																									main_title.setText(R.string.main_title_22);
 																									about_title.setText(R.string.about_title_22);
@@ -6340,7 +6358,7 @@ public class MainActivity extends AppCompatActivity {
 																									select_language.setSelection((int)(22));
 																								}
 																								else {
-																									if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 23)) {
+																									if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 23)) {
 																										sub_text_installed.setText(R.string.installed_23);
 																										main_title.setText(R.string.main_title_23);
 																										about_title.setText(R.string.about_title_23);
@@ -6415,7 +6433,7 @@ public class MainActivity extends AppCompatActivity {
 																										select_language.setSelection((int)(23));
 																									}
 																									else {
-																										if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 24)) {
+																										if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 24)) {
 																											sub_text_installed.setText(R.string.installed_24);
 																											main_title.setText(R.string.main_title_24);
 																											about_title.setText(R.string.about_title_24);
@@ -6490,7 +6508,7 @@ public class MainActivity extends AppCompatActivity {
 																											select_language.setSelection((int)(24));
 																										}
 																										else {
-																											if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 25)) {
+																											if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 25)) {
 																												sub_text_installed.setText(R.string.installed_25);
 																												main_title.setText(R.string.main_title_25);
 																												about_title.setText(R.string.about_title_25);
@@ -6565,7 +6583,7 @@ public class MainActivity extends AppCompatActivity {
 																												select_language.setSelection((int)(25));
 																											}
 																											else {
-																												if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 26)) {
+																												if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 26)) {
 																													sub_text_installed.setText(R.string.installed_26);
 																													main_title.setText(R.string.main_title_26);
 																													about_title.setText(R.string.about_title_26);
@@ -6640,7 +6658,7 @@ public class MainActivity extends AppCompatActivity {
 																													select_language.setSelection((int)(26));
 																												}
 																												else {
-																													if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 27)) {
+																													if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 27)) {
 																														sub_text_installed.setText(R.string.installed_27);
 																														main_title.setText(R.string.main_title_27);
 																														about_title.setText(R.string.about_title_27);
@@ -6715,7 +6733,7 @@ public class MainActivity extends AppCompatActivity {
 																														select_language.setSelection((int)(27));
 																													}
 																													else {
-																														if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 28)) {
+																														if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 28)) {
 																															sub_text_installed.setText(R.string.installed_28);
 																															main_title.setText(R.string.main_title_28);
 																															about_title.setText(R.string.about_title_28);
@@ -6790,7 +6808,7 @@ public class MainActivity extends AppCompatActivity {
 																															select_language.setSelection((int)(28));
 																														}
 																														else {
-																															if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 29)) {
+																															if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 29)) {
 																																sub_text_installed.setText(R.string.installed_29);
 																																main_title.setText(R.string.main_title_29);
 																																about_title.setText(R.string.about_title_29);
@@ -6865,7 +6883,7 @@ public class MainActivity extends AppCompatActivity {
 																																select_language.setSelection((int)(29));
 																															}
 																															else {
-																																if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 30)) {
+																																if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 30)) {
 																																	sub_text_installed.setText(R.string.installed_30);
 																																	main_title.setText(R.string.main_title_30);
 																																	about_title.setText(R.string.about_title_30);
@@ -6940,7 +6958,7 @@ public class MainActivity extends AppCompatActivity {
 																																	select_language.setSelection((int)(30));
 																																}
 																																else {
-																																	if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 31)) {
+																																	if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 31)) {
 																																		sub_text_installed.setText(R.string.installed_31);
 																																		main_title.setText(R.string.main_title_31);
 																																		about_title.setText(R.string.about_title_31);
@@ -7015,7 +7033,7 @@ public class MainActivity extends AppCompatActivity {
 																																		select_language.setSelection((int)(31));
 																																	}
 																																	else {
-																																		if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 32)) {
+																																		if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 32)) {
 																																			sub_text_installed.setText(R.string.installed_32);
 																																			main_title.setText(R.string.main_title_32);
 																																			about_title.setText(R.string.about_title_32);
@@ -7090,7 +7108,7 @@ public class MainActivity extends AppCompatActivity {
 																																			select_language.setSelection((int)(32));
 																																		}
 																																		else {
-																																			if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 33)) {
+																																			if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 33)) {
 																																				sub_text_installed.setText(R.string.installed_33);
 																																				main_title.setText(R.string.main_title_33);
 																																				about_title.setText(R.string.about_title_33);
@@ -7165,7 +7183,7 @@ public class MainActivity extends AppCompatActivity {
 																																				select_language.setSelection((int)(33));
 																																			}
 																																			else {
-																																				if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 34)) {
+																																				if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 34)) {
 																																					sub_text_installed.setText(R.string.installed_34);
 																																					main_title.setText(R.string.main_title_34);
 																																					about_title.setText(R.string.about_title_34);
@@ -7240,7 +7258,7 @@ public class MainActivity extends AppCompatActivity {
 																																					select_language.setSelection((int)(34));
 																																				}
 																																				else {
-																																					if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 35)) {
+																																					if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 35)) {
 																																						sub_text_installed.setText(R.string.installed_35);
 																																						main_title.setText(R.string.main_title_35);
 																																						about_title.setText(R.string.about_title_35);
@@ -7315,7 +7333,7 @@ public class MainActivity extends AppCompatActivity {
 																																						select_language.setSelection((int)(35));
 																																					}
 																																					else {
-																																						if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 36)) {
+																																						if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 36)) {
 																																							sub_text_installed.setText(R.string.installed_36);
 																																							main_title.setText(R.string.main_title_36);
 																																							about_title.setText(R.string.about_title_36);
@@ -7390,7 +7408,7 @@ public class MainActivity extends AppCompatActivity {
 																																							select_language.setSelection((int)(36));
 																																						}
 																																						else {
-																																							if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 37)) {
+																																							if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 37)) {
 																																								sub_text_installed.setText(R.string.installed_37);
 																																								main_title.setText(R.string.main_title_37);
 																																								about_title.setText(R.string.about_title_37);
@@ -7465,7 +7483,7 @@ public class MainActivity extends AppCompatActivity {
 																																								select_language.setSelection((int)(37));
 																																							}
 																																							else {
-																																								if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 38)) {
+																																								if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 38)) {
 																																									sub_text_installed.setText(R.string.installed_38);
 																																									main_title.setText(R.string.main_title_38);
 																																									about_title.setText(R.string.about_title_38);
@@ -7540,7 +7558,7 @@ public class MainActivity extends AppCompatActivity {
 																																									select_language.setSelection((int)(38));
 																																								}
 																																								else {
-																																									if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 39)) {
+																																									if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 39)) {
 																																										sub_text_installed.setText(R.string.installed_39);
 																																										main_title.setText(R.string.main_title_39);
 																																										about_title.setText(R.string.about_title_39);
@@ -7615,7 +7633,7 @@ public class MainActivity extends AppCompatActivity {
 																																										select_language.setSelection((int)(39));
 																																									}
 																																									else {
-																																										if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 40)) {
+																																										if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 40)) {
 																																											sub_text_installed.setText(R.string.installed_40);
 																																											main_title.setText(R.string.main_title_40);
 																																											about_title.setText(R.string.about_title_40);
@@ -7690,7 +7708,7 @@ public class MainActivity extends AppCompatActivity {
 																																											select_language.setSelection((int)(40));
 																																										}
 																																										else {
-																																											if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 41)) {
+																																											if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 41)) {
 																																												sub_text_installed.setText(R.string.installed_41);
 																																												main_title.setText(R.string.main_title_41);
 																																												about_title.setText(R.string.about_title_41);
@@ -7765,7 +7783,7 @@ public class MainActivity extends AppCompatActivity {
 																																												select_language.setSelection((int)(41));
 																																											}
 																																											else {
-																																												if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 42)) {
+																																												if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 42)) {
 																																													sub_text_installed.setText(R.string.installed_42);
 																																													main_title.setText(R.string.main_title_42);
 																																													about_title.setText(R.string.about_title_42);
@@ -7840,7 +7858,7 @@ public class MainActivity extends AppCompatActivity {
 																																													select_language.setSelection((int)(42));
 																																												}
 																																												else {
-																																													if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 43)) {
+																																													if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 43)) {
 																																														sub_text_installed.setText(R.string.installed_43);
 																																														main_title.setText(R.string.main_title_43);
 																																														about_title.setText(R.string.about_title_43);
@@ -7915,7 +7933,7 @@ public class MainActivity extends AppCompatActivity {
 																																														select_language.setSelection((int)(43));
 																																													}
 																																													else {
-																																														if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 44)) {
+																																														if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 44)) {
 																																															sub_text_installed.setText(R.string.installed_44);
 																																															main_title.setText(R.string.main_title_44);
 																																															about_title.setText(R.string.about_title_44);
@@ -7990,7 +8008,7 @@ public class MainActivity extends AppCompatActivity {
 																																															select_language.setSelection((int)(44));
 																																														}
 																																														else {
-																																															if (LanguageTags.matches(LANGUAGE.getString("LANGUAGE", ""), 45)) {
+																																															if (LanguageTags.matches(LANGUAGE.getString(LanguageTags.KEY, ""), 45)) {
 																																																sub_text_installed.setText(R.string.installed_45);
 																																																main_title.setText(R.string.main_title_45);
 																																																about_title.setText(R.string.about_title_45);
@@ -8178,7 +8196,7 @@ public class MainActivity extends AppCompatActivity {
 				return textViewv; }
 		});
 		// Show the saved language (tag or migrated index) without waiting for Settings to open.
-		int savedLanguage = LanguageTags.indexOf(LANGUAGE.getString("LANGUAGE", ""));
+		int savedLanguage = LanguageTags.indexOf(LANGUAGE.getString(LanguageTags.KEY, ""));
 		if (savedLanguage >= 0) {
 			select_language.setSelection(savedLanguage, false);
 		}
@@ -8662,14 +8680,14 @@ public class MainActivity extends AppCompatActivity {
 							VersionUtil.parse(latestVersion);
 							Current_Version = currentVersion;
 							Latest_Version = latestVersion;
-							if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+							if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 								list_items_1.setAdapter(new List_items_1Adapter(stock_patched));
 								list_items_2.setAdapter(new List_items_2Adapter(amoled_patched));
 								((BaseAdapter)list_items_1.getAdapter()).notifyDataSetChanged();
 								((BaseAdapter)list_items_2.getAdapter()).notifyDataSetChanged();
 							}
 							else {
-								if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+								if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 									list_items_1.setAdapter(new List_items_1Adapter(stock_cloned_patched));
 									list_items_2.setAdapter(new List_items_2Adapter(amoled_cloned_patched));
 									((BaseAdapter)list_items_1.getAdapter()).notifyDataSetChanged();
@@ -8680,7 +8698,7 @@ public class MainActivity extends AppCompatActivity {
 							list_items_5.setAdapter(new List_items_5Adapter(patched_changelogs));
 							((BaseAdapter)list_items_3.getAdapter()).notifyDataSetChanged();
 							((BaseAdapter)list_items_5.getAdapter()).notifyDataSetChanged();
-							if (INITIALIZATION.getString("INITIALIZATION", "").equals("X")) {
+							if (INITIALIZATION.getString(Prefs.KEY_INITIALIZATION, "").equals("X")) {
 								_Updater();
 							}
 						} catch (Exception e) {
@@ -8796,7 +8814,7 @@ public class MainActivity extends AppCompatActivity {
 		list_items_2.setVisibility(View.GONE);
 		list_items_3.setVisibility(View.GONE);
 		list_items_5.setVisibility(View.GONE);
-		if (!INITIALIZATION.getString("INITIALIZATION", "").equals("X")) {
+		if (!INITIALIZATION.getString(Prefs.KEY_INITIALIZATION, "").equals("X")) {
 			try {
 				box_header.setVisibility(View.GONE);
 				final ProgressDialog prog = new ProgressDialog(MainActivity.this, R.style.Intro_Dialog);
@@ -8855,7 +8873,7 @@ public class MainActivity extends AppCompatActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								INITIALIZATION.edit().putString("INITIALIZATION", "X").apply();
+								INITIALIZATION.edit().putString(Prefs.KEY_INITIALIZATION, "X").apply();
 								try {
 									Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName() ); 
 									
@@ -8886,11 +8904,11 @@ public class MainActivity extends AppCompatActivity {
 		}
 		else {
 			try {
-				if (!REFETCH.getString("REFETCH", "").equals("X")) {
+				if (!REFETCH.getString(Prefs.KEY_REFETCH, "").equals("X")) {
 					_Refetch();
 				}
 				else {
-					if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+					if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 						cloned_version_switch.setChecked(false);
 						sub_1.setVisibility(View.VISIBLE);
 						sub_2.setVisibility(View.VISIBLE);
@@ -8898,7 +8916,7 @@ public class MainActivity extends AppCompatActivity {
 						sub_4.setVisibility(View.GONE);
 					}
 					else {
-						if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+						if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 							cloned_version_switch.setChecked(true);
 							sub_1.setVisibility(View.GONE);
 							sub_2.setVisibility(View.GONE);
@@ -9157,11 +9175,11 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Reminder() {
-		if (DISABLE_NOTIFICATION.getString("DISABLE", "").equals("ON")) {
+		if (DISABLE_NOTIFICATION.getString(Prefs.KEY_DISABLE, "").equals("ON")) {
 			disable_notification_switch.setChecked(true);
 		}
 		else {
-			if (DISABLE_NOTIFICATION.getString("DISABLE", "").equals("OFF")) {
+			if (DISABLE_NOTIFICATION.getString(Prefs.KEY_DISABLE, "").equals("OFF")) {
 				disable_notification_switch.setChecked(false);
 			}
 		}
@@ -9302,7 +9320,7 @@ public class MainActivity extends AppCompatActivity {
 								@Override
 								public void run() {
 										try {
-												REFETCH.edit().putString("REFETCH", "X").apply();
+												REFETCH.edit().putString(Prefs.KEY_REFETCH, "X").apply();
 												box_reboot.performClick();
 												prog.dismiss();
 										}
@@ -9337,22 +9355,22 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _Hide_Patched() {
-		if (HIDE_PATCHED.getString("SWITCH_A", "").equals("ON")) {
+		if (HIDE_PATCHED.getString(Prefs.KEY_SWITCH_A, "").equals("ON")) {
 			hide_stock_patched_switch.setChecked(true);
 			main_box_1.setVisibility(View.GONE);
 		}
 		else {
-			if (HIDE_PATCHED.getString("SWITCH_A", "").equals("OFF")) {
+			if (HIDE_PATCHED.getString(Prefs.KEY_SWITCH_A, "").equals("OFF")) {
 				hide_stock_patched_switch.setChecked(false);
 				main_box_1.setVisibility(View.VISIBLE);
 			}
 		}
-		if (HIDE_PATCHED.getString("SWITCH_B", "").equals("ON")) {
+		if (HIDE_PATCHED.getString(Prefs.KEY_SWITCH_B, "").equals("ON")) {
 			hide_amoled_patched_switch.setChecked(true);
 			main_box_2.setVisibility(View.GONE);
 		}
 		else {
-			if (HIDE_PATCHED.getString("SWITCH_B", "").equals("OFF")) {
+			if (HIDE_PATCHED.getString(Prefs.KEY_SWITCH_B, "").equals("OFF")) {
 				hide_amoled_patched_switch.setChecked(false);
 				main_box_2.setVisibility(View.VISIBLE);
 			}
@@ -9478,31 +9496,31 @@ public class MainActivity extends AppCompatActivity {
 	
 	
 	public void _AlertDialog_Color() {
-		if (THEME.getString("THEME", "").equals("14")) {
+		if (THEME.getString(Prefs.THEME, "").equals("14")) {
 			AlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.light_green);
 		}
 		else {
-			if (THEME.getString("THEME", "").equals("15")) {
+			if (THEME.getString(Prefs.THEME, "").equals("15")) {
 				AlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.light_blue);
 			}
 			else {
-				if (THEME.getString("THEME", "").equals("16")) {
+				if (THEME.getString(Prefs.THEME, "").equals("16")) {
 					AlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.light_red);
 				}
 				else {
-					if (THEME.getString("THEME", "").equals("17")) {
+					if (THEME.getString(Prefs.THEME, "").equals("17")) {
 						AlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.light_orange);
 					}
 					else {
-						if (THEME.getString("THEME", "").equals("18")) {
+						if (THEME.getString(Prefs.THEME, "").equals("18")) {
 							AlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.light_pink);
 						}
 						else {
-							if (THEME.getString("THEME", "").equals("19")) {
+							if (THEME.getString(Prefs.THEME, "").equals("19")) {
 								AlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.light_purple);
 							}
 							else {
-								if (THEME.getString("THEME", "").equals("20")) {
+								if (THEME.getString(Prefs.THEME, "").equals("20")) {
 									AlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.light_cyan);
 								}
 								else {
@@ -9574,11 +9592,11 @@ public class MainActivity extends AppCompatActivity {
 				sub.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 				sub_separator.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 				title.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
-				if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+				if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 					title.setText(stock_patched.get((int)(stock_patched.size() - 1) - _position).get("Title").toString());
 				}
 				else {
-					if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+					if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 						title.setText(stock_cloned_patched.get((int)(stock_cloned_patched.size() - 1) - _position).get("Title").toString());
 					}
 				}
@@ -9651,11 +9669,11 @@ public class MainActivity extends AppCompatActivity {
 				sub.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 				sub_separator.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 				title.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
-				if (SWITCH_VERSION.getString("SWITCH", "").equals("A")) {
+				if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("A")) {
 					title.setText(amoled_patched.get((int)(amoled_patched.size() - 1) - _position).get("Title").toString());
 				}
 				else {
-					if (SWITCH_VERSION.getString("SWITCH", "").equals("B")) {
+					if (SWITCH_VERSION.getString(Prefs.KEY_SWITCH, "").equals("B")) {
 						title.setText(amoled_cloned_patched.get((int)(amoled_cloned_patched.size() - 1) - _position).get("Title").toString());
 					}
 				}
@@ -9782,8 +9800,8 @@ public class MainActivity extends AppCompatActivity {
 				box.setOnLongClickListener(new View.OnLongClickListener() {
 					@Override
 					public boolean onLongClick(View _view) {
-						((ClipboardManager) getSystemService(getApplicationContext().CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("clipboard", info.getText().toString()));
-						com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, "Changelog Copied", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
+						_copyToClipboard(info.getText().toString());
+						com.google.android.material.snackbar.Snackbar.make(main_refresh_layout, R.string.changelog_copied, com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
 						return true;
 					}
 				});

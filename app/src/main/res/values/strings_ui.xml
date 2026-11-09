@@ -116,4 +116,5 @@
     <!-- Crash screen (DebugActivity) -->
     <string name="debug_no_error_details">No error details were provided.</string>
     <string name="debug_unexpected_error">An unexpected error occurred:\n\n%1$s</string>
+    <string name="changelog_copied">Changelog copied</string>
 </resources>

@@ -2,6 +2,13 @@ plugins {
 	id 'com.android.application'
 }
 
+// CI-08: builds use JDK 17 even if the shell's JAVA_HOME points elsewhere.
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
 // Update-server endpoint, read at build time. Not committed on purpose; set it with
 //   ./gradlew assembleDebug -PxmanagerApiUrl=https://example.org/api.json
 // or xmanagerApiUrl=... in ~/.gradle/gradle.properties (or ORG_GRADLE_PROJECT_xmanagerApiUrl).
