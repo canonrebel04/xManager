@@ -1814,7 +1814,7 @@ public class MainActivity extends AppCompatActivity {
 							runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									prog.dismiss();
+									dismissDialogSafely(prog, MainActivity.this);
 									final ProgressDialog prog = new ProgressDialog(MainActivity.this, R.style.Intro_Dialog);
 									prog.getWindow().setBackgroundDrawableResource(R.drawable.progress_dialog);
 									prog.setMax(100);
@@ -1833,7 +1833,7 @@ public class MainActivity extends AppCompatActivity {
 												@Override
 												public void run() {
 													box_header.setVisibility(View.VISIBLE);
-													prog.dismiss();
+													dismissDialogSafely(prog, MainActivity.this);
 												}
 											});
 										}
@@ -3032,6 +3032,17 @@ public class MainActivity extends AppCompatActivity {
 	 * SEC-12: copy text and mark the clip as sensitive on Android 13+ so the system
 	 * clipboard overlay does not preview it.
 	 */
+	/** Dismiss a dialog only if it is showing and this activity is still alive. */
+	static void dismissDialogSafely(Dialog dialog, Activity activity) {
+		if (dialog == null || !dialog.isShowing()) return;
+		if (activity != null && (activity.isFinishing() || activity.isDestroyed())) return;
+		try {
+			dialog.dismiss();
+		} catch (RuntimeException ignored) {
+			// Window already gone.
+		}
+	}
+
 	void _copyToClipboard(String text) {
 		ClipData clip = ClipData.newPlainText("clipboard", text == null ? "" : text);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -8597,6 +8608,24 @@ public class MainActivity extends AppCompatActivity {
 	 * a newer status replaces an older one instead of queueing behind it.
 	 */
 	private void _showApiMessage(String message) {
+		// Cold launch with a bad URL used to build the Snackbar during onCreate (before the first
+		// frame), which showed up in FocusEvent ANRs. Keep the inline error immediate; only the
+		// Snackbar waits until the view is laid out.
+		if (main_refresh_layout.getWindowToken() == null || !main_refresh_layout.isLaidOut()) {
+			final String pending = message;
+			main_refresh_layout.post(new Runnable() {
+				@Override
+				public void run() {
+					if (isFinishing()) return;
+					_showApiMessageNow(pending);
+				}
+			});
+			return;
+		}
+		_showApiMessageNow(message);
+	}
+
+	private void _showApiMessageNow(String message) {
 		if (apiSnackbar != null && apiSnackbar.isShownOrQueued()) {
 			apiSnackbar.setText(message);
 			apiSnackbar.setAction(R.string.api_retry, v -> _API());
@@ -8774,38 +8803,8 @@ public class MainActivity extends AppCompatActivity {
 		disable_notification_info.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 		hide_stock_patched.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
 		hide_amoled_patched.setTypeface(Fonts.get(getAssets(), Fonts.BASE), Typeface.BOLD);
-		box_sub_header.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_donate.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_source.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_website.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_discord.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_reddit.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_faq.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about_header.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF1DB954));
-		box_about_1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about_6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about_7.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about_sub.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF2962FF));
-		box_reboot.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF424242));
-		box_reset_preferences.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF424242));
-		box_separator_1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_4.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_9.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
+		// Theme backgrounds come from _Theme_UI()/_Original_Theme() later in this method;
+		// applying them here too doubled ~32 GradientDrawable allocations on every cold start.
 		sub_1.setVisibility(View.GONE);
 		sub_2.setVisibility(View.GONE);
 		sub_3.setVisibility(View.GONE);
@@ -8837,7 +8836,7 @@ public class MainActivity extends AppCompatActivity {
 						runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								prog.dismiss();
+								dismissDialogSafely(prog, MainActivity.this);
 								final ProgressDialog prog = new ProgressDialog(MainActivity.this, R.style.Intro_Dialog);
 								prog.getWindow().setBackgroundDrawableResource(R.drawable.progress_dialog);
 								prog.setMax(100);
@@ -8856,7 +8855,7 @@ public class MainActivity extends AppCompatActivity {
 											@Override
 											public void run() {
 												box_header.setVisibility(View.VISIBLE);
-												prog.dismiss();
+												dismissDialogSafely(prog, MainActivity.this);
 											}
 										});
 									}
@@ -9322,7 +9321,7 @@ public class MainActivity extends AppCompatActivity {
 										try {
 												REFETCH.edit().putString(Prefs.KEY_REFETCH, "X").apply();
 												box_reboot.performClick();
-												prog.dismiss();
+												dismissDialogSafely(prog, MainActivity.this);
 										}
 										catch(Exception e) {
 										}
@@ -9383,101 +9382,57 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	
+	/** Corner radius used by the solid theme cards (matches the old getIns(25, …) calls). */
+	private static final int THEME_CORNER_PX = 25;
+
+	/**
+	 * Default (dark) theme. Home-visible cards and titles are applied immediately so the first
+	 * frame is already themed; about/settings-only colours run after the first frame so cold
+	 * start does not build dozens of drawables before the first paint (ANR on _Original_Theme).
+	 */
 	public void _Original_Theme() {
+		_applyOriginalThemeHome();
+		final View decor = getWindow().getDecorView();
+		decor.post(new Runnable() {
+			@Override
+			public void run() {
+				if (isFinishing()) return;
+				_applyOriginalThemeSecondary();
+			}
+		});
+	}
+
+	/** Home-screen cards and titles (visible on first frame). */
+	void _applyOriginalThemeHome() {
 		box_settings_icon_close.setBackgroundColor(Color.TRANSPARENT);
 		box_icon_close.setBackgroundColor(Color.TRANSPARENT);
 		box_header.setBackgroundColor(0xFF171717);
-		box_sub_header.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_5.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_14.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_16.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_20.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		main_box_21.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_support.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_donate.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_source.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_website.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_discord.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_reddit.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_faq.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about_header.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF1DB954));
-		box_about_1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about_6.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about_7.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF171717));
-		box_about_sub.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF2962FF));
-		box_reboot.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF424242));
-		box_reset_preferences.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF424242));
-		box_separator_1.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_2.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_3.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_4.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_8.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
-		box_separator_9.setBackground(new GradientDrawable() { public GradientDrawable getIns(int a, int b) { this.setCornerRadius(a); this.setColor(b); return this; } }.getIns((int)25, 0xFF616161));
+		box_sub_header.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_1.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_2.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_3.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_5.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_6.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_8.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_14.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_16.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_20.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		main_box_21.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_support.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_donate.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_about.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_source.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_website.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_discord.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_reddit.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_faq.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_separator_1.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF616161));
+		box_separator_2.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF616161));
+		box_separator_3.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF616161));
+		box_separator_4.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF616161));
+		box_separator_8.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF616161));
+		box_separator_9.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF616161));
 		title_header.setTextColor(0xFF1DB954);
-		cloned_version.setTextColor(0xFF1DB954);
-		list_auto_refresh.setTextColor(0xFF1DB954);
-		disable_notification.setTextColor(0xFF1DB954);
-		hide_stock_patched.setTextColor(0xFF1DB954);
-		hide_amoled_patched.setTextColor(0xFF1DB954);
-		
-		theme.setTextColor(0xFF1DB954);
-		language.setTextColor(0xFF1DB954);
-		reboot.setTextColor(0xFFFFFFFF);
-		reset_preferences.setTextColor(0xFFFFFFFF);
-		xmanager_dev.setTextColor(0xFF1DB954);
-		manager_lang_1.setTextColor(0xFF1DB954);
-		manager_lang_2.setTextColor(0xFF1DB954);
-		manager_lang_3.setTextColor(0xFF1DB954);
-		manager_lang_4.setTextColor(0xFF1DB954);
-		manager_lang_5.setTextColor(0xFF1DB954);
-		manager_lang_6.setTextColor(0xFF1DB954);
-		manager_lang_7.setTextColor(0xFF1DB954);
-		manager_lang_8.setTextColor(0xFF1DB954);
-		manager_lang_9.setTextColor(0xFF1DB954);
-		manager_lang_10.setTextColor(0xFF1DB954);
-		manager_lang_11.setTextColor(0xFF1DB954);
-		manager_lang_12.setTextColor(0xFF1DB954);
-		manager_lang_13.setTextColor(0xFF1DB954);
-		manager_lang_14.setTextColor(0xFF1DB954);
-		manager_lang_15.setTextColor(0xFF1DB954);
-		manager_lang_16.setTextColor(0xFF1DB954);
-		manager_lang_17.setTextColor(0xFF1DB954);
-		manager_lang_18.setTextColor(0xFF1DB954);
-		manager_lang_19.setTextColor(0xFF1DB954);
-		manager_lang_20.setTextColor(0xFF1DB954);
-		manager_lang_21.setTextColor(0xFF1DB954);
-		manager_lang_22.setTextColor(0xFF1DB954);
-		manager_lang_23.setTextColor(0xFF1DB954);
-		manager_lang_24.setTextColor(0xFF1DB954);
-		manager_lang_25.setTextColor(0xFF1DB954);
-		manager_lang_26.setTextColor(0xFF1DB954);
-		manager_lang_27.setTextColor(0xFF1DB954);
-		manager_lang_28.setTextColor(0xFF1DB954);
-		manager_lang_29.setTextColor(0xFF1DB954);
-		manager_lang_30.setTextColor(0xFF1DB954);
-		manager_lang_31.setTextColor(0xFF1DB954);
-		manager_lang_32.setTextColor(0xFF1DB954);
-		manager_lang_33.setTextColor(0xFF1DB954);
-		manager_lang_34.setTextColor(0xFF1DB954);
-		manager_lang_35.setTextColor(0xFF1DB954);
-		manager_lang_36.setTextColor(0xFF1DB954);
-		manager_lang_37.setTextColor(0xFF1DB954);
-		manager_lang_38.setTextColor(0xFF1DB954);
-		manager_lang_39.setTextColor(0xFF1DB954);
-		manager_lang_40.setTextColor(0xFF1DB954);
-		manager_lang_41.setTextColor(0xFF1DB954);
-		manager_lang_42.setTextColor(0xFF1DB954);
-		manager_lang_43.setTextColor(0xFF1DB954);
-		manager_lang_44.setTextColor(0xFF1DB954);
-		manager_lang_45.setTextColor(0xFF1DB954);
-		manager_donors.setTextColor(0xFF1DB954);
-		contributors.setTextColor(0xFF1DB954);
 		title_1.setTextColor(0xFF1DB954);
 		title_2.setTextColor(0xFF1DB954);
 		title_3.setTextColor(0xFF1DB954);
@@ -9493,8 +9448,45 @@ public class MainActivity extends AppCompatActivity {
 		website.setTextColor(0xFF1DB954);
 		faq.setTextColor(0xFF1DB954);
 	}
-	
-	
+
+	/** About/settings-only colours; safe to run after the first frame. */
+	void _applyOriginalThemeSecondary() {
+		box_about_header.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF1DB954));
+		box_about_1.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_about_6.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_about_7.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF171717));
+		box_about_sub.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF2962FF));
+		box_reboot.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF424242));
+		box_reset_preferences.setBackground(ThemeDrawables.rounded(THEME_CORNER_PX, 0xFF424242));
+		cloned_version.setTextColor(0xFF1DB954);
+		list_auto_refresh.setTextColor(0xFF1DB954);
+		disable_notification.setTextColor(0xFF1DB954);
+		hide_stock_patched.setTextColor(0xFF1DB954);
+		hide_amoled_patched.setTextColor(0xFF1DB954);
+		theme.setTextColor(0xFF1DB954);
+		language.setTextColor(0xFF1DB954);
+		reboot.setTextColor(0xFFFFFFFF);
+		reset_preferences.setTextColor(0xFFFFFFFF);
+		xmanager_dev.setTextColor(0xFF1DB954);
+		TextView[] langs = {
+			manager_lang_1, manager_lang_2, manager_lang_3, manager_lang_4, manager_lang_5,
+			manager_lang_6, manager_lang_7, manager_lang_8, manager_lang_9, manager_lang_10,
+			manager_lang_11, manager_lang_12, manager_lang_13, manager_lang_14, manager_lang_15,
+			manager_lang_16, manager_lang_17, manager_lang_18, manager_lang_19, manager_lang_20,
+			manager_lang_21, manager_lang_22, manager_lang_23, manager_lang_24, manager_lang_25,
+			manager_lang_26, manager_lang_27, manager_lang_28, manager_lang_29, manager_lang_30,
+			manager_lang_31, manager_lang_32, manager_lang_33, manager_lang_34, manager_lang_35,
+			manager_lang_36, manager_lang_37, manager_lang_38, manager_lang_39, manager_lang_40,
+			manager_lang_41, manager_lang_42, manager_lang_43, manager_lang_44, manager_lang_45,
+		};
+		for (TextView tv : langs) {
+			if (tv != null) tv.setTextColor(0xFF1DB954);
+		}
+		manager_donors.setTextColor(0xFF1DB954);
+		contributors.setTextColor(0xFF1DB954);
+	}
+
+
 	public void _AlertDialog_Color() {
 		if (THEME.getString(Prefs.THEME, "").equals("14")) {
 			AlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.light_green);

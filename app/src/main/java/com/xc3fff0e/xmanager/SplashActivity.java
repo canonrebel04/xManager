@@ -146,31 +146,31 @@ public class SplashActivity extends AppCompatActivity {
 	
 	
 	public void _Theme_UI() {
-		if (THEME.getString("THEME", "").equals("14")) {
+		if (THEME.getString(Prefs.THEME, "").equals("14")) {
 			main_body.setBackgroundColor(0xFF1B5E20);
 		}
 		else {
-			if (THEME.getString("THEME", "").equals("15")) {
+			if (THEME.getString(Prefs.THEME, "").equals("15")) {
 				main_body.setBackgroundColor(0xFF00008B);
 			}
 			else {
-				if (THEME.getString("THEME", "").equals("16")) {
+				if (THEME.getString(Prefs.THEME, "").equals("16")) {
 					main_body.setBackgroundColor(0xFF8B0000);
 				}
 				else {
-					if (THEME.getString("THEME", "").equals("17")) {
+					if (THEME.getString(Prefs.THEME, "").equals("17")) {
 						main_body.setBackgroundColor(0xFFFF8C00);
 					}
 					else {
-						if (THEME.getString("THEME", "").equals("18")) {
+						if (THEME.getString(Prefs.THEME, "").equals("18")) {
 							main_body.setBackgroundColor(0xFFAA336A);
 						}
 						else {
-							if (THEME.getString("THEME", "").equals("19")) {
+							if (THEME.getString(Prefs.THEME, "").equals("19")) {
 								main_body.setBackgroundColor(0xFF301934);
 							}
 							else {
-								if (THEME.getString("THEME", "").equals("20")) {
+								if (THEME.getString(Prefs.THEME, "").equals("20")) {
 									main_body.setBackgroundColor(0xFF008B8B);
 								}
 								else {
